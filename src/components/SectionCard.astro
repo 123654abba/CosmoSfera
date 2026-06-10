@@ -1,5 +1,5 @@
 ---
-import { withBase } from "../utils/paths";
+import { assetPath, withBase } from "../utils/paths";
 
 interface Props {
   section: {
@@ -21,7 +21,7 @@ const Icon = section.icon;
 
 <article class="card section-card" style={`--accent: ${section.accent}`}>
   <a href={withBase(section.href)}>
-    <img src={section.image} alt={section.imageAlt} loading="lazy" />
+    <img src={assetPath(section.image)} alt={section.imageAlt} loading="lazy" />
   </a>
   <div class="card-body">
     <div class="card-kicker" style="color: var(--accent)">

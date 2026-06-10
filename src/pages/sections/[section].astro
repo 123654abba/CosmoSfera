@@ -3,6 +3,7 @@ import ArticleCard from "@components/ArticleCard.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { getSection, sections } from "@data/sections";
+import { assetPath } from "../../utils/paths";
 
 export function getStaticPaths() {
   return sections.map((section) => ({
@@ -29,7 +30,7 @@ const articles = (await getCollection("articles", ({ data }) => data.section ===
     </div>
     {section && (
       <figure class="hero-visual">
-        <img src={section.image} alt={section.imageAlt} />
+        <img src={assetPath(section.image)} alt={section.imageAlt} />
         <figcaption class="caption">{section.imageAlt}</figcaption>
       </figure>
     )}

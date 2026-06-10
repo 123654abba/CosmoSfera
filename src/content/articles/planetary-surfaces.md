@@ -10,7 +10,7 @@ sources:
   - label: "NASA Mars Exploration Program"
     url: "https://mars.nasa.gov/"
 updatedAt: 2026-05-29
-heroImage: "https://www.nasa.gov/wp-content/uploads/2024/10/1-pia26378-main-sol1282p-zcam09340-09341-z63-r0e.jpg?w=2048"
+heroImage: "images/mars-jezero.jpg"
 heroAlt: "Панорама кратера Езеро на Марсе, снятая марсоходом Perseverance"
 relatedTopics: ["осадочные породы", "кратеры", "марсоходы"]
 ---

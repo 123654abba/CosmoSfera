@@ -1,7 +1,7 @@
 ---
 import { Calendar, Tag } from "lucide-astro";
 import { getSection } from "@data/sections";
-import { withBase } from "../utils/paths";
+import { assetPath, withBase } from "../utils/paths";
 
 interface Props {
   article: {
@@ -33,7 +33,7 @@ const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
   data-title={article.data.title.toLowerCase()}
 >
   <a href={withBase(`/articles/${article.id}/`)}>
-    <img src={article.data.heroImage} alt={article.data.heroAlt} loading="lazy" />
+    <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} loading="lazy" />
   </a>
   <div class="card-body">
     <div class="article-meta">

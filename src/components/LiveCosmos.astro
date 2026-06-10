@@ -1,0 +1,171 @@
+<canvas class="live-cosmos" data-live-cosmos aria-hidden="true"></canvas>
+<div class="cosmic-vignette" aria-hidden="true"></div>
+
+<script>
+  // @ts-nocheck
+  const canvases = document.querySelectorAll("[data-live-cosmos]");
+
+  canvases.forEach((canvas) => {
+    if (canvas.dataset.ready === "true") return;
+    canvas.dataset.ready = "true";
+
+    const ctx = canvas.getContext("2d", { alpha: true });
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pointer = { x: 0.5, y: 0.5, active: false };
+    const palette = ["#ffffff", "#70d6ff", "#f6b35f", "#8bd88b"];
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let stars = [];
+    let planets = [];
+    let raf = 0;
+    let lastTime = 0;
+
+    function random(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seedScene();
+      draw(performance.now());
+    }
+
+    function seedScene() {
+      const starCount = Math.min(190, Math.max(86, Math.floor((width * height) / 8600)));
+      stars = Array.from({ length: starCount }, (_, index) => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        baseX: Math.random() * width,
+        baseY: Math.random() * height,
+        radius: random(0.55, index % 9 === 0 ? 2.1 : 1.35),
+        depth: random(0.18, 1),
+        phase: random(0, Math.PI * 2),
+        speed: random(0.25, 0.9),
+        color: palette[Math.floor(Math.random() * palette.length)],
+        link: index % 7 === 0
+      }));
+
+      planets = [
+        { orbit: Math.min(width, height) * 0.32, angle: 0.2, speed: 0.055, size: 3.7, color: "#f6b35f" },
+        { orbit: Math.min(width, height) * 0.46, angle: 2.4, speed: -0.034, size: 2.8, color: "#70d6ff" }
+      ];
+    }
+
+    function drawNebula(time) {
+      const drift = Math.sin(time * 0.00012) * 60;
+      const glowOne = ctx.createRadialGradient(width * 0.2 + drift, height * 0.18, 0, width * 0.2 + drift, height * 0.18, width * 0.42);
+      glowOne.addColorStop(0, "rgba(112, 214, 255, 0.12)");
+      glowOne.addColorStop(1, "rgba(112, 214, 255, 0)");
+      ctx.fillStyle = glowOne;
+      ctx.fillRect(0, 0, width, height);
+
+      const glowTwo = ctx.createRadialGradient(width * 0.82 - drift, height * 0.32, 0, width * 0.82 - drift, height * 0.32, width * 0.34);
+      glowTwo.addColorStop(0, "rgba(246, 179, 95, 0.09)");
+      glowTwo.addColorStop(1, "rgba(246, 179, 95, 0)");
+      ctx.fillStyle = glowTwo;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    function drawConstellations() {
+      const linkStars = stars.filter((star) => star.link).slice(0, 34);
+      ctx.lineWidth = 1;
+
+      for (let index = 0; index < linkStars.length - 1; index += 1) {
+        const current = linkStars[index];
+        const next = linkStars[index + 1];
+        const distance = Math.hypot(current.x - next.x, current.y - next.y);
+
+        if (distance < Math.min(width, 360)) {
+          ctx.strokeStyle = `rgba(112, 214, 255, ${Math.max(0, 0.16 - distance / 2600)})`;
+          ctx.beginPath();
+          ctx.moveTo(current.x, current.y);
+          ctx.lineTo(next.x, next.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function drawPlanets(time) {
+      const centerX = width * 0.76 + (pointer.x - 0.5) * 28;
+      const centerY = height * 0.33 + (pointer.y - 0.5) * 22;
+
+      planets.forEach((planet) => {
+        planet.angle += planet.speed * 0.016;
+        const orbitY = planet.orbit * 0.42;
+        const x = centerX + Math.cos(planet.angle + time * 0.00022) * planet.orbit;
+        const y = centerY + Math.sin(planet.angle + time * 0.00022) * orbitY;
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.055)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.ellipse(centerX, centerY, planet.orbit, orbitY, -0.22, 0, Math.PI * 2);
+        ctx.stroke();
+
+        const gradient = ctx.createRadialGradient(x - planet.size, y - planet.size, 0, x, y, planet.size * 4);
+        gradient.addColorStop(0, "rgba(255, 255, 255, 0.85)");
+        gradient.addColorStop(0.28, planet.color);
+        gradient.addColorStop(1, "rgba(112, 214, 255, 0)");
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x, y, planet.size * 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function draw(time) {
+      const delta = Math.min(40, time - lastTime || 16);
+      lastTime = time;
+
+      ctx.clearRect(0, 0, width, height);
+      drawNebula(time);
+
+      const parallaxX = (pointer.x - 0.5) * 30;
+      const parallaxY = (pointer.y - 0.5) * 24;
+
+      stars.forEach((star) => {
+        star.phase += delta * 0.001 * star.speed;
+        star.x = star.baseX + parallaxX * star.depth;
+        star.y = star.baseY + parallaxY * star.depth + Math.sin(star.phase * 0.55) * star.depth * 1.2;
+
+        const twinkle = 0.42 + Math.sin(star.phase) * 0.28 + star.depth * 0.3;
+        ctx.globalAlpha = Math.max(0.12, Math.min(0.95, twinkle));
+        ctx.fillStyle = star.color;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.globalAlpha = 1;
+      drawConstellations();
+      drawPlanets(time);
+
+      if (!reducedMotion.matches) {
+        raf = requestAnimationFrame(draw);
+      }
+    }
+
+    function updatePointer(event) {
+      pointer.active = true;
+      pointer.x = event.clientX / Math.max(1, width);
+      pointer.y = event.clientY / Math.max(1, height);
+    }
+
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("pointermove", updatePointer, { passive: true });
+    reducedMotion.addEventListener?.("change", () => {
+      cancelAnimationFrame(raf);
+      draw(performance.now());
+    });
+
+    resize();
+  });
+</script>

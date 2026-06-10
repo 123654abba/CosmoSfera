@@ -8,8 +8,7 @@ export const sections = [
     description:
       "Звезды, созвездия, галактики, телескопы и способы читать небо через наблюдения.",
     href: "/sections/astronomy/",
-    image:
-      "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2022/07/STScI-01GA6KKWG229B16K4Q38CH3BXS.png?crop=faces%2Cfocalpoint&fit=clip&h=8441&w=14575",
+    image: "images/cosmic-cliffs.png",
     imageAlt:
       "Область звездообразования NGC 3324 в туманности Киля, снятая телескопом James Webb",
     accent: "#f6b35f",
@@ -23,7 +22,7 @@ export const sections = [
     description:
       "Гравитация, излучение, черные дыры, нейтронные звезды, темная материя и космология.",
     href: "/sections/astrophysics/",
-    image: "https://www.nasa.gov/wp-content/uploads/2023/03/v404cyg_lg.jpeg?w=1041",
+    image: "images/black-hole-v404.jpeg",
     imageAlt:
       "Кольца рентгеновского излучения вокруг черной дыры V404 Cygni",
     accent: "#70d6ff",
@@ -37,8 +36,7 @@ export const sections = [
     description:
       "Планеты, спутники, экзопланеты, малые тела и условия, при которых миры становятся обитаемыми.",
     href: "/sections/planetology/",
-    image:
-      "https://www.nasa.gov/wp-content/uploads/2024/10/1-pia26378-main-sol1282p-zcam09340-09341-z63-r0e.jpg?w=2048",
+    image: "images/mars-jezero.jpg",
     imageAlt:
       "Панорама кратера Езеро, снятая марсоходом Perseverance на Марсе",
     accent: "#d99a6c",

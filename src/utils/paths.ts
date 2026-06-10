@@ -4,3 +4,11 @@ export function withBase(path: string) {
 
   return `${base}${normalizedPath}`;
 }
+
+export function assetPath(path: string) {
+  if (/^(https?:)?\/\//.test(path) || path.startsWith("data:")) {
+    return path;
+  }
+
+  return withBase(path);
+}

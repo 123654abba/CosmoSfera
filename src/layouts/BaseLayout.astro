@@ -1,5 +1,6 @@
 ---
 import { BookOpen, Home, Library, Search, Sparkles } from "lucide-astro";
+import LiveCosmos from "../components/LiveCosmos.astro";
 import { withBase } from "../utils/paths";
 import "../styles/global.css";
 
@@ -26,6 +27,7 @@ const pageTitle = title === "Космосфера" ? title : `${title} | Кос�
   </head>
   <body>
     <div class="cosmic-backdrop" aria-hidden="true">
+      <LiveCosmos />
       <span class="meteor meteor-one"></span>
       <span class="meteor meteor-two"></span>
       <span class="meteor meteor-three"></span>

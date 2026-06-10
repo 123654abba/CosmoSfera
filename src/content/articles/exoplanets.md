@@ -10,7 +10,7 @@ sources:
   - label: "NASA Exoplanet Archive"
     url: "https://exoplanetarchive.ipac.caltech.edu/"
 updatedAt: 2026-05-29
-heroImage: "https://science.nasa.gov/wp-content/uploads/2023/06/exoplanets-artist-concept-1.jpg?w=2048"
+heroImage: "images/exoplanet-art.jpg"
 heroAlt: "Художественное изображение разных типов экзопланет"
 relatedTopics: ["транзитный метод", "лучевые скорости", "зона обитаемости"]
 ---

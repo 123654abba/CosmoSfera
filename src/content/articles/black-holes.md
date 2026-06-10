@@ -10,7 +10,7 @@ sources:
   - label: "Event Horizon Telescope"
     url: "https://eventhorizontelescope.org/"
 updatedAt: 2026-05-29
-heroImage: "https://www.nasa.gov/wp-content/uploads/2023/03/v404cyg_lg.jpeg?w=1041"
+heroImage: "images/black-hole-v404.jpeg"
 heroAlt: "Кольца вокруг черной дыры V404 Cygni в рентгеновских и оптических данных"
 relatedTopics: ["аккреционный диск", "горизонт событий", "рентгеновские двойные"]
 ---

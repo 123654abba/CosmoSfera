@@ -7,11 +7,13 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { objects } from "@data/objects";
 import { sections } from "@data/sections";
-import { withBase } from "../utils/paths";
+import { assetPath, withBase } from "../utils/paths";
 
 const articles = (await getCollection("articles")).sort(
   (a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf()
 );
+const terms = await getCollection("glossary");
+const resources = await getCollection("resources");
 const heroSection = sections[0];
 ---
 
@@ -34,12 +36,31 @@ const heroSection = sections[0];
       </div>
     </div>
     <figure class="hero-visual">
-      <img src={heroSection.image} alt={heroSection.imageAlt} />
+      <img src={assetPath(heroSection.image)} alt={heroSection.imageAlt} />
       <figcaption class="caption">
         Космические утесы в туманности Киля. Изображение: NASA, ESA, CSA, STScI.
       </figcaption>
     </figure>
   </div>
+
+  <section class="container portal-stats" aria-label="Сводка портала">
+    <div>
+      <strong>{articles.length}</strong>
+      <span>статей</span>
+    </div>
+    <div>
+      <strong>{terms.length}</strong>
+      <span>терминов</span>
+    </div>
+    <div>
+      <strong>{resources.length}</strong>
+      <span>источников</span>
+    </div>
+    <div>
+      <strong>{sections.length}</strong>
+      <span>направления</span>
+    </div>
+  </section>
 
   <section id="sections" class="container">
     <div class="section-heading">

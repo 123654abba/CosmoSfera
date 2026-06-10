@@ -10,7 +10,7 @@ sources:
   - label: "ESA: Observing the Universe"
     url: "https://www.esa.int/Science_Exploration/Space_Science"
 updatedAt: 2026-05-29
-heroImage: "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/science/2023/07/hubble-30th-anniversary-cosmic-reef.png?w=4096&h=3090&fit=clip&crop=faces%2Cfocalpoint"
+heroImage: "images/hubble-galaxy.jpg"
 heroAlt: "Звездные облака, снятые космическим телескопом Hubble"
 relatedTopics: ["электромагнитный спектр", "Hubble", "JWST"]
 ---

@@ -19,7 +19,7 @@ const articles = defineCollection({
       })
     ),
     updatedAt: z.coerce.date(),
-    heroImage: z.url(),
+    heroImage: z.string(),
     heroAlt: z.string(),
     relatedTopics: z.array(z.string()).default([])
   })
