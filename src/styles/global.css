@@ -232,6 +232,7 @@ input {
 
 .brand {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   gap: 12px;
   font-weight: 760;
@@ -286,8 +287,8 @@ input {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
-  padding: 10px 12px;
+  min-height: 44px;
+  padding: 11px 12px;
   border-radius: 8px;
   transition:
     color 160ms ease,
@@ -559,6 +560,10 @@ p {
     linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
     rgba(17, 24, 39, 0.44);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+a.chip {
+  min-height: 42px;
 }
 
 a.chip:hover,
