@@ -8,7 +8,7 @@ export const sections = [
     description:
       "Звезды, созвездия, галактики, телескопы и способы читать небо через наблюдения.",
     href: "/sections/astronomy/",
-    image: "images/cosmic-cliffs.png",
+    image: "images/cosmic-cliffs.jpg",
     imageAlt:
       "Область звездообразования NGC 3324 в туманности Киля, снятая телескопом James Webb",
     accent: "#f6b35f",

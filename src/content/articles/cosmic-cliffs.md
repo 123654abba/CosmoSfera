@@ -10,7 +10,7 @@ sources:
   - label: "ESA/Webb: Cosmic Cliffs"
     url: "https://esawebb.org/images/potm2208a/"
 updatedAt: 2026-05-29
-heroImage: "images/cosmic-cliffs.png"
+heroImage: "images/cosmic-cliffs.jpg"
 heroAlt: "Инфракрасное изображение области NGC 3324 в туманности Киля"
 relatedTopics: ["звездообразование", "инфракрасная астрономия", "туманность Киля"]
 ---

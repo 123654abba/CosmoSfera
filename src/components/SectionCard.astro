@@ -21,7 +21,7 @@ const Icon = section.icon;
 
 <article class="card section-card" style={`--accent: ${section.accent}`}>
   <a class="card-link" href={withBase(section.href)} aria-label={`Открыть раздел ${section.title}`}></a>
-  <img src={assetPath(section.image)} alt={section.imageAlt} loading="lazy" />
+  <img src={assetPath(section.image)} alt={section.imageAlt} loading="eager" decoding="async" />
   <div class="card-body">
     <div class="card-kicker" style="color: var(--accent)">
       <Icon size={19} aria-hidden="true" />
