@@ -1172,6 +1172,9 @@ section {
 }
 
 .toc a {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
   padding: 8px 0 8px 12px;
   border-left: 2px solid rgba(112, 214, 255, 0.24);
   color: var(--muted);
