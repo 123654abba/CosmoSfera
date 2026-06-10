@@ -1,0 +1,71 @@
+---
+import { ArrowRight, Compass } from "lucide-astro";
+import SectionCard from "@components/SectionCard.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { sections } from "@data/sections";
+import { withBase } from "../../utils/paths";
+
+const articles = await getCollection("articles");
+const articleCount = new Map<string, number>();
+
+for (const article of articles) {
+  articleCount.set(article.data.section, (articleCount.get(article.data.section) ?? 0) + 1);
+}
+---
+
+<BaseLayout
+  title="Разделы"
+  description="Карта основных направлений Космосферы: астрономия, астрофизика и планетология."
+>
+  <section class="container page-hero">
+    <div>
+      <p class="eyebrow">Карта портала</p>
+      <h1>Три способа изучать космос</h1>
+    </div>
+    <p class="lead">
+      Выберите направление по вопросу, который вам ближе: что мы видим в небе, какая физика это объясняет
+      или как устроены планеты и спутники.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="grid three">
+      {sections.map((section) => <SectionCard section={section} />)}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Как читать</p>
+        <h2>Паспорт направлений</h2>
+      </div>
+      <p>У каждого раздела есть свой тип данных, свои методы и свои привычные вопросы.</p>
+    </div>
+    <div class="grid three">
+      {sections.map((section) => (
+        <article class="card guide-card" style={`--accent: ${section.accent}`}>
+          <div class="card-body">
+            <div class="card-kicker" style="color: var(--accent)">
+              <Compass size={18} aria-hidden="true" />
+              <span>{section.short}</span>
+            </div>
+            <h3>{section.title}</h3>
+            <p>{section.fieldGuide.signal}</p>
+            <div class="guide-block">
+              <strong>{articleCount.get(section.id) ?? 0} статьи</strong>
+              <span>Методы: {section.fieldGuide.methods.join(", ")}</span>
+            </div>
+            <ul class="compact-list">
+              {section.fieldGuide.questions.slice(0, 2).map((question) => <li>{question}</li>)}
+            </ul>
+            <a class="button" href={withBase(section.href)}>
+              Открыть раздел <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

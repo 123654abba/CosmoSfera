@@ -32,15 +32,14 @@ const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
   data-tags={article.data.tags.join(" ").toLowerCase()}
   data-title={article.data.title.toLowerCase()}
 >
-  <a href={withBase(`/articles/${article.id}/`)}>
-    <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} loading="lazy" />
-  </a>
+  <a class="card-link" href={withBase(`/articles/${article.id}/`)} aria-label={`Открыть статью ${article.data.title}`}></a>
+  <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} loading="lazy" />
   <div class="card-body">
     <div class="article-meta">
       <span>{section?.title}</span>
       <span>{article.data.level === "advanced" ? "Продвинутый" : "Средний"}</span>
     </div>
-    <h3><a href={withBase(`/articles/${article.id}/`)}>{article.data.title}</a></h3>
+    <h3>{article.data.title}</h3>
     <p>{article.data.description}</p>
     <div class="article-meta">
       <span><Calendar size={15} aria-hidden="true" /> {date}</span>

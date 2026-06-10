@@ -15,6 +15,26 @@ const articles = (await getCollection("articles")).sort(
 const terms = await getCollection("glossary");
 const resources = await getCollection("resources");
 const heroSection = sections[0];
+const learningPaths = [
+  {
+    title: "От снимка к физике",
+    description: "Начните с красивого изображения, разберите диапазон света и перейдите к процессам внутри газа и звезд.",
+    steps: ["Космические утесы", "Спектры", "Темная материя"],
+    href: "/articles/cosmic-cliffs/"
+  },
+  {
+    title: "Компактные объекты",
+    description: "Разберите, как гравитация, аккреция и экстремальная плотность превращают звезды в лаборатории физики.",
+    steps: ["Черные дыры", "Спектры", "Галактики"],
+    href: "/articles/black-holes/"
+  },
+  {
+    title: "Планеты как миры",
+    description: "Посмотрите на поверхности, атмосферы, ледяные океаны и условия, которые делают планеты научно интересными.",
+    steps: ["Экзопланеты", "Поверхности", "Ледяные спутники"],
+    href: "/articles/exoplanets/"
+  }
+];
 ---
 
 <BaseLayout title="Космосфера">
@@ -27,7 +47,7 @@ const heroSection = sections[0];
         планетные миры, глоссарий и проверенные источники для самостоятельного изучения.
       </p>
       <div class="hero-actions">
-        <a class="button primary" href="#sections">
+        <a class="button primary" href={withBase("/sections/")}>
           <Compass size={18} aria-hidden="true" /> Перейти к разделам
         </a>
         <a class="button" href={withBase("/materials/")}>
@@ -59,6 +79,32 @@ const heroSection = sections[0];
     <div>
       <strong>{sections.length}</strong>
       <span>направления</span>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Маршруты изучения</p>
+        <h2>С чего начать</h2>
+      </div>
+      <p>Три коротких маршрута связывают статьи в осмысленную последовательность: от наблюдения к объяснению.</p>
+    </div>
+    <div class="grid three">
+      {learningPaths.map((path) => (
+        <article class="card path-card">
+          <div class="card-body">
+            <h3>{path.title}</h3>
+            <p>{path.description}</p>
+            <div class="topic-list">
+              {path.steps.map((step) => <span class="chip">{step}</span>)}
+            </div>
+            <a class="button" href={withBase(path.href)}>
+              Начать маршрут <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 
@@ -107,6 +153,13 @@ const heroSection = sections[0];
             <p>{object.summary}</p>
             <div class="topic-list">
               {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
+            </div>
+            <div class="topic-list" aria-label={`Статьи по теме ${object.name}`}>
+              {object.relatedArticles.map((slug) => (
+                <a class="chip" href={withBase(`/articles/${slug}/`)}>
+                  {articles.find((article) => article.id === slug)?.data.title ?? slug}
+                </a>
+              ))}
             </div>
           </div>
         </article>

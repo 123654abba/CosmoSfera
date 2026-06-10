@@ -36,6 +36,40 @@ const articles = (await getCollection("articles", ({ data }) => data.section ===
     )}
   </div>
 
+  {section && (
+    <section class="container section-brief">
+      <article class="card guide-card" style={`--accent: ${section.accent}`}>
+        <div class="card-body">
+          <p class="eyebrow">Полевой справочник</p>
+          <h2>Как читать раздел</h2>
+          <p>{section.fieldGuide.signal}</p>
+          <div class="guide-block">
+            <strong>{articles.length} материала в разделе</strong>
+            <span>Методы: {section.fieldGuide.methods.join(", ")}</span>
+          </div>
+        </div>
+      </article>
+      <article class="card guide-card" style={`--accent: ${section.accent}`}>
+        <div class="card-body">
+          <p class="eyebrow">Что выясняем</p>
+          <h2>Главные вопросы</h2>
+          <ul class="compact-list">
+            {section.fieldGuide.questions.map((question) => <li>{question}</li>)}
+          </ul>
+        </div>
+      </article>
+      <article class="card guide-card" style={`--accent: ${section.accent}`}>
+        <div class="card-body">
+          <p class="eyebrow">Навык читателя</p>
+          <h2>Практика</h2>
+          <ul class="compact-list">
+            {section.fieldGuide.practice.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </article>
+    </section>
+  )}
+
   <section class="container">
     <div class="section-heading">
       <div>
