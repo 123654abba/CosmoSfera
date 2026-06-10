@@ -1,0 +1,41 @@
+---
+import { ExternalLink } from "lucide-astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection } from "@data/sections";
+
+const resources = (await getCollection("resources")).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title, "ru")
+);
+---
+
+<BaseLayout title="Материалы">
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Надежные источники</p>
+        <h1>Материалы</h1>
+      </div>
+      <p>Агентства, каталоги, миссии, архивы и симуляторы для самостоятельного изучения.</p>
+    </div>
+    <div class="grid two">
+      {resources.map((resource) => (
+        <article class="card resource-card">
+          <div class="card-body">
+            <div class="article-meta">
+              <span>{resource.data.category}</span>
+              {resource.data.section && <span>{getSection(resource.data.section)?.title}</span>}
+            </div>
+            <h3>{resource.data.title}</h3>
+            <p>{resource.data.description}</p>
+            <div class="hero-actions">
+              <a class="button" href={resource.data.url} target="_blank" rel="noreferrer">
+                Открыть источник <ExternalLink size={18} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

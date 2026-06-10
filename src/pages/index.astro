@@ -1,0 +1,109 @@
+---
+import { ArrowRight, Compass, LibraryBig } from "lucide-astro";
+import ArticleCard from "@components/ArticleCard.astro";
+import FilterControls from "@components/FilterControls.astro";
+import SectionCard from "@components/SectionCard.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { objects } from "@data/objects";
+import { sections } from "@data/sections";
+import { withBase } from "../utils/paths";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf()
+);
+const heroSection = sections[0];
+---
+
+<BaseLayout title="Космосфера">
+  <div class="container hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Инфо-портал о космосе</p>
+      <h1>Космос: астрономия, астрофизика и планетология.</h1>
+      <p class="lead">
+        Справочный портал для энтузиастов: наблюдения, физика космических процессов,
+        планетные миры, глоссарий и проверенные источники для самостоятельного изучения.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#sections">
+          <Compass size={18} aria-hidden="true" /> Перейти к разделам
+        </a>
+        <a class="button" href={withBase("/materials/")}>
+          <LibraryBig size={18} aria-hidden="true" /> Открыть материалы
+        </a>
+      </div>
+    </div>
+    <figure class="hero-visual">
+      <img src={heroSection.image} alt={heroSection.imageAlt} />
+      <figcaption class="caption">
+        Космические утесы в туманности Киля. Изображение: NASA, ESA, CSA, STScI.
+      </figcaption>
+    </figure>
+  </div>
+
+  <section id="sections" class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Три главные темы</p>
+        <h2>Разделы портала</h2>
+      </div>
+      <p>Каждый раздел ведет к статьям, терминам, объектам и внешним источникам.</p>
+    </div>
+    <div class="grid three">
+      {sections.map((section) => <SectionCard section={section} />)}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Популярные материалы</p>
+        <h2>Статьи и темы</h2>
+      </div>
+      <p>Фильтруйте материалы по направлению или ищите по ключевым словам.</p>
+    </div>
+    <FilterControls />
+    <div class="grid three" style="margin-top: 18px">
+      {articles.map((article) => <ArticleCard article={article} />)}
+    </div>
+    <p class="empty-state" data-empty-state>По этому запросу материалов пока нет.</p>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Каталог объектов</p>
+        <h2>Опорные примеры</h2>
+      </div>
+      <p>Объекты помогают связывать статьи с реальными наблюдениями, миссиями и данными.</p>
+    </div>
+    <div class="grid three">
+      {objects.map((object) => (
+        <article class="card object-card">
+          <div class="card-body">
+            <div class="article-meta"><span>{object.category}</span></div>
+            <h3>{object.name}</h3>
+            <p>{object.summary}</p>
+            <div class="topic-list">
+              {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Быстрый вход</p>
+        <h2>Глоссарий и источники</h2>
+      </div>
+      <p>Короткие определения и ссылки на надежные агентства, архивы, каталоги и миссии.</p>
+    </div>
+    <div class="hero-actions" style="margin-top: 0">
+      <a class="button" href={withBase("/glossary/")}>Открыть глоссарий <ArrowRight size={18} aria-hidden="true" /></a>
+      <a class="button" href={withBase("/materials/")}>Открыть материалы <ArrowRight size={18} aria-hidden="true" /></a>
+    </div>
+  </section>
+</BaseLayout>

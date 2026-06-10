@@ -1,0 +1,50 @@
+---
+import ArticleCard from "@components/ArticleCard.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection, sections } from "@data/sections";
+
+export function getStaticPaths() {
+  return sections.map((section) => ({
+    params: { section: section.id }
+  }));
+}
+
+const sectionId = Astro.params.section ?? "";
+const section = getSection(sectionId);
+const articles = (await getCollection("articles", ({ data }) => data.section === sectionId)).sort(
+  (a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf()
+);
+---
+
+<BaseLayout title={section?.title ?? "Раздел"}>
+  <div class="container hero">
+    <div class="hero-copy">
+      <p class="eyebrow">{section?.short}</p>
+      <h1>{section?.title}</h1>
+      <p class="lead">{section?.description}</p>
+      <div class="topic-list" style="margin-top: 24px">
+        {section?.topics.map((topic) => <span class="chip">{topic}</span>)}
+      </div>
+    </div>
+    {section && (
+      <figure class="hero-visual">
+        <img src={section.image} alt={section.imageAlt} />
+        <figcaption class="caption">{section.imageAlt}</figcaption>
+      </figure>
+    )}
+  </div>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Материалы раздела</p>
+        <h2>Статьи</h2>
+      </div>
+      <p>Материалы отсортированы по дате обновления и связаны с глоссарием.</p>
+    </div>
+    <div class="grid three">
+      {articles.map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+</BaseLayout>

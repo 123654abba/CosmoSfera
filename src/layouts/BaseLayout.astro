@@ -1,0 +1,54 @@
+---
+import { BookOpen, Home, Library, Search, Sparkles } from "lucide-astro";
+import { withBase } from "../utils/paths";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Русскоязычный информационный портал об астрономии, астрофизике и планетологии."
+} = Astro.props;
+const pageTitle = title === "Космосфера" ? title : `${title} | Космосфера`;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container" aria-label="Основная навигация">
+        <a class="brand" href={withBase("/")} aria-label="Космосфера, на главную">
+          <span class="brand-mark"><Sparkles size={20} aria-hidden="true" /></span>
+          <span>Космосфера</span>
+        </a>
+        <div class="nav-links">
+          <a href={withBase("/")}><Home size={17} aria-hidden="true" /> Главная</a>
+          <a href={withBase("/sections/astronomy/")}><Search size={17} aria-hidden="true" /> Астрономия</a>
+          <a href={withBase("/sections/astrophysics/")}><BookOpen size={17} aria-hidden="true" /> Астрофизика</a>
+          <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> Планетология</a>
+          <a href={withBase("/glossary/")}>Глоссарий</a>
+          <a href={withBase("/materials/")}>Материалы</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner container">
+        <p>Космосфера: справочный портал об астрономии, астрофизике и планетологии.</p>
+        <p>Материалы опираются на открытые научные источники и миссии.</p>
+      </div>
+    </footer>
+  </body>
+</html>

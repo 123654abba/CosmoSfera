@@ -1,0 +1,57 @@
+---
+import { sections } from "@data/sections";
+---
+
+<div class="search-panel" data-filter-root>
+  <label for="portal-search">Поиск по статьям, темам и тегам</label>
+  <input id="portal-search" type="search" placeholder="Например: черные дыры, Марс, спектры" data-search />
+  <div class="filterbar" aria-label="Фильтр по разделу">
+    <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Все</button>
+    {sections.map((section) => (
+      <button class="filter-button" type="button" data-filter={section.id} aria-pressed="false">
+        {section.title}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector("[data-filter-root]");
+  const search = root?.querySelector<HTMLInputElement>("[data-search]");
+  const buttons = Array.from(root?.querySelectorAll<HTMLButtonElement>("[data-filter]") ?? []);
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
+  const empty = document.querySelector<HTMLElement>("[data-empty-state]");
+  let activeSection = "all";
+
+  function normalize(value: string) {
+    return value.toString().trim().toLowerCase();
+  }
+
+  function applyFilters() {
+    const query = normalize(search?.value ?? "");
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const matchesSection = activeSection === "all" || card.dataset.section === activeSection;
+      const haystack = normalize(`${card.dataset.title ?? ""} ${card.dataset.tags ?? ""} ${card.textContent ?? ""}`);
+      const matchesSearch = !query || haystack.includes(query);
+      const isVisible = matchesSection && matchesSearch;
+      card.style.display = isVisible ? "" : "none";
+      if (isVisible) visibleCount += 1;
+    });
+
+    if (empty) {
+      empty.style.display = visibleCount === 0 ? "block" : "none";
+    }
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeSection = button.dataset.filter ?? "all";
+      buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      applyFilters();
+    });
+  });
+
+  search?.addEventListener("input", applyFilters);
+</script>

@@ -1,10 +1,7 @@
-﻿# ВАЖНО
+# Upload note
 
-Загружай на GitHub содержимое этой папки:
+This repository is built for:
 
-E:\CosmoSfera-github-upload
-
-Она собрана именно под адрес:
 https://123654abba.github.io/CosmoSfera/
 
-Не используй старую папку E:\cosmosfera-github-upload, там неправильный регистр пути.
+Keep `.nojekyll` in the repository root. It lets GitHub Pages serve the `_astro` folder with CSS assets.

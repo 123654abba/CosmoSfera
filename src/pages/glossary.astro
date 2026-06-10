@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection } from "@data/sections";
+import { withBase } from "../utils/paths";
+
+const terms = (await getCollection("glossary")).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title, "ru")
+);
+---
+
+<BaseLayout title="Глоссарий">
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Короткие объяснения</p>
+        <h1>Глоссарий</h1>
+      </div>
+      <p>Термины связаны с основными разделами и статьями портала.</p>
+    </div>
+    <div class="grid three">
+      {terms.map((term) => (
+        <article class="card term-card" data-section={term.data.section}>
+          <div class="card-body">
+            <div class="article-meta"><span>{getSection(term.data.section)?.title}</span></div>
+            <h3>{term.data.title}</h3>
+            <p>{term.data.description}</p>
+            <div class="topic-list">
+              {term.data.relatedArticles.map((slug) => <a class="chip" href={withBase(`/articles/${slug}/`)}>{slug}</a>)}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

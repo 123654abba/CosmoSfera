@@ -1,0 +1,50 @@
+---
+import { Calendar, Tag } from "lucide-astro";
+import { getSection } from "@data/sections";
+import { withBase } from "../utils/paths";
+
+interface Props {
+  article: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      section: string;
+      tags: string[];
+      level: string;
+      updatedAt: Date;
+      heroImage: string;
+      heroAlt: string;
+    };
+  };
+}
+
+const { article } = Astro.props;
+const section = getSection(article.data.section);
+const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
+  article.data.updatedAt
+);
+---
+
+<article
+  class="card article-card"
+  data-section={article.data.section}
+  data-tags={article.data.tags.join(" ").toLowerCase()}
+  data-title={article.data.title.toLowerCase()}
+>
+  <a href={withBase(`/articles/${article.id}/`)}>
+    <img src={article.data.heroImage} alt={article.data.heroAlt} loading="lazy" />
+  </a>
+  <div class="card-body">
+    <div class="article-meta">
+      <span>{section?.title}</span>
+      <span>{article.data.level === "advanced" ? "Продвинутый" : "Средний"}</span>
+    </div>
+    <h3><a href={withBase(`/articles/${article.id}/`)}>{article.data.title}</a></h3>
+    <p>{article.data.description}</p>
+    <div class="article-meta">
+      <span><Calendar size={15} aria-hidden="true" /> {date}</span>
+      <span><Tag size={15} aria-hidden="true" /> {article.data.tags.slice(0, 3).join(", ")}</span>
+    </div>
+  </div>
+</article>

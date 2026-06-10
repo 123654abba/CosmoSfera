@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import { getSection } from "@data/sections";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article }
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const section = getSection(article.data.section);
+const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "long" }).format(article.data.updatedAt);
+---
+
+<BaseLayout title={article.data.title} description={article.data.description}>
+  <article class="prose">
+    <p class="eyebrow">{section?.title} · {article.data.level === "advanced" ? "Продвинутый" : "Средний"}</p>
+    <h1>{article.data.title}</h1>
+    <p class="lead">{article.data.description}</p>
+    <figure class="article-hero">
+      <img src={article.data.heroImage} alt={article.data.heroAlt} />
+      <figcaption class="caption">{article.data.heroAlt}</figcaption>
+    </figure>
+    <div class="article-meta">
+      <span>Обновлено: {date}</span>
+      <span>Теги: {article.data.tags.join(", ")}</span>
+    </div>
+    <Content />
+    <h2>Источники</h2>
+    <ul class="source-list">
+      {article.data.sources.map((source) => (
+        <li><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
