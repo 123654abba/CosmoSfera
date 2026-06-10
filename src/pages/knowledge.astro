@@ -1,0 +1,141 @@
+---
+import { ArrowRight, BookOpen, Database, Network } from "lucide-astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { objects } from "@data/objects";
+import { sections } from "@data/sections";
+import { withBase } from "../utils/paths";
+
+const articles = (await getCollection("articles")).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title, "ru")
+);
+const terms = await getCollection("glossary");
+const resources = await getCollection("resources");
+
+const sectionStats = sections.map((section) => ({
+  section,
+  articles: articles.filter((article) => article.data.section === section.id),
+  terms: terms.filter((term) => term.data.section === section.id),
+  resources: resources.filter((resource) => resource.data.section === section.id)
+}));
+
+const lenses = [
+  {
+    title: "Наблюдение",
+    text: "Снимки, кривые блеска, каталоги и карты неба дают первый слой фактов.",
+    icon: BookOpen
+  },
+  {
+    title: "Измерение",
+    text: "Спектры, яркость, движение и состав превращают красивую картинку в данные.",
+    icon: Database
+  },
+  {
+    title: "Модель",
+    text: "Гравитация, эволюция звезд, геология и атмосферы объясняют, почему объект выглядит именно так.",
+    icon: Network
+  }
+];
+---
+
+<BaseLayout
+  title="Карта знаний"
+  description="Связи между разделами, статьями, терминами, объектами и источниками Космосферы."
+>
+  <section class="container page-hero">
+    <div>
+      <p class="eyebrow">Центр навигации</p>
+      <h1>Карта знаний Космосферы</h1>
+    </div>
+    <p class="lead">
+      Эта страница показывает, как статьи, термины, объекты и источники складываются в единую систему.
+      Удобно, когда хочется изучать тему не случайно, а по связям.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="grid three">
+      {lenses.map((lens) => {
+        const Icon = lens.icon;
+        return (
+          <article class="card lens-card">
+            <div class="card-body">
+              <div class="card-kicker">
+                <Icon size={18} aria-hidden="true" />
+                <span>{lens.title}</span>
+              </div>
+              <p>{lens.text}</p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Матрица разделов</p>
+        <h2>Что уже связано</h2>
+      </div>
+      <p>По каждому направлению видно, сколько материалов, терминов и источников уже собрано.</p>
+    </div>
+    <div class="knowledge-matrix">
+      {sectionStats.map(({ section, articles: sectionArticles, terms: sectionTerms, resources: sectionResources }) => (
+        <article class="card knowledge-card" style={`--accent: ${section.accent}`}>
+          <div class="card-body">
+            <div class="card-kicker" style="color: var(--accent)">
+              <span>{section.short}</span>
+            </div>
+            <h3>{section.title}</h3>
+            <p>{section.description}</p>
+            <div class="metric-row">
+              <span><strong>{sectionArticles.length}</strong> статьи</span>
+              <span><strong>{sectionTerms.length}</strong> термина</span>
+              <span><strong>{sectionResources.length}</strong> источника</span>
+            </div>
+            <div class="topic-list">
+              {sectionArticles.slice(0, 4).map((article) => (
+                <a class="chip" href={withBase(`/articles/${article.id}/`)}>{article.data.title}</a>
+              ))}
+            </div>
+            <a class="button" href={withBase(section.href)}>
+              Открыть раздел <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Объекты как мосты</p>
+        <h2>Реальные примеры</h2>
+      </div>
+      <p>Объекты связывают наблюдения, физику и планетологию с конкретными статьями.</p>
+    </div>
+    <div class="object-link-grid">
+      {objects.map((object) => (
+        <article class="card object-card">
+          <div class="card-body">
+            <div class="article-meta"><span>{object.category}</span></div>
+            <h3>{object.name}</h3>
+            <p>{object.summary}</p>
+            <div class="topic-list">
+              {object.relatedArticles.map((slug) => {
+                const related = articles.find((article) => article.id === slug);
+                return (
+                  <a class="chip" href={withBase(`/articles/${slug}/`)}>
+                    {related?.data.title ?? slug}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

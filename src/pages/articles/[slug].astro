@@ -13,9 +13,11 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { Content } = await render(article);
+const { Content, headings } = await render(article);
 const section = getSection(article.data.section);
 const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "long" }).format(article.data.updatedAt);
+const readingMinutes = Math.max(3, Math.ceil((article.body ?? "").split(/\s+/).filter(Boolean).length / 180));
+const toc = headings.filter((heading) => heading.depth === 2).slice(0, 8);
 const allArticles = await getCollection("articles");
 const relatedArticles = allArticles
   .filter((entry) => entry.id !== article.id)
@@ -31,42 +33,64 @@ const relatedArticles = allArticles
 ---
 
 <BaseLayout title={article.data.title} description={article.data.description}>
-  <article class="prose">
-    <p class="eyebrow">{section?.title} · {article.data.level === "advanced" ? "Продвинутый" : "Средний"}</p>
-    <h1>{article.data.title}</h1>
-    <p class="lead">{article.data.description}</p>
-    <figure class="article-hero">
-      <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} />
-      <figcaption class="caption">{article.data.heroAlt}</figcaption>
-    </figure>
-    <div class="article-meta">
-      <span>Обновлено: {date}</span>
-      <span>Теги: {article.data.tags.join(", ")}</span>
-    </div>
-    {article.data.relatedTopics.length > 0 && (
-      <div class="topic-list article-topics" aria-label="Связанные темы">
-        {article.data.relatedTopics.map((topic) => <span class="chip">{topic}</span>)}
+  <div class="article-shell container">
+    <article class="prose">
+      <p class="eyebrow">{section?.title} · {article.data.level === "advanced" ? "Продвинутый" : "Средний"}</p>
+      <h1>{article.data.title}</h1>
+      <p class="lead">{article.data.description}</p>
+      <figure class="article-hero">
+        <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} />
+        <figcaption class="caption">{article.data.heroAlt}</figcaption>
+      </figure>
+      <div class="article-meta article-meta-panel">
+        <span>Обновлено: {date}</span>
+        <span>{readingMinutes} мин чтения</span>
+        <span>{article.data.sources.length} источника</span>
       </div>
-    )}
-    <Content />
-    {relatedArticles.length > 0 && (
-      <>
-        <h2>Дальше читать</h2>
-        <div class="related-strip">
-          {relatedArticles.map((related) => (
-            <a class="related-link" href={withBase(`/articles/${related.id}/`)}>
-              <span>{getSection(related.data.section)?.title}</span>
-              <strong>{related.data.title}</strong>
-            </a>
-          ))}
+      {article.data.relatedTopics.length > 0 && (
+        <div class="topic-list article-topics" aria-label="Связанные темы">
+          {article.data.relatedTopics.map((topic) => <span class="chip">{topic}</span>)}
         </div>
-      </>
-    )}
-    <h2>Источники</h2>
-    <ul class="source-list">
-      {article.data.sources.map((source) => (
-        <li><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>
-      ))}
-    </ul>
-  </article>
+      )}
+      <Content />
+      {relatedArticles.length > 0 && (
+        <>
+          <h2>Дальше читать</h2>
+          <div class="related-strip">
+            {relatedArticles.map((related) => (
+              <a class="related-link" href={withBase(`/articles/${related.id}/`)}>
+                <span>{getSection(related.data.section)?.title}</span>
+                <strong>{related.data.title}</strong>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      <h2>Источники</h2>
+      <ul class="source-list">
+        {article.data.sources.map((source) => (
+          <li><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>
+        ))}
+      </ul>
+    </article>
+
+    <aside class="article-aside" aria-label="Навигация по статье">
+      <div class="article-aside-panel">
+        <p class="eyebrow">Навигация</p>
+        <strong>{section?.title}</strong>
+        <span>{readingMinutes} мин · {article.data.level === "advanced" ? "продвинутый" : "средний"} уровень</span>
+        {toc.length > 0 && (
+          <nav class="toc" aria-label="Оглавление статьи">
+            {toc.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}
+          </nav>
+        )}
+      </div>
+      <div class="article-aside-panel">
+        <p class="eyebrow">Фокус</p>
+        <div class="topic-list">
+          {article.data.tags.slice(0, 5).map((tag) => <span class="chip">{tag}</span>)}
+        </div>
+      </div>
+    </aside>
+  </div>
 </BaseLayout>

@@ -1,5 +1,5 @@
 ---
-import { BookOpen, Home, Library, Search, Sparkles } from "lucide-astro";
+import { BookOpen, Compass, Home, Library, Search, Sparkles } from "lucide-astro";
 import LiveCosmos from "../components/LiveCosmos.astro";
 import { withBase } from "../utils/paths";
 import "../styles/global.css";
@@ -45,6 +45,7 @@ const pageTitle = title === "Космосфера" ? title : `${title} | Кос�
           <a href={withBase("/sections/astronomy/")}><Search size={17} aria-hidden="true" /> Астрономия</a>
           <a href={withBase("/sections/astrophysics/")}><BookOpen size={17} aria-hidden="true" /> Астрофизика</a>
           <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> Планетология</a>
+          <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> Карта знаний</a>
           <a href={withBase("/glossary/")}>Глоссарий</a>
           <a href={withBase("/materials/")}>Материалы</a>
         </div>
