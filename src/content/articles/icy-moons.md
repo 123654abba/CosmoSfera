@@ -9,9 +9,11 @@ sources:
     url: "https://science.nasa.gov/jupiter/moons/europa/"
   - label: "NASA: Europa Clipper"
     url: "https://science.nasa.gov/mission/europa-clipper/"
+  - label: "NASA: Europa, a World of Ice With Potential for Life"
+    url: "https://science.nasa.gov/missions/europa-clipper/europa-a-world-of-ice-with-potential-for-life/"
 updatedAt: 2026-06-10
-heroImage: "images/icy-moon.jpg"
-heroAlt: "Ледяной спутник Европа и возможные выбросы вещества"
+heroImage: "images/planetology-europa.jpg"
+heroAlt: "Поверхность Европы, ледяного спутника Юпитера, со сложной сетью трещин на снимке NASA"
 relatedTopics: ["приливный нагрев", "подповерхностный океан", "обитаемость"]
 ---
 

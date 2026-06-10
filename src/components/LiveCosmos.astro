@@ -13,11 +13,14 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const pointer = { x: 0.5, y: 0.5, active: false };
     const palette = ["#ffffff", "#70d6ff", "#f6b35f", "#8bd88b"];
+    const dustPalette = ["rgba(112, 214, 255,", "rgba(246, 179, 95,", "rgba(255, 255, 255,"];
 
     let width = 0;
     let height = 0;
     let dpr = 1;
     let stars = [];
+    let dust = [];
+    let glints = [];
     let planets = [];
     let raf = 0;
     let lastTime = 0;
@@ -40,7 +43,10 @@
     }
 
     function seedScene() {
-      const starCount = Math.min(190, Math.max(86, Math.floor((width * height) / 8600)));
+      const sceneArea = width * height;
+      const starCount = Math.min(260, Math.max(110, Math.floor(sceneArea / 6200)));
+      const dustCount = Math.min(230, Math.max(90, Math.floor(sceneArea / 7800)));
+
       stars = Array.from({ length: starCount }, (_, index) => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -54,9 +60,36 @@
         link: index % 7 === 0
       }));
 
+      dust = Array.from({ length: dustCount }, (_, index) => {
+        const along = random(-0.18, 1.18);
+        const spread = random(-height * 0.22, height * 0.22);
+        const x = width * along + spread * 0.34;
+        const y = height * (0.18 + along * 0.62) + spread;
+
+        return {
+          baseX: x,
+          baseY: y,
+          x,
+          y,
+          radius: random(0.35, index % 8 === 0 ? 1.7 : 1.05),
+          depth: random(0.12, 0.82),
+          phase: random(0, Math.PI * 2),
+          speed: random(0.08, 0.38),
+          opacity: random(0.05, 0.2),
+          color: dustPalette[Math.floor(Math.random() * dustPalette.length)]
+        };
+      });
+
+      glints = [
+        { delay: 0, duration: 17000, y: 0.16, length: 220, alpha: 0.5, speed: 1 },
+        { delay: 6200, duration: 22000, y: 0.48, length: 290, alpha: 0.42, speed: 0.78 },
+        { delay: 11800, duration: 26000, y: 0.74, length: 190, alpha: 0.38, speed: 0.9 }
+      ];
+
       planets = [
-        { orbit: Math.min(width, height) * 0.32, angle: 0.2, speed: 0.055, size: 3.7, color: "#f6b35f" },
-        { orbit: Math.min(width, height) * 0.46, angle: 2.4, speed: -0.034, size: 2.8, color: "#70d6ff" }
+        { orbit: Math.min(width, height) * 0.3, angle: 0.2, speed: 0.045, size: 3.2, color: "#f6b35f" },
+        { orbit: Math.min(width, height) * 0.43, angle: 2.4, speed: -0.027, size: 2.6, color: "#70d6ff" },
+        { orbit: Math.min(width, height) * 0.55, angle: 4.6, speed: 0.018, size: 2.2, color: "#8bd88b" }
       ];
     }
 
@@ -73,6 +106,35 @@
       glowTwo.addColorStop(1, "rgba(246, 179, 95, 0)");
       ctx.fillStyle = glowTwo;
       ctx.fillRect(0, 0, width, height);
+
+      const band = ctx.createLinearGradient(width * 0.04, height * 0.02, width * 0.92, height * 0.86);
+      band.addColorStop(0, "rgba(255, 255, 255, 0)");
+      band.addColorStop(0.38, "rgba(112, 214, 255, 0.055)");
+      band.addColorStop(0.5, "rgba(255, 255, 255, 0.08)");
+      band.addColorStop(0.62, "rgba(246, 179, 95, 0.045)");
+      band.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.save();
+      ctx.translate(width * 0.5, height * 0.5);
+      ctx.rotate(-0.28);
+      ctx.fillStyle = band;
+      ctx.fillRect(-width * 0.68, -height * 0.22, width * 1.36, height * 0.44);
+      ctx.restore();
+    }
+
+    function drawDust(delta) {
+      const parallaxX = (pointer.x - 0.5) * 44;
+      const parallaxY = (pointer.y - 0.5) * 34;
+
+      dust.forEach((particle) => {
+        particle.phase += delta * 0.001 * particle.speed;
+        particle.x = particle.baseX + parallaxX * particle.depth + Math.cos(particle.phase) * 4 * particle.depth;
+        particle.y = particle.baseY + parallaxY * particle.depth + Math.sin(particle.phase * 0.9) * 5 * particle.depth;
+
+        ctx.fillStyle = `${particle.color} ${particle.opacity})`;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
     }
 
     function drawConstellations() {
@@ -92,6 +154,51 @@
           ctx.stroke();
         }
       }
+    }
+
+    function drawEcliptic(time) {
+      const baseX = width * 0.62 + (pointer.x - 0.5) * 18;
+      const baseY = height * 0.58 + (pointer.y - 0.5) * 14;
+
+      ctx.save();
+      ctx.translate(baseX, baseY);
+      ctx.rotate(-0.2 + Math.sin(time * 0.00005) * 0.04);
+      for (let index = 0; index < 4; index += 1) {
+        const radiusX = width * (0.34 + index * 0.1);
+        const radiusY = radiusX * (0.24 + index * 0.025);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.035 - index * 0.004})`;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([6, 16 + index * 4]);
+        ctx.lineDashOffset = -time * (0.006 + index * 0.0015);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      ctx.restore();
+    }
+
+    function drawGlints(time) {
+      glints.forEach((glint) => {
+        const cycle = ((time + glint.delay) % glint.duration) / glint.duration;
+        if (cycle < 0.58 || cycle > 0.9) return;
+
+        const local = (cycle - 0.58) / 0.32;
+        const x = -glint.length + local * (width + glint.length * 1.8) * glint.speed;
+        const y = height * glint.y + Math.sin(local * Math.PI) * height * 0.08;
+        const alpha = Math.sin(local * Math.PI) * glint.alpha;
+        const gradient = ctx.createLinearGradient(x, y, x + glint.length, y + glint.length * 0.2);
+
+        gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        gradient.addColorStop(0.46, `rgba(255, 255, 255, ${alpha})`);
+        gradient.addColorStop(1, "rgba(112, 214, 255, 0)");
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + glint.length, y + glint.length * 0.2);
+        ctx.stroke();
+      });
     }
 
     function drawPlanets(time) {
@@ -127,6 +234,8 @@
 
       ctx.clearRect(0, 0, width, height);
       drawNebula(time);
+      drawEcliptic(time);
+      drawDust(delta);
 
       const parallaxX = (pointer.x - 0.5) * 30;
       const parallaxY = (pointer.y - 0.5) * 24;
@@ -147,6 +256,7 @@
       ctx.globalAlpha = 1;
       drawConstellations();
       drawPlanets(time);
+      drawGlints(time);
 
       if (!reducedMotion.matches) {
         raf = requestAnimationFrame(draw);

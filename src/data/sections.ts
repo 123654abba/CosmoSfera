@@ -64,9 +64,9 @@ export const sections = [
     description:
       "Планеты, спутники, экзопланеты, малые тела и условия, при которых миры становятся обитаемыми.",
     href: "/sections/planetology/",
-    image: "images/mars-jezero.jpg",
+    image: "images/planetology-europa.jpg",
     imageAlt:
-      "Панорама кратера Езеро, снятая марсоходом Perseverance на Марсе",
+      "Поверхность Европы, ледяного спутника Юпитера, со сложной сетью трещин на снимке NASA",
     accent: "#d99a6c",
     icon: Binoculars,
     topics: ["Марс", "экзопланеты", "спутники", "атмосферы"],
