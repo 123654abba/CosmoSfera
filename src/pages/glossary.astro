@@ -7,6 +7,8 @@ import { withBase } from "../utils/paths";
 const terms = (await getCollection("glossary")).sort((a, b) =>
   a.data.title.localeCompare(b.data.title, "ru")
 );
+const articles = await getCollection("articles");
+const articleTitleById = new Map(articles.map((article) => [article.id, article.data.title]));
 ---
 
 <BaseLayout title="Глоссарий">
@@ -16,7 +18,7 @@ const terms = (await getCollection("glossary")).sort((a, b) =>
         <p class="eyebrow">Короткие объяснения</p>
         <h1>Глоссарий</h1>
       </div>
-      <p>Термины связаны с основными разделами и статьями портала.</p>
+      <p>Краткие определения без лишней сложности: каждый термин связан с разделом и материалами, где он используется.</p>
     </div>
     <div class="grid three">
       {terms.map((term) => (
@@ -26,7 +28,11 @@ const terms = (await getCollection("glossary")).sort((a, b) =>
             <h3>{term.data.title}</h3>
             <p>{term.data.description}</p>
             <div class="topic-list">
-              {term.data.relatedArticles.map((slug) => <a class="chip" href={withBase(`/articles/${slug}/`)}>{slug}</a>)}
+              {term.data.relatedArticles.map((slug) => (
+                <a class="chip" href={withBase(`/articles/${slug}/`)}>
+                  {articleTitleById.get(slug) ?? slug}
+                </a>
+              ))}
             </div>
           </div>
         </article>

@@ -40,8 +40,8 @@ const articles = (await getCollection("articles", ({ data }) => data.section ===
     <section class="container section-brief">
       <article class="card guide-card" style={`--accent: ${section.accent}`}>
         <div class="card-body">
-          <p class="eyebrow">Полевой справочник</p>
-          <h2>Как читать раздел</h2>
+          <p class="eyebrow">Навигация</p>
+          <h2>Как пользоваться разделом</h2>
           <p>{section.fieldGuide.signal}</p>
           <div class="guide-block">
             <strong>{articles.length} материала в разделе</strong>
@@ -60,8 +60,8 @@ const articles = (await getCollection("articles", ({ data }) => data.section ===
       </article>
       <article class="card guide-card" style={`--accent: ${section.accent}`}>
         <div class="card-body">
-          <p class="eyebrow">Навык читателя</p>
-          <h2>Практика</h2>
+          <p class="eyebrow">Практика</p>
+          <h2>Что тренируем</h2>
           <ul class="compact-list">
             {section.fieldGuide.practice.map((item) => <li>{item}</li>)}
           </ul>
@@ -76,7 +76,7 @@ const articles = (await getCollection("articles", ({ data }) => data.section ===
         <p class="eyebrow">Материалы раздела</p>
         <h2>Статьи</h2>
       </div>
-      <p>Материалы отсортированы по дате обновления и связаны с глоссарием.</p>
+      <p>Материалы отсортированы по дате обновления и связаны с терминами, объектами и источниками.</p>
     </div>
     <div class="grid three">
       {articles.map((article) => <ArticleCard article={article} />)}
