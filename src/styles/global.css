@@ -2037,7 +2037,7 @@ section {
 
 .atlas-hero-copy h1 {
   max-width: 760px;
-  font-size: clamp(2.55rem, 4.6vw, 4.35rem);
+  font-size: clamp(2.1rem, 3.7vw, 3.45rem);
 }
 
 .atlas-hero-copy .lead {
@@ -2498,8 +2498,62 @@ section {
   font-size: 0.84rem;
 }
 
-.editorial-audit {
+.concepts-atlas {
   padding-top: clamp(62px, 7vw, 94px);
+  padding-bottom: clamp(64px, 7vw, 96px);
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.concept-card {
+  position: relative;
+  min-height: 218px;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(112, 214, 255, 0.065), transparent 48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.012)),
+    rgba(12, 18, 28, 0.68);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.11);
+}
+
+.concept-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, rgba(112, 214, 255, 0.65), rgba(246, 179, 95, 0.42), transparent);
+}
+
+.concept-card span {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+}
+
+.concept-card h3 {
+  margin: 10px 0 0;
+  font-size: 1.12rem;
+  line-height: 1.2;
+}
+
+.concept-card p {
+  margin: 10px 0 0;
+  color: #b9c5d4;
+  font-size: 0.94rem;
+  line-height: 1.58;
 }
 
 @keyframes star-drift {
@@ -2707,6 +2761,10 @@ section {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .concept-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .article-lab .article-card {
     grid-template-columns: 1fr;
   }
@@ -2774,7 +2832,7 @@ section {
   }
 
   .atlas-hero-copy h1 {
-    font-size: clamp(2rem, 10.5vw, 2.62rem);
+    font-size: clamp(1.85rem, 9.2vw, 2.28rem);
     line-height: 1.03;
   }
 
@@ -2909,6 +2967,15 @@ section {
 
   .article-lab .article-catalog {
     grid-template-columns: 1fr;
+  }
+
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .concept-card {
+    min-height: 0;
+    padding: 14px;
   }
 
   .article-catalog .article-card img {

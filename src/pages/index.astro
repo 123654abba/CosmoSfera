@@ -4,7 +4,6 @@ import {
   BookOpenCheck,
   Compass,
   Database,
-  Gauge,
   LibraryBig,
   Microscope,
   Network,
@@ -74,12 +73,31 @@ const learningPaths = [
   }
 ];
 
-const researchChecks = [
-  "Каждый материал должен помогать главному вопросу: где и почему мир может быть обитаемым",
-  "Показывать, на каких данных держится вывод",
-  "Отделять наблюдение от интерпретации",
-  "Связывать термины, статьи, объекты, миссии и источники",
-  "Оставлять портал статическим: контент редактируется файлами проекта"
+const keyConcepts = [
+  {
+    term: "Обитаемая зона",
+    text: "Диапазон расстояний от звезды, где при достаточном атмосферном давлении на поверхности планеты может существовать жидкая вода. Эта зона не доказывает обитаемость: важны состав атмосферы, активность звезды и история планеты."
+  },
+  {
+    term: "Биосигнатура",
+    text: "Наблюдаемый признак, который может быть связан с биологическими процессами, например устойчивое сочетание газов в атмосфере. Такой сигнал требует проверки, потому что похожие следы иногда возникают без участия жизни."
+  },
+  {
+    term: "Спектр",
+    text: "Распределение света по длинам волн, в котором видны линии поглощения и излучения атомов или молекул. По спектру оценивают состав атмосферы, температуру и влияние звезды, но слабые сигналы требуют повторных измерений."
+  },
+  {
+    term: "Транзитный метод",
+    text: "Метод поиска планет по небольшому падению яркости звезды, когда планета проходит перед ее диском. Он дает период обращения и размер планеты, а дополнительные данные помогают уточнить массу и свойства атмосферы."
+  },
+  {
+    term: "Атмосфера экзопланеты",
+    text: "Газовая оболочка влияет на температуру, давление, химический состав и потерю вещества в космос. Ее изучают по спектрам во время транзитов, затмений и прямых наблюдений, отделяя сигнал планеты от света звезды."
+  },
+  {
+    term: "Приливный нагрев",
+    text: "Выделение тепла внутри тела из-за гравитационного растяжения со стороны планеты, звезды или соседних спутников. Такой нагрев может поддерживать подледные океаны, но его сила зависит от орбиты и внутреннего строения объекта."
+  }
 ];
 
 const featuredObjectOrder = ["Европа", "TRAPPIST-1", "Jezero", "Солнце", "NGC 3324", "Млечный Путь"];
@@ -116,7 +134,7 @@ const featuredObjects = [...objects]
         </a>
       </div>
 
-      <div class="signal-strip" aria-label="Принципы портала">
+      <div class="signal-strip" aria-label="Ключевые линии исследования">
         <span><Radio size={16} aria-hidden="true" /> вода и энергия</span>
         <span><Microscope size={16} aria-hidden="true" /> атмосферы и спектры</span>
         <span><LibraryBig size={16} aria-hidden="true" /> миссии и данные</span>
@@ -151,13 +169,13 @@ const featuredObjects = [...objects]
     </aside>
   </section>
 
-  <section class="container science-spine" aria-label="Научный принцип сайта">
+  <section class="container science-spine" aria-label="Научная схема исследования">
     <div class="spine-intro">
-      <p class="eyebrow">Новый фокус</p>
-      <h2>Один вопрос вместо набора тем</h2>
+      <p class="eyebrow">Метод исследования</p>
+      <h2>От мира к проверяемому сигналу</h2>
       <p>
-        Главная линия сайта: какие миры могут иметь условия для жизни и как это вообще
-        можно проверить. Поэтому снимки, спектры, звезды и миссии работают как части одного исследования.
+        Оценка обитаемости начинается не с вывода о жизни, а с условий среды и наблюдаемых данных.
+        Снимки, спектры, звезды и миссии дают разные фрагменты одной физической картины.
       </p>
     </div>
     <div class="spine-steps">
@@ -175,7 +193,7 @@ const featuredObjects = [...objects]
     </div>
   </section>
 
-  <section class="container portal-stats atlas-stats" aria-label="Сводка портала">
+  <section class="container portal-stats atlas-stats" aria-label="Сводка научных материалов">
     {scienceStats.map((item) => (
       <div>
         <strong>{item.value}</strong>
@@ -190,10 +208,10 @@ const featuredObjects = [...objects]
   <section class="container research-routes">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Маршруты</p>
-        <h2>Три способа войти в тему</h2>
+        <p class="eyebrow">Наблюдательные маршруты</p>
+        <h2>Мир, сигнал и ограничение</h2>
       </div>
-      <p>Маршруты ведут от конкретного мира к сигналу в данных и проверке научной интерпретации.</p>
+      <p>Каждый маршрут связывает объект, метод наблюдения и границы того, что можно уверенно утверждать по данным.</p>
     </div>
     <div class="route-ledger">
       {learningPaths.map((path, index) => (
@@ -217,10 +235,10 @@ const featuredObjects = [...objects]
   <section id="sections" class="container atlas-section">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Структура атласа</p>
-        <h2>Три исследовательские станции</h2>
+        <p class="eyebrow">Области исследования</p>
+        <h2>Миры, методы и космическая среда</h2>
       </div>
-      <p>Разделы разделяют не школьные дисциплины, а роли в одном исследовании: мир, метод и среда.</p>
+      <p>Разделы показывают, как свойства планет, наблюдательные методы и условия у звезды вместе определяют оценку обитаемости.</p>
     </div>
     <div class="grid three section-atlas">
       {sections.map((section) => <SectionCard section={section} />)}
@@ -230,10 +248,10 @@ const featuredObjects = [...objects]
   <section class="container article-lab">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">База знаний</p>
-        <h2>Каталог материалов</h2>
+        <p class="eyebrow">Методы и ограничения</p>
+        <h2>Каталог наблюдений и объяснений</h2>
       </div>
-      <p>Каталог работает как рабочий список: тема, уровень, теги, источники и связь с вопросом обитаемости.</p>
+      <p>Материалы сопоставляют наблюдения, модели и осторожные выводы: от спектров атмосфер до ледяных океанов и активности звезд.</p>
     </div>
     <FilterControls />
     <div class="article-catalog">
@@ -246,9 +264,9 @@ const featuredObjects = [...objects]
     <div class="section-heading">
       <div>
         <p class="eyebrow">Атлас объектов</p>
-        <h2>Реальные точки привязки</h2>
+        <h2>Объекты для сравнения</h2>
       </div>
-      <p>Объекты нужны, чтобы разговор об обитаемости возвращался к наблюдениям, миссиям и конкретным данным.</p>
+      <p>Планеты, спутники, звезды и области звездообразования помогают сравнивать условия среды с реальными наблюдениями и миссиями.</p>
     </div>
     <div class="object-ledger">
       {featuredObjects.map((object) => (
@@ -273,28 +291,22 @@ const featuredObjects = [...objects]
     </div>
   </section>
 
-  <section class="container editorial-audit">
+  <section class="container concepts-atlas">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Самооценка</p>
-        <h2>Что еще держим под контролем</h2>
+        <p class="eyebrow">Термины и ограничения</p>
+        <h2>Ключевые понятия</h2>
       </div>
-      <p>Текущая версия уже опубликована, но сайт дальше стоит развивать как научный атлас обитаемых миров: больше объектов, больше терминов, меньше случайных тем.</p>
+      <p>Термины, которые помогают читать материалы как научный атлас: от наблюдения и измерения до модели и осторожного вывода.</p>
     </div>
-    <div class="audit-panel">
-      <div class="audit-score">
-        <Gauge size={24} aria-hidden="true" />
-        <strong>V2</strong>
-        <span>единый фокус: обитаемые миры, методы проверки и научные ограничения</span>
-      </div>
-      <ul>
-        {researchChecks.map((check) => <li>{check}</li>)}
-      </ul>
-      <div class="hero-actions">
-        <a class="button" href={withBase("/knowledge/")}>Карта знаний <ArrowRight size={18} aria-hidden="true" /></a>
-        <a class="button" href={withBase("/glossary/")}>Глоссарий <ArrowRight size={18} aria-hidden="true" /></a>
-        <a class="button" href={withBase("/materials/")}>Источники <ArrowRight size={18} aria-hidden="true" /></a>
-      </div>
+    <div class="concept-grid">
+      {keyConcepts.map((concept, index) => (
+        <article class="concept-card">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h3>{concept.term}</h3>
+          <p>{concept.text}</p>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>
