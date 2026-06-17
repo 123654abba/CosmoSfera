@@ -1,0 +1,133 @@
+---
+import { ArrowRight, Clock3 } from "lucide-astro";
+import { withBase } from "../utils/paths";
+
+const milestones = [
+  {
+    time: "13,8 млрд лет назад",
+    title: "Начало расширения",
+    label: "Большой взрыв",
+    description:
+      "Вселенная быстро расширяется и остывает. Пространство заполняют элементарные частицы, из которых позже появятся атомы, звезды и галактики.",
+    scale: "0%",
+    href: "/articles/galaxies-and-scale/"
+  },
+  {
+    time: "Через 380 тыс. лет",
+    title: "Первый свет",
+    label: "Реликтовое излучение",
+    description:
+      "Появляются нейтральные атомы, и свет впервые может свободно идти через пространство. Это один из главных наблюдательных следов ранней Вселенной.",
+    scale: "14%",
+    href: "/articles/spectra/"
+  },
+  {
+    time: "Первые сотни млн лет",
+    title: "Рождение звезд",
+    label: "Первые галактики",
+    description:
+      "Газ собирается под действием гравитации. Возникают первые звезды и молодые галактики, которые начинают менять химический состав космоса.",
+    scale: "29%",
+    href: "/articles/cosmic-cliffs/"
+  },
+  {
+    time: "Около 9 млрд лет назад",
+    title: "Солнечная система",
+    label: "Планетные миры",
+    description:
+      "Из газа и пыли вокруг молодой звезды формируются планеты, спутники, астероиды и кометы. Так начинается история локальной планетологии.",
+    scale: "58%",
+    href: "/articles/planetary-surfaces/"
+  },
+  {
+    time: "Сегодня",
+    title: "Эпоха наблюдений",
+    label: "Телескопы и миссии",
+    description:
+      "Космические телескопы, спектры, марсоходы и архивы данных позволяют связывать снимки с физикой, химией и историей объектов.",
+    scale: "100%",
+    href: "/articles/telescopes-and-light/"
+  }
+];
+---
+
+<section class="container universe-lab" id="cosmic-timeline" data-timeline-root>
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Интерактив</p>
+      <h2>Шкала Вселенной</h2>
+    </div>
+    <p>Короткий маршрут от ранней Вселенной к современным наблюдениям. Выберите этап и посмотрите, с какой темой портала он связан.</p>
+  </div>
+
+  <div class="timeline-shell">
+    <div class="timeline-visual" aria-hidden="true">
+      <div class="timeline-orbit">
+        <span class="timeline-world"></span>
+        <span class="timeline-ring timeline-ring-one"></span>
+        <span class="timeline-ring timeline-ring-two"></span>
+      </div>
+      <div class="timeline-scale">
+        <span data-timeline-fill style={`width: ${milestones[0].scale}`}></span>
+      </div>
+    </div>
+
+    <div class="timeline-content">
+      <div class="timeline-detail">
+        <div class="card-kicker">
+          <Clock3 size={18} aria-hidden="true" />
+          <span data-timeline-time>{milestones[0].time}</span>
+        </div>
+        <h3 data-timeline-title>{milestones[0].title}</h3>
+        <p data-timeline-description>{milestones[0].description}</p>
+        <a class="button" href={withBase(milestones[0].href)} data-timeline-link>
+          Читать связанную статью <ArrowRight size={18} aria-hidden="true" />
+        </a>
+      </div>
+
+      <div class="timeline-buttons" role="list" aria-label="Этапы истории Вселенной">
+        {milestones.map((item, index) => (
+          <button
+            class="timeline-button"
+            type="button"
+            role="listitem"
+            aria-pressed={index === 0 ? "true" : "false"}
+            data-timeline-item
+            data-time={item.time}
+            data-title={item.title}
+            data-description={item.description}
+            data-scale={item.scale}
+            data-href={withBase(item.href)}
+          >
+            <span>{item.label}</span>
+            <small>{item.time}</small>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const timelineRoot = document.querySelector<HTMLElement>("[data-timeline-root]");
+  const timelineButtons = Array.from(timelineRoot?.querySelectorAll<HTMLButtonElement>("[data-timeline-item]") ?? []);
+  const timelineTime = timelineRoot?.querySelector<HTMLElement>("[data-timeline-time]");
+  const timelineTitle = timelineRoot?.querySelector<HTMLElement>("[data-timeline-title]");
+  const timelineDescription = timelineRoot?.querySelector<HTMLElement>("[data-timeline-description]");
+  const timelineFill = timelineRoot?.querySelector<HTMLElement>("[data-timeline-fill]");
+  const timelineLink = timelineRoot?.querySelector<HTMLAnchorElement>("[data-timeline-link]");
+
+  function activateTimelineItem(button: HTMLButtonElement) {
+    timelineButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+
+    if (timelineTime) timelineTime.textContent = button.dataset.time ?? "";
+    if (timelineTitle) timelineTitle.textContent = button.dataset.title ?? "";
+    if (timelineDescription) timelineDescription.textContent = button.dataset.description ?? "";
+    if (timelineFill) timelineFill.style.width = button.dataset.scale ?? "0%";
+    if (timelineLink) timelineLink.href = button.dataset.href ?? timelineLink.href;
+  }
+
+  timelineButtons.forEach((button) => {
+    button.addEventListener("click", () => activateTimelineItem(button));
+  });
+</script>

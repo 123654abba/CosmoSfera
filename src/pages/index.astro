@@ -3,6 +3,7 @@ import { ArrowRight, Compass, LibraryBig } from "lucide-astro";
 import ArticleCard from "@components/ArticleCard.astro";
 import FilterControls from "@components/FilterControls.astro";
 import SectionCard from "@components/SectionCard.astro";
+import UniverseTimeline from "@components/UniverseTimeline.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { objects } from "@data/objects";
@@ -53,6 +54,9 @@ const learningPaths = [
         <a class="button" href={withBase("/materials/")}>
           <LibraryBig size={18} aria-hidden="true" /> Смотреть источники
         </a>
+        <a class="button" href="#cosmic-timeline">
+          <ArrowRight size={18} aria-hidden="true" /> Шкала Вселенной
+        </a>
       </div>
     </div>
     <figure class="hero-visual">
@@ -81,6 +85,8 @@ const learningPaths = [
       <span>направления</span>
     </div>
   </section>
+
+  <UniverseTimeline />
 
   <section class="container">
     <div class="section-heading">
