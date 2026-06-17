@@ -12,9 +12,11 @@ interface Props {
       section: string;
       tags: string[];
       level: string;
+      sources: { label: string; url: string }[];
       updatedAt: Date;
       heroImage: string;
       heroAlt: string;
+      relatedTopics: string[];
     };
   };
 }
@@ -28,6 +30,7 @@ const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
 
 <article
   class="card article-card"
+  style={`--accent: ${section?.accent ?? "#70d6ff"}`}
   data-section={article.data.section}
   data-tags={article.data.tags.join(" ").toLowerCase()}
   data-title={article.data.title.toLowerCase()}
@@ -35,15 +38,20 @@ const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
   <a class="card-link" href={withBase(`/articles/${article.id}/`)} aria-label={`Открыть статью ${article.data.title}`}></a>
   <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} loading="lazy" />
   <div class="card-body">
-    <div class="article-meta">
+    <div class="article-meta article-card-meta">
       <span>{section?.title}</span>
       <span>{article.data.level === "advanced" ? "Продвинутый" : "Средний"}</span>
     </div>
     <h3>{article.data.title}</h3>
     <p>{article.data.description}</p>
-    <div class="article-meta">
+    <div class="article-protocol">
+      <span>Фокус</span>
+      <strong>{article.data.relatedTopics[0] ?? article.data.tags[0]}</strong>
+    </div>
+    <div class="article-meta article-card-meta">
       <span><Calendar size={15} aria-hidden="true" /> {date}</span>
       <span><Tag size={15} aria-hidden="true" /> {article.data.tags.slice(0, 3).join(", ")}</span>
+      <span>{article.data.sources.length} источника</span>
     </div>
   </div>
 </article>

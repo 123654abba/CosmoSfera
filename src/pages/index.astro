@@ -1,5 +1,16 @@
 ---
-import { ArrowRight, Compass, LibraryBig } from "lucide-astro";
+import {
+  ArrowRight,
+  BookOpenCheck,
+  Compass,
+  Database,
+  Gauge,
+  LibraryBig,
+  Microscope,
+  Network,
+  Radio,
+  Telescope
+} from "lucide-astro";
 import ArticleCard from "@components/ArticleCard.astro";
 import FilterControls from "@components/FilterControls.astro";
 import SectionCard from "@components/SectionCard.astro";
@@ -16,175 +27,266 @@ const articles = (await getCollection("articles")).sort(
 const terms = await getCollection("glossary");
 const resources = await getCollection("resources");
 const heroSection = sections[0];
+
+const scienceStats = [
+  { value: articles.length, label: "статей", detail: "связаны с источниками и объектами" },
+  { value: terms.length, label: "терминов", detail: "короткие определения без перегруза" },
+  { value: resources.length, label: "источников", detail: "агентства, миссии, каталоги" },
+  { value: sections.length, label: "направления", detail: "наблюдения, физика, планеты" }
+];
+
+const atlasProtocol = [
+  {
+    title: "Наблюдение",
+    text: "Сначала фиксируем, что реально измерено: снимок, спектр, движение, яркость, рельеф или данные миссии.",
+    icon: Telescope
+  },
+  {
+    title: "Измерение",
+    text: "Затем переводим картинку в параметры: длины волн, массу, температуру, состав, расстояние или геологический след.",
+    icon: Database
+  },
+  {
+    title: "Модель",
+    text: "После этого связываем данные с физикой: гравитацией, излучением, эволюцией звезд, атмосферами и поверхностями.",
+    icon: Network
+  }
+];
+
 const learningPaths = [
   {
-    title: "От изображения к физике",
-    description: "Начните с реального снимка, разберите диапазон света и перейдите к процессам внутри газа, пыли и звезд.",
-    steps: ["Космические утесы", "Спектры", "Темная материя"],
+    title: "Наблюдательный маршрут",
+    description: "Как читать снимки, диапазоны света и подписи к данным без превращения науки в набор красивых обоев.",
+    steps: ["JWST", "диапазоны света", "карты неба"],
     href: "/articles/cosmic-cliffs/"
   },
   {
-    title: "Компактные объекты",
-    description: "Разберитесь, как гравитация, аккреция и экстремальная плотность помогают проверять физические модели.",
-    steps: ["Черные дыры", "Спектры", "Галактики"],
+    title: "Физический маршрут",
+    description: "От спектров и движения вещества к моделям черных дыр, темной материи и эволюции галактик.",
+    steps: ["спектры", "гравитация", "модели"],
     href: "/articles/black-holes/"
   },
   {
-    title: "Планеты как системы",
-    description: "Посмотрите, как рельеф, атмосферы, лед и океаны превращают планеты и спутники в отдельные истории.",
-    steps: ["Экзопланеты", "Поверхности", "Ледяные спутники"],
+    title: "Планетный маршрут",
+    description: "Поверхности, атмосферы и ледяные миры рассматриваются как системы с историей, химией и ограничениями данных.",
+    steps: ["рельеф", "атмосферы", "миссии"],
     href: "/articles/exoplanets/"
   }
 ];
+
+const researchChecks = [
+  "Показывать, на каких данных держится вывод",
+  "Отделять наблюдение от интерпретации",
+  "Связывать термины, статьи, объекты и источники",
+  "Не использовать аккаунты, комментарии и админку в первой версии"
+];
+
+const featuredObjects = objects.slice(0, 6);
 ---
 
-<BaseLayout title="Космосфера">
-  <div class="container hero">
-    <div class="hero-copy">
-      <p class="eyebrow">Астрономия · Астрофизика · Планетология</p>
-      <h1>Космосфера: навигатор по Вселенной</h1>
+<BaseLayout
+  title="Космосфера"
+  description="Космосфера: научный атлас по астрономии, астрофизике и планетологии с реальными изображениями, источниками и связями между темами."
+>
+  <section class="container atlas-hero" aria-labelledby="atlas-title">
+    <div class="atlas-hero-copy">
+      <p class="eyebrow">Научный атлас космоса</p>
+      <h1 id="atlas-title">Космосфера: от наблюдения к физике</h1>
       <p class="lead">
-        Портал для тех, кто хочет понимать космос глубже красивых снимков: наблюдения,
-        физика экстремальных объектов, планетные миры, глоссарий и проверенные источники.
+        Сайт перестраивается как исследовательский навигатор: реальные снимки и миссии,
+        объяснения физических процессов, планетные миры, термины и проверяемые источники в одной системе.
       </p>
-      <div class="hero-actions">
+      <div class="hero-actions atlas-actions">
         <a class="button primary" href={withBase("/sections/")}>
-          <Compass size={18} aria-hidden="true" /> Изучить разделы
+          <Compass size={18} aria-hidden="true" /> Открыть атлас
         </a>
-        <a class="button" href={withBase("/materials/")}>
-          <LibraryBig size={18} aria-hidden="true" /> Смотреть источники
+        <a class="button" href={withBase("/knowledge/")}>
+          <BookOpenCheck size={18} aria-hidden="true" /> Карта знаний
         </a>
         <a class="button" href="#cosmic-timeline">
           <ArrowRight size={18} aria-hidden="true" /> Шкала Вселенной
         </a>
       </div>
-    </div>
-    <figure class="hero-visual">
-      <img src={assetPath(heroSection.image)} alt={heroSection.imageAlt} />
-      <figcaption class="caption">
-        NGC 3324 в туманности Киля: область рождения звезд на снимке JWST. Изображение: NASA, ESA, CSA, STScI.
-      </figcaption>
-    </figure>
-  </div>
 
-  <section class="container portal-stats" aria-label="Сводка портала">
-    <div>
-      <strong>{articles.length}</strong>
-      <span>статей</span>
+      <div class="signal-strip" aria-label="Принципы портала">
+        <span><Radio size={16} aria-hidden="true" /> реальные данные</span>
+        <span><Microscope size={16} aria-hidden="true" /> научная логика</span>
+        <span><LibraryBig size={16} aria-hidden="true" /> открытые источники</span>
+      </div>
     </div>
-    <div>
-      <strong>{terms.length}</strong>
-      <span>терминов</span>
+
+    <aside class="observatory-panel" aria-label="Панель наблюдения">
+      <figure class="observatory-image">
+        <img src={assetPath(heroSection.image)} alt={heroSection.imageAlt} />
+        <figcaption>
+          <strong>NGC 3324</strong>
+          <span>JWST · инфракрасные данные · звездообразование</span>
+        </figcaption>
+      </figure>
+      <div class="observation-readout">
+        <p class="eyebrow">Паспорт наблюдения</p>
+        <dl>
+          <div>
+            <dt>Объект</dt>
+            <dd>область звездообразования</dd>
+          </div>
+          <div>
+            <dt>Метод</dt>
+            <dd>инфракрасная съемка</dd>
+          </div>
+          <div>
+            <dt>Вопрос</dt>
+            <dd>как газ, пыль и массивные звезды формируют новые светила</dd>
+          </div>
+        </dl>
+      </div>
+    </aside>
+  </section>
+
+  <section class="container science-spine" aria-label="Научный принцип сайта">
+    <div class="spine-intro">
+      <p class="eyebrow">Новый фокус</p>
+      <h2>Не солянка фактов, а связанная система</h2>
+      <p>
+        Каждая тема должна отвечать на три вопроса: что наблюдают, как это измеряют
+        и какая модель объясняет данные. Так сайт становится атласом, а не набором случайных заметок.
+      </p>
     </div>
-    <div>
-      <strong>{resources.length}</strong>
-      <span>источников</span>
+    <div class="spine-steps">
+      {atlasProtocol.map((step, index) => {
+        const Icon = step.icon;
+        return (
+          <article class="spine-step">
+            <span class="step-index">0{index + 1}</span>
+            <Icon size={22} aria-hidden="true" />
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </article>
+        );
+      })}
     </div>
-    <div>
-      <strong>{sections.length}</strong>
-      <span>направления</span>
-    </div>
+  </section>
+
+  <section class="container portal-stats atlas-stats" aria-label="Сводка портала">
+    {scienceStats.map((item) => (
+      <div>
+        <strong>{item.value}</strong>
+        <span>{item.label}</span>
+        <small>{item.detail}</small>
+      </div>
+    ))}
   </section>
 
   <UniverseTimeline />
 
-  <section class="container">
+  <section class="container research-routes">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Маршруты изучения</p>
-        <h2>С чего начать изучение</h2>
+        <p class="eyebrow">Маршруты</p>
+        <h2>Три способа читать портал</h2>
       </div>
-      <p>Три маршрута помогают двигаться не случайно, а по связям: от наблюдения к данным, от данных к объяснению.</p>
+      <p>Маршруты помогают не прыгать между темами, а двигаться от данных к объяснению.</p>
     </div>
-    <div class="grid three">
-      {learningPaths.map((path) => (
-        <article class="card path-card">
-          <div class="card-body">
+    <div class="route-ledger">
+      {learningPaths.map((path, index) => (
+        <article class="route-row">
+          <span class="route-number">{index + 1}</span>
+          <div>
             <h3>{path.title}</h3>
             <p>{path.description}</p>
-            <div class="topic-list">
-              {path.steps.map((step) => <span class="chip">{step}</span>)}
-            </div>
-            <a class="button" href={withBase(path.href)}>
-              Начать маршрут <ArrowRight size={18} aria-hidden="true" />
-            </a>
           </div>
+          <div class="topic-list">
+            {path.steps.map((step) => <span class="chip">{step}</span>)}
+          </div>
+          <a class="button" href={withBase(path.href)}>
+            Начать <ArrowRight size={18} aria-hidden="true" />
+          </a>
         </article>
       ))}
     </div>
   </section>
 
-  <section id="sections" class="container">
+  <section id="sections" class="container atlas-section">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Три главные темы</p>
-        <h2>Разделы портала</h2>
+        <p class="eyebrow">Дисциплины</p>
+        <h2>Три исследовательские станции</h2>
       </div>
-      <p>Каждый раздел собирает статьи, термины, реальные объекты и надежные внешние источники.</p>
+      <p>Каждый раздел получает свой тип данных, методы и набор научных вопросов.</p>
     </div>
-    <div class="grid three">
+    <div class="grid three section-atlas">
       {sections.map((section) => <SectionCard section={section} />)}
     </div>
   </section>
 
-  <section class="container">
+  <section class="container article-lab">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Популярные материалы</p>
-        <h2>Статьи для погружения</h2>
+        <p class="eyebrow">База знаний</p>
+        <h2>Каталог материалов</h2>
       </div>
-      <p>Фильтруйте материалы по направлению или ищите по объектам, явлениям и методам наблюдения.</p>
+      <p>Каталог теперь выглядит как рабочий список материалов: направление, уровень, теги, источники и научный фокус.</p>
     </div>
     <FilterControls />
-    <div class="grid three" style="margin-top: 18px">
+    <div class="article-catalog">
       {articles.map((article) => <ArticleCard article={article} />)}
     </div>
     <p class="empty-state" data-empty-state>По этому запросу материалов пока нет.</p>
   </section>
 
-  <section class="container">
+  <section class="container object-observatory">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Каталог объектов</p>
-        <h2>Опорные примеры</h2>
+        <p class="eyebrow">Атлас объектов</p>
+        <h2>Реальные точки привязки</h2>
       </div>
-      <p>Объекты связывают теорию с конкретными наблюдениями, миссиями и измерениями.</p>
+      <p>Объекты нужны, чтобы каждая теория возвращалась к наблюдениям, миссиям и конкретным данным.</p>
     </div>
-    <div class="grid three">
-      {objects.map((object) => (
-        <article class="card object-card">
-          <div class="card-body">
-            <div class="article-meta"><span>{object.category}</span></div>
+    <div class="object-ledger">
+      {featuredObjects.map((object) => (
+        <article class="object-row">
+          <div>
+            <span>{object.category}</span>
             <h3>{object.name}</h3>
             <p>{object.summary}</p>
-            <div class="topic-list">
-              {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
-            </div>
-            <div class="topic-list" aria-label={`Статьи по теме ${object.name}`}>
-              {object.relatedArticles.map((slug) => (
-                <a class="chip" href={withBase(`/articles/${slug}/`)}>
-                  {articles.find((article) => article.id === slug)?.data.title ?? slug}
-                </a>
-              ))}
-            </div>
+          </div>
+          <div class="topic-list">
+            {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
+          </div>
+          <div class="topic-list" aria-label={`Статьи по теме ${object.name}`}>
+            {object.relatedArticles.map((slug) => (
+              <a class="chip" href={withBase(`/articles/${slug}/`)}>
+                {articles.find((article) => article.id === slug)?.data.title ?? slug}
+              </a>
+            ))}
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="container">
+  <section class="container editorial-audit">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Быстрый вход</p>
-        <h2>Глоссарий, карта знаний и источники</h2>
+        <p class="eyebrow">Самооценка</p>
+        <h2>Что еще держим под контролем</h2>
       </div>
-      <p>Короткие определения, связи между темами и ссылки на агентства, архивы, каталоги и миссии.</p>
+      <p>Текущая версия уже опубликована, но сайт дальше стоит развивать как научную базу: больше объектов, больше терминов, меньше случайных декоративных блоков.</p>
     </div>
-    <div class="hero-actions" style="margin-top: 0">
-      <a class="button" href={withBase("/knowledge/")}>Открыть карту знаний <ArrowRight size={18} aria-hidden="true" /></a>
-      <a class="button" href={withBase("/glossary/")}>Открыть глоссарий <ArrowRight size={18} aria-hidden="true" /></a>
-      <a class="button" href={withBase("/materials/")}>Открыть материалы <ArrowRight size={18} aria-hidden="true" /></a>
+    <div class="audit-panel">
+      <div class="audit-score">
+        <Gauge size={24} aria-hidden="true" />
+        <strong>V1.5</strong>
+        <span>рабочий научный атлас, не финальная энциклопедия</span>
+      </div>
+      <ul>
+        {researchChecks.map((check) => <li>{check}</li>)}
+      </ul>
+      <div class="hero-actions">
+        <a class="button" href={withBase("/knowledge/")}>Карта знаний <ArrowRight size={18} aria-hidden="true" /></a>
+        <a class="button" href={withBase("/glossary/")}>Глоссарий <ArrowRight size={18} aria-hidden="true" /></a>
+        <a class="button" href={withBase("/materials/")}>Источники <ArrowRight size={18} aria-hidden="true" /></a>
+      </div>
     </div>
   </section>
 </BaseLayout>

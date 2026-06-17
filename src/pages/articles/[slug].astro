@@ -30,6 +30,20 @@ const relatedArticles = allArticles
   .sort((a, b) => b.score - a.score || b.entry.data.updatedAt.valueOf() - a.entry.data.updatedAt.valueOf())
   .slice(0, 3)
   .map((item) => item.entry);
+const readingMap = [
+  {
+    label: "Данные",
+    text: "Сначала смотрите на источник наблюдения: инструмент, диапазон света, миссию, каталог или метод измерения."
+  },
+  {
+    label: "Интерпретация",
+    text: "Затем отделяйте видимую картинку от вывода: массу, температуру, состав, движение или геологическую историю."
+  },
+  {
+    label: "Ограничения",
+    text: "Фиксируйте, где модель надежна, а где остаются неопределенности, неполные данные или альтернативные объяснения."
+  }
+];
 ---
 
 <BaseLayout title={article.data.title} description={article.data.description}>
@@ -52,6 +66,14 @@ const relatedArticles = allArticles
           {article.data.relatedTopics.map((topic) => <span class="chip">{topic}</span>)}
         </div>
       )}
+      <section class="article-reading-map" aria-label="Как читать эту статью">
+        {readingMap.map((item) => (
+          <div>
+            <strong>{item.label}</strong>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </section>
       <Content />
       {relatedArticles.length > 0 && (
         <>

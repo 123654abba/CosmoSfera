@@ -1,0 +1,6 @@
+{
+  "title": "Планетная геология",
+  "description": "Изучение рельефа, пород, кратеров, вулканизма, льда и следов воды на планетах, спутниках и малых телах.",
+  "section": "planetology",
+  "relatedArticles": ["planetary-surfaces", "icy-moons"]
+}

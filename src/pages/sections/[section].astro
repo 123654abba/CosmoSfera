@@ -78,7 +78,7 @@ const articles = (await getCollection("articles", ({ data }) => data.section ===
       </div>
       <p>Материалы отсортированы по дате обновления и связаны с терминами, объектами и источниками.</p>
     </div>
-    <div class="grid three">
+    <div class="article-catalog">
       {articles.map((article) => <ArticleCard article={article} />)}
     </div>
   </section>

@@ -1,0 +1,6 @@
+{
+  "title": "Спектроскопия",
+  "description": "Метод изучения света по длинам волн: линии поглощения и излучения помогают определять состав, температуру, скорость и физическое состояние объекта.",
+  "section": "astrophysics",
+  "relatedArticles": ["spectra", "exoplanets", "telescopes-and-light"]
+}
