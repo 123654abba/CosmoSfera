@@ -47,26 +47,30 @@
       const starCount = Math.min(260, Math.max(110, Math.floor(sceneArea / 6200)));
       const dustCount = Math.min(230, Math.max(90, Math.floor(sceneArea / 7800)));
 
-      stars = Array.from({ length: starCount }, (_, index) => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        baseX: Math.random() * width,
-        baseY: Math.random() * height,
-        radius: random(0.55, index % 9 === 0 ? 2.1 : 1.35),
-        depth: random(0.18, 1),
-        phase: random(0, Math.PI * 2),
-        speed: random(0.25, 0.9),
-        color: palette[Math.floor(Math.random() * palette.length)],
-        link: index % 7 === 0
-      }));
+      stars = [];
+      for (let index = 0; index < starCount; index += 1) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          baseX: Math.random() * width,
+          baseY: Math.random() * height,
+          radius: random(0.55, index % 9 === 0 ? 2.1 : 1.35),
+          depth: random(0.18, 1),
+          phase: random(0, Math.PI * 2),
+          speed: random(0.25, 0.9),
+          color: palette[Math.floor(Math.random() * palette.length)],
+          link: index % 7 === 0
+        });
+      }
 
-      dust = Array.from({ length: dustCount }, (_, index) => {
+      dust = [];
+      for (let index = 0; index < dustCount; index += 1) {
         const along = random(-0.18, 1.18);
         const spread = random(-height * 0.22, height * 0.22);
         const x = width * along + spread * 0.34;
         const y = height * (0.18 + along * 0.62) + spread;
 
-        return {
+        dust.push({
           baseX: x,
           baseY: y,
           x,
@@ -77,8 +81,8 @@
           speed: random(0.08, 0.38),
           opacity: random(0.05, 0.2),
           color: dustPalette[Math.floor(Math.random() * dustPalette.length)]
-        };
-      });
+        });
+      }
 
       glints = [
         { delay: 0, duration: 17000, y: 0.16, length: 220, alpha: 0.5, speed: 1 },
@@ -178,6 +182,54 @@
       ctx.restore();
     }
 
+    function drawHabitableRibbon(time) {
+      const centerX = width * 0.7 + (pointer.x - 0.5) * 24;
+      const centerY = height * 0.4 + (pointer.y - 0.5) * 18;
+      const radiusX = Math.min(width * 0.42, 620);
+      const radiusY = Math.max(82, radiusX * 0.28);
+      const pulse = 0.5 + Math.sin(time * 0.00035) * 0.5;
+
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(-0.24);
+
+      const ribbon = ctx.createLinearGradient(-radiusX, 0, radiusX, 0);
+      ribbon.addColorStop(0, "rgba(139, 216, 139, 0)");
+      ribbon.addColorStop(0.28, `rgba(139, 216, 139, ${0.055 + pulse * 0.035})`);
+      ribbon.addColorStop(0.5, `rgba(246, 179, 95, ${0.035 + pulse * 0.02})`);
+      ribbon.addColorStop(0.72, `rgba(112, 214, 255, ${0.045 + pulse * 0.02})`);
+      ribbon.addColorStop(1, "rgba(112, 214, 255, 0)");
+
+      ctx.strokeStyle = ribbon;
+      ctx.lineWidth = 18;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 12]);
+      ctx.lineDashOffset = -time * 0.012;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, radiusX * 0.82, radiusY * 0.82, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      for (let index = 0; index < 9; index += 1) {
+        const angle = index * 0.72 + time * 0.00018;
+        const x = Math.cos(angle) * radiusX * 0.82;
+        const y = Math.sin(angle) * radiusY * 0.82;
+        const size = index % 3 === 0 ? 2.6 : 1.7;
+
+        ctx.fillStyle = index % 3 === 0 ? "rgba(139, 216, 139, 0.64)" : "rgba(255, 255, 255, 0.42)";
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
     function drawGlints(time) {
       glints.forEach((glint) => {
         const cycle = ((time + glint.delay) % glint.duration) / glint.duration;
@@ -235,6 +287,7 @@
       ctx.clearRect(0, 0, width, height);
       drawNebula(time);
       drawEcliptic(time);
+      drawHabitableRibbon(time);
       drawDust(delta);
 
       const parallaxX = (pointer.x - 0.5) * 30;

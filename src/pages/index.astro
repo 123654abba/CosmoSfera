@@ -29,72 +29,80 @@ const resources = await getCollection("resources");
 const heroSection = sections[0];
 
 const scienceStats = [
-  { value: articles.length, label: "статей", detail: "связаны с источниками и объектами" },
-  { value: terms.length, label: "терминов", detail: "короткие определения без перегруза" },
-  { value: resources.length, label: "источников", detail: "агентства, миссии, каталоги" },
-  { value: sections.length, label: "направления", detail: "наблюдения, физика, планеты" }
+  { value: articles.length, label: "статей", detail: "о мирах, методах и космической среде" },
+  { value: terms.length, label: "терминов", detail: "язык обитаемости без перегруза" },
+  { value: resources.length, label: "источников", detail: "миссии, архивы и каталоги данных" },
+  { value: sections.length, label: "станции", detail: "мир, сигнал и проверка" }
 ];
 
 const atlasProtocol = [
   {
-    title: "Наблюдение",
-    text: "Сначала фиксируем, что реально измерено: снимок, спектр, движение, яркость, рельеф или данные миссии.",
+    title: "Мир",
+    text: "Сначала описываем систему: где есть вода, энергия, химический обмен, атмосфера, поверхность или океан под льдом.",
     icon: Telescope
   },
   {
-    title: "Измерение",
-    text: "Затем переводим картинку в параметры: длины волн, массу, температуру, состав, расстояние или геологический след.",
+    title: "Сигнал",
+    text: "Потом ищем измеряемый след: спектральную линию, транзит, рельеф, минерал, кривую блеска или данные пролета миссии.",
     icon: Database
   },
   {
-    title: "Модель",
-    text: "После этого связываем данные с физикой: гравитацией, излучением, эволюцией звезд, атмосферами и поверхностями.",
+    title: "Проверка",
+    text: "Затем связываем сигнал с моделью и проверяем, не объясняется ли он активностью звезды, шумом инструмента или неполными данными.",
     icon: Network
   }
 ];
 
 const learningPaths = [
   {
-    title: "Наблюдательный маршрут",
-    description: "Как читать снимки, диапазоны света и подписи к данным без превращения науки в набор красивых обоев.",
-    steps: ["JWST", "диапазоны света", "карты неба"],
-    href: "/articles/cosmic-cliffs/"
+    title: "Мир как система",
+    description: "Планета или спутник рассматривается как связка воды, энергии, химии, поверхности и истории, а не как отдельная красивая картинка.",
+    steps: ["вода", "энергия", "химия"],
+    href: "/articles/icy-moons/"
   },
   {
-    title: "Физический маршрут",
-    description: "От спектров и движения вещества к моделям черных дыр, темной материи и эволюции галактик.",
-    steps: ["спектры", "гравитация", "модели"],
-    href: "/articles/black-holes/"
+    title: "Атмосфера по свету",
+    description: "Спектры, транзиты и повторные наблюдения показывают, что можно сказать о составе далекого мира и где вывод пока слабый.",
+    steps: ["спектры", "транзиты", "молекулы"],
+    href: "/articles/spectra/"
   },
   {
-    title: "Планетный маршрут",
-    description: "Поверхности, атмосферы и ледяные миры рассматриваются как системы с историей, химией и ограничениями данных.",
-    steps: ["рельеф", "атмосферы", "миссии"],
-    href: "/articles/exoplanets/"
+    title: "Звезда и среда",
+    description: "Обитаемость нельзя оценивать без звезды: излучение, вспышки, возраст и расстояние задают условия для атмосферы и поверхности.",
+    steps: ["звезда", "излучение", "масштаб"],
+    href: "/articles/telescopes-and-light/"
   }
 ];
 
 const researchChecks = [
+  "Каждый материал должен помогать главному вопросу: где и почему мир может быть обитаемым",
   "Показывать, на каких данных держится вывод",
   "Отделять наблюдение от интерпретации",
-  "Связывать термины, статьи, объекты и источники",
-  "Не использовать аккаунты, комментарии и админку в первой версии"
+  "Связывать термины, статьи, объекты, миссии и источники",
+  "Оставлять портал статическим: контент редактируется файлами проекта"
 ];
 
-const featuredObjects = objects.slice(0, 6);
+const featuredObjectOrder = ["Европа", "TRAPPIST-1", "Jezero", "Солнце", "NGC 3324", "Млечный Путь"];
+const featuredObjects = [...objects]
+  .sort((a, b) => {
+    const left = featuredObjectOrder.indexOf(a.name);
+    const right = featuredObjectOrder.indexOf(b.name);
+    return (left === -1 ? 99 : left) - (right === -1 ? 99 : right);
+  })
+  .slice(0, 6);
 ---
 
 <BaseLayout
   title="Космосфера"
-  description="Космосфера: научный атлас по астрономии, астрофизике и планетологии с реальными изображениями, источниками и связями между темами."
+  description="Космосфера: научный атлас обитаемых миров с реальными изображениями, миссиями, источниками и связями между планетами, звездами и методами наблюдения."
 >
   <section class="container atlas-hero" aria-labelledby="atlas-title">
     <div class="atlas-hero-copy">
-      <p class="eyebrow">Научный атлас космоса</p>
-      <h1 id="atlas-title">Космосфера: от наблюдения к физике</h1>
+      <p class="eyebrow">Космосфера · Научный атлас обитаемых миров</p>
+      <h1 id="atlas-title">Как наука ищет миры, где возможна жизнь</h1>
       <p class="lead">
-        Сайт перестраивается как исследовательский навигатор: реальные снимки и миссии,
-        объяснения физических процессов, планетные миры, термины и проверяемые источники в одной системе.
+        Без фантастики и громких обещаний: вода, энергия, химия, атмосферы, звезды,
+        миссии и проверяемые источники собраны в один маршрут от данных к осторожному выводу.
       </p>
       <div class="hero-actions atlas-actions">
         <a class="button primary" href={withBase("/sections/")}>
@@ -104,14 +112,14 @@ const featuredObjects = objects.slice(0, 6);
           <BookOpenCheck size={18} aria-hidden="true" /> Карта знаний
         </a>
         <a class="button" href="#cosmic-timeline">
-          <ArrowRight size={18} aria-hidden="true" /> Шкала Вселенной
+          <ArrowRight size={18} aria-hidden="true" /> Шкала миров
         </a>
       </div>
 
       <div class="signal-strip" aria-label="Принципы портала">
-        <span><Radio size={16} aria-hidden="true" /> реальные данные</span>
-        <span><Microscope size={16} aria-hidden="true" /> научная логика</span>
-        <span><LibraryBig size={16} aria-hidden="true" /> открытые источники</span>
+        <span><Radio size={16} aria-hidden="true" /> вода и энергия</span>
+        <span><Microscope size={16} aria-hidden="true" /> атмосферы и спектры</span>
+        <span><LibraryBig size={16} aria-hidden="true" /> миссии и данные</span>
       </div>
     </div>
 
@@ -119,8 +127,8 @@ const featuredObjects = objects.slice(0, 6);
       <figure class="observatory-image">
         <img src={assetPath(heroSection.image)} alt={heroSection.imageAlt} />
         <figcaption>
-          <strong>NGC 3324</strong>
-          <span>JWST · инфракрасные данные · звездообразование</span>
+          <strong>Европа</strong>
+          <span>ледяная кора · вероятный океан · миссии NASA и ESA</span>
         </figcaption>
       </figure>
       <div class="observation-readout">
@@ -128,15 +136,15 @@ const featuredObjects = objects.slice(0, 6);
         <dl>
           <div>
             <dt>Объект</dt>
-            <dd>область звездообразования</dd>
+            <dd>ледяной спутник Юпитера</dd>
           </div>
           <div>
             <dt>Метод</dt>
-            <dd>инфракрасная съемка</dd>
+            <dd>снимки, спектры, магнитные и гравитационные данные</dd>
           </div>
           <div>
             <dt>Вопрос</dt>
-            <dd>как газ, пыль и массивные звезды формируют новые светила</dd>
+            <dd>может ли океан под льдом поддерживать химически активную среду</dd>
           </div>
         </dl>
       </div>
@@ -146,10 +154,10 @@ const featuredObjects = objects.slice(0, 6);
   <section class="container science-spine" aria-label="Научный принцип сайта">
     <div class="spine-intro">
       <p class="eyebrow">Новый фокус</p>
-      <h2>Не солянка фактов, а связанная система</h2>
+      <h2>Один вопрос вместо набора тем</h2>
       <p>
-        Каждая тема должна отвечать на три вопроса: что наблюдают, как это измеряют
-        и какая модель объясняет данные. Так сайт становится атласом, а не набором случайных заметок.
+        Главная линия сайта: какие миры могут иметь условия для жизни и как это вообще
+        можно проверить. Поэтому снимки, спектры, звезды и миссии работают как части одного исследования.
       </p>
     </div>
     <div class="spine-steps">
@@ -183,9 +191,9 @@ const featuredObjects = objects.slice(0, 6);
     <div class="section-heading">
       <div>
         <p class="eyebrow">Маршруты</p>
-        <h2>Три способа читать портал</h2>
+        <h2>Три способа войти в тему</h2>
       </div>
-      <p>Маршруты помогают не прыгать между темами, а двигаться от данных к объяснению.</p>
+      <p>Маршруты ведут от конкретного мира к сигналу в данных и проверке научной интерпретации.</p>
     </div>
     <div class="route-ledger">
       {learningPaths.map((path, index) => (
@@ -209,10 +217,10 @@ const featuredObjects = objects.slice(0, 6);
   <section id="sections" class="container atlas-section">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Дисциплины</p>
+        <p class="eyebrow">Структура атласа</p>
         <h2>Три исследовательские станции</h2>
       </div>
-      <p>Каждый раздел получает свой тип данных, методы и набор научных вопросов.</p>
+      <p>Разделы разделяют не школьные дисциплины, а роли в одном исследовании: мир, метод и среда.</p>
     </div>
     <div class="grid three section-atlas">
       {sections.map((section) => <SectionCard section={section} />)}
@@ -225,7 +233,7 @@ const featuredObjects = objects.slice(0, 6);
         <p class="eyebrow">База знаний</p>
         <h2>Каталог материалов</h2>
       </div>
-      <p>Каталог теперь выглядит как рабочий список материалов: направление, уровень, теги, источники и научный фокус.</p>
+      <p>Каталог работает как рабочий список: тема, уровень, теги, источники и связь с вопросом обитаемости.</p>
     </div>
     <FilterControls />
     <div class="article-catalog">
@@ -240,7 +248,7 @@ const featuredObjects = objects.slice(0, 6);
         <p class="eyebrow">Атлас объектов</p>
         <h2>Реальные точки привязки</h2>
       </div>
-      <p>Объекты нужны, чтобы каждая теория возвращалась к наблюдениям, миссиям и конкретным данным.</p>
+      <p>Объекты нужны, чтобы разговор об обитаемости возвращался к наблюдениям, миссиям и конкретным данным.</p>
     </div>
     <div class="object-ledger">
       {featuredObjects.map((object) => (
@@ -271,13 +279,13 @@ const featuredObjects = objects.slice(0, 6);
         <p class="eyebrow">Самооценка</p>
         <h2>Что еще держим под контролем</h2>
       </div>
-      <p>Текущая версия уже опубликована, но сайт дальше стоит развивать как научную базу: больше объектов, больше терминов, меньше случайных декоративных блоков.</p>
+      <p>Текущая версия уже опубликована, но сайт дальше стоит развивать как научный атлас обитаемых миров: больше объектов, больше терминов, меньше случайных тем.</p>
     </div>
     <div class="audit-panel">
       <div class="audit-score">
         <Gauge size={24} aria-hidden="true" />
-        <strong>V1.5</strong>
-        <span>рабочий научный атлас, не финальная энциклопедия</span>
+        <strong>V2</strong>
+        <span>единый фокус: обитаемые миры, методы проверки и научные ограничения</span>
       </div>
       <ul>
         {researchChecks.map((check) => <li>{check}</li>)}

@@ -1,0 +1,6 @@
+{
+  "title": "Биосигнатура",
+  "description": "Измеримый признак, который может быть связан с жизнью, но требует проверки небиологических объяснений.",
+  "section": "astrophysics",
+  "relatedArticles": ["biosignatures", "spectra", "exoplanets"]
+}

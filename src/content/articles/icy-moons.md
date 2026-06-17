@@ -12,8 +12,8 @@ sources:
   - label: "NASA: Europa, a World of Ice With Potential for Life"
     url: "https://science.nasa.gov/missions/europa-clipper/europa-a-world-of-ice-with-potential-for-life/"
 updatedAt: 2026-06-10
-heroImage: "images/planetology-europa.jpg"
-heroAlt: "Поверхность Европы, ледяного спутника Юпитера, со сложной сетью трещин на снимке NASA"
+heroImage: "images/europa-galileo.jpg"
+heroAlt: "Реальный reprocessed-снимок Европы, ледяного спутника Юпитера, полученный аппаратом Galileo"
 relatedTopics: ["приливный нагрев", "подповерхностный океан", "обитаемость"]
 ---
 
