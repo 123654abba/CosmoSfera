@@ -199,28 +199,6 @@ const featuredObjects = [...objects]
     </div>
   </section>
 
-  <section class="container concepts-atlas">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Термины и ограничения</p>
-        <h2>Ключевые понятия</h2>
-      </div>
-      <p>Термины, которые помогают читать материалы как научный атлас: от наблюдения и измерения до модели и осторожного вывода.</p>
-    </div>
-    <div class="concept-grid">
-      {keyConcepts.map((concept, index) => (
-        <article class="concept-card">
-          <span>
-            <b>{String(index + 1).padStart(2, "0")}</b>
-            {concept.label}
-          </span>
-          <h3>{concept.term}</h3>
-          <p>{concept.text}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
   <section class="container portal-stats atlas-stats" aria-label="Сводка научных материалов">
     {scienceStats.map((item) => (
       <div>
@@ -255,6 +233,28 @@ const featuredObjects = [...objects]
           <a class="button" href={withBase(path.href)}>
             Начать <ArrowRight size={18} aria-hidden="true" />
           </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container concepts-atlas">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Термины и ограничения</p>
+        <h2>Ключевые понятия</h2>
+      </div>
+      <p>Термины, которые помогают читать материалы как научный атлас: от наблюдения и измерения до модели и осторожного вывода.</p>
+    </div>
+    <div class="concept-grid">
+      {keyConcepts.map((concept, index) => (
+        <article class="concept-card">
+          <span>
+            <b>{String(index + 1).padStart(2, "0")}</b>
+            {concept.label}
+          </span>
+          <h3>{concept.term}</h3>
+          <p>{concept.text}</p>
         </article>
       ))}
     </div>
