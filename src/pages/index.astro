@@ -18,14 +18,13 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { objects } from "@data/objects";
 import { sections } from "@data/sections";
-import { assetPath, withBase } from "../utils/paths";
+import { withBase } from "../utils/paths";
 
 const articles = (await getCollection("articles")).sort(
   (a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf()
 );
 const terms = await getCollection("glossary");
 const resources = await getCollection("resources");
-const heroSection = sections[0];
 
 const scienceStats = [
   { value: articles.length, label: "статей", detail: "о мирах, методах и космической среде" },
@@ -132,23 +131,102 @@ const featuredObjects = [...objects]
     return (left === -1 ? 99 : left) - (right === -1 ? 99 : right);
   })
   .slice(0, 6);
+
+const evidenceSteps = ["наблюдение", "модель", "ограничение"];
+const worldPassportMeta = new Map([
+  [
+    "Европа",
+    {
+      code: "JOV-EUR",
+      type: "ocean world",
+      distance: "628,3 млн км",
+      coordinate: "система Юпитера",
+      marker: "лед · океан · приливы",
+      confidence: 2,
+      tone: "cyan"
+    }
+  ],
+  [
+    "Энцелад",
+    {
+      code: "SAT-ENC",
+      type: "active plumes",
+      distance: "1,27 млрд км",
+      coordinate: "система Сатурна",
+      marker: "шлейфы · соли · органика",
+      confidence: 2,
+      tone: "cyan"
+    }
+  ],
+  [
+    "Титан",
+    {
+      code: "SAT-TIT",
+      type: "exotic chemistry",
+      distance: "1,43 млрд км",
+      coordinate: "система Сатурна",
+      marker: "азот · метан · органика",
+      confidence: 1,
+      tone: "gold"
+    }
+  ],
+  [
+    "TRAPPIST-1e",
+    {
+      code: "TRP-1E",
+      type: "rocky exoplanet",
+      distance: "40,7 св. лет",
+      coordinate: "звезда TRAPPIST-1",
+      marker: "транзит · радиус · атмосфера",
+      confidence: 1,
+      tone: "green"
+    }
+  ],
+  [
+    "Proxima Centauri b",
+    {
+      code: "PROX-B",
+      type: "nearest exoworld",
+      distance: "4,2 св. года",
+      coordinate: "красный карлик",
+      marker: "лучевые скорости · вспышки",
+      confidence: 1,
+      tone: "gold"
+    }
+  ],
+  [
+    "Jezero",
+    {
+      code: "MRS-JEZ",
+      type: "ancient delta",
+      distance: "Марс",
+      coordinate: "18,4° N · 77,6° E",
+      marker: "дельта · осадки · керны",
+      confidence: 2,
+      tone: "red"
+    }
+  ]
+]);
 ---
 
 <BaseLayout
   title="Космосфера"
   description="Космосфера: научный атлас обитаемых миров с реальными изображениями, миссиями, источниками и связями между планетами, звездами и методами наблюдения."
 >
-  <section class="container atlas-hero" aria-labelledby="atlas-title">
+  <section class="container atlas-hero figma-hero" aria-labelledby="atlas-title">
     <div class="atlas-hero-copy">
-      <p class="eyebrow">Космосфера · Научный атлас обитаемых миров</p>
-      <h1 id="atlas-title">Как наука ищет миры, где возможна жизнь</h1>
+      <p class="eyebrow hero-kicker">scientific atlas · habitable worlds</p>
+      <h1 id="atlas-title" class="cosmosfera-logotype">
+        <span>Cosmo</span><span>Sfera</span>
+      </h1>
+      <p class="hero-subtitle">Научный атлас обитаемых миров</p>
       <p class="lead">
-        Без фантастики и громких обещаний: вода, энергия, химия, атмосферы, звезды,
-        миссии и проверяемые источники собраны в один маршрут от данных к осторожному выводу.
+        Космосфера связывает мир, сигнал и предел вывода: от ледяных океанов и атмосфер экзопланет
+        до миссий, спектров и моделей, которые показывают, где данные заканчиваются.
       </p>
       <div class="hero-actions atlas-actions">
-        <a class="button primary" href={withBase("/sections/")}>
-          <Compass size={18} aria-hidden="true" /> Открыть атлас
+        <a class="button primary" href="#world-atlas">
+          <Compass size={18} aria-hidden="true" /> Смотреть атлас
         </a>
         <a class="button" href={withBase("/knowledge/")}>
           <BookOpenCheck size={18} aria-hidden="true" /> Карта знаний
@@ -159,38 +237,156 @@ const featuredObjects = [...objects]
       </div>
 
       <div class="signal-strip" aria-label="Ключевые линии исследования">
-        <span><Radio size={16} aria-hidden="true" /> вода и энергия</span>
-        <span><Microscope size={16} aria-hidden="true" /> атмосферы и спектры</span>
-        <span><LibraryBig size={16} aria-hidden="true" /> миссии и данные</span>
+        <span><Radio size={16} aria-hidden="true" /> сигнал</span>
+        <span><Microscope size={16} aria-hidden="true" /> данные</span>
+        <span><LibraryBig size={16} aria-hidden="true" /> ограничение</span>
       </div>
     </div>
 
-    <aside class="observatory-panel" aria-label="Панель наблюдения">
-      <figure class="observatory-image">
-        <img src={assetPath(heroSection.image)} alt={heroSection.imageAlt} />
-        <figcaption>
-          <strong>Европа</strong>
-          <span>ледяная кора · вероятный океан · миссии NASA и ESA</span>
-        </figcaption>
-      </figure>
-      <div class="observation-readout">
-        <p class="eyebrow">Паспорт наблюдения</p>
-        <dl>
-          <div>
-            <dt>Объект</dt>
-            <dd>ледяной спутник Юпитера</dd>
-          </div>
-          <div>
-            <dt>Метод</dt>
-            <dd>снимки, спектры, магнитные и гравитационные данные</dd>
-          </div>
-          <div>
-            <dt>Вопрос</dt>
-            <dd>может ли океан под льдом поддерживать химически активную среду</dd>
-          </div>
-        </dl>
+    <aside class="hero-command-panel" aria-label="Сводка научного атласа">
+      <div class="command-panel-head">
+        <span>scale</span>
+        <strong>Наблюдение → модель → ограничение</strong>
       </div>
+      <div class="hero-orbit-map" aria-hidden="true">
+        <span class="orbit orbit-one"></span>
+        <span class="orbit orbit-two"></span>
+        <span class="orbit orbit-three"></span>
+        <span class="world-dot dot-europa"></span>
+        <span class="world-dot dot-titan"></span>
+        <span class="world-dot dot-trappist"></span>
+      </div>
+      <div class="command-grid">
+        {scienceStats.map((item) => (
+          <div>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+            <small>{item.detail}</small>
+          </div>
+        ))}
+      </div>
+      <dl class="hero-signal-stack">
+        <div>
+          <dt>Сигнал</dt>
+          <dd>измеряемый след в свете, веществе, рельефе или движении</dd>
+        </div>
+        <div>
+          <dt>Данные</dt>
+          <dd>миссии, спектры, пролеты, транзиты и независимые каталоги</dd>
+        </div>
+        <div>
+          <dt>Ограничение</dt>
+          <dd>альтернативные объяснения, шум инструмента и неполная модель</dd>
+        </div>
+      </dl>
     </aside>
+  </section>
+
+  <section id="world-atlas" class="container atlas-dashboard world-observatory" aria-labelledby="world-atlas-title">
+    <div class="atlas-dashboard-shell">
+      <div class="atlas-dashboard-head">
+        <div>
+          <p class="eyebrow">atlas of worlds and limitations · 6 entries</p>
+          <h2 id="world-atlas-title">Атлас миров и ограничений</h2>
+          <p>
+            Паспорта связывают объект, наблюдаемый сигнал и границу вывода: где есть данные,
+            где работает модель, а где нужна научная осторожность.
+          </p>
+        </div>
+        <div class="dashboard-scale" aria-label="Шкала доказательности">
+          {evidenceSteps.map((step) => (
+            <span>{step}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="evidence-scale dashboard-evidence" aria-label="Шкала научной осторожности">
+        {evidenceScale.map((item, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="atlas-passport-grid">
+        {featuredObjects.map((object, index) => {
+          const signal = "signal" in object ? object.signal : object.keyFacts.join(" · ");
+          const evidence = "evidence" in object ? object.evidence : "сводка по связанным материалам и наблюдениям";
+          const limitation = "limitation" in object ? object.limitation : "детали зависят от метода наблюдения и полноты данных";
+          const meta =
+            worldPassportMeta.get(object.name) ??
+            {
+              code: `OBJ-${String(index + 1).padStart(2, "0")}`,
+              type: object.category,
+              distance: "каталог",
+              coordinate: "сравнительная запись",
+              marker: object.keyFacts.join(" · "),
+              confidence: 1,
+              tone: "cyan"
+            };
+
+          return (
+            <article class={`world-passport world-passport--${meta.tone}`}>
+              <div class="passport-topline">
+                <span>{meta.code}</span>
+                <span>{meta.type}</span>
+              </div>
+
+              <div class="passport-heading">
+                <span class="world-index">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <p class="passport-label">{object.category}</p>
+                  <h3>{object.name}</h3>
+                </div>
+                <span class="passport-distance">{meta.distance}</span>
+              </div>
+
+              <p class="passport-summary">{object.summary}</p>
+
+              <div class="passport-meta-line">
+                <span>{meta.coordinate}</span>
+                <span>{meta.marker}</span>
+              </div>
+
+              <dl class="passport-readout">
+                <div class="readout-cell readout-signal">
+                  <dt>Сигнал</dt>
+                  <dd>{signal}</dd>
+                </div>
+                <div class="readout-cell readout-data">
+                  <dt>Данные</dt>
+                  <dd>{evidence}</dd>
+                </div>
+                <div class="readout-cell readout-limit">
+                  <dt>Ограничение</dt>
+                  <dd>{limitation}</dd>
+                </div>
+              </dl>
+
+              <div class="confidence-line" aria-label={`Шкала доказательности: ${object.name}`}>
+                {evidenceSteps.map((step, stepIndex) => (
+                  <span class={`confidence-dot ${stepIndex <= meta.confidence ? "is-active" : ""}`}>{step}</span>
+                ))}
+              </div>
+
+              <div class="topic-list world-facts">
+                {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
+              </div>
+
+              <div class="topic-list world-links" aria-label={`Статьи по теме ${object.name}`}>
+                {object.relatedArticles.map((slug) => (
+                  <a class="chip" href={withBase(`/articles/${slug}/`)}>
+                    {articles.find((article) => article.id === slug)?.data.title ?? slug}
+                  </a>
+                ))}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
   </section>
 
   <section class="container science-spine" aria-label="Научная схема исследования">
@@ -304,79 +500,6 @@ const featuredObjects = [...objects]
       {articles.map((article) => <ArticleCard article={article} variant="catalog" />)}
     </div>
     <p class="empty-state" data-empty-state>По этому запросу материалов пока нет.</p>
-  </section>
-
-  <section class="container object-observatory world-observatory">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Атлас объектов</p>
-        <h2>Атлас миров и ограничений</h2>
-      </div>
-      <p>Короткие паспорта связывают объект, наблюдаемый сигнал и границу вывода: где есть данные, где работает модель, а где нужна осторожность.</p>
-    </div>
-
-    <div class="evidence-scale" aria-label="Шкала научной осторожности">
-      {evidenceScale.map((item, index) => (
-        <article>
-          <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
-          <h3>{item.title}</h3>
-          <p>{item.text}</p>
-        </article>
-      ))}
-    </div>
-
-    <div class="object-ledger world-ledger">
-      {featuredObjects.map((object, index) => {
-        const signal = "signal" in object ? object.signal : object.keyFacts.join(" · ");
-        const evidence = "evidence" in object ? object.evidence : "сводка по связанным материалам и наблюдениям";
-        const limitation = "limitation" in object ? object.limitation : "детали зависят от метода наблюдения и полноты данных";
-
-        return (
-          <article class="object-row world-card">
-            <div class="world-card-head">
-              <span class="world-index">{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <span>{object.category}</span>
-                <h3>{object.name}</h3>
-                <p>{object.summary}</p>
-              </div>
-            </div>
-
-            <dl class="world-readout">
-              <div>
-                <dt>Сигнал</dt>
-                <dd>{signal}</dd>
-              </div>
-              <div>
-                <dt>Данные</dt>
-                <dd>{evidence}</dd>
-              </div>
-              <div>
-                <dt>Ограничение</dt>
-                <dd>{limitation}</dd>
-              </div>
-            </dl>
-
-            <div class="topic-list world-facts">
-              {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
-            </div>
-
-            <div class="topic-list world-links" aria-label={`Статьи по теме ${object.name}`}>
-              {object.relatedArticles.map((slug) => (
-                <a class="chip" href={withBase(`/articles/${slug}/`)}>
-                  {articles.find((article) => article.id === slug)?.data.title ?? slug}
-                </a>
-              ))}
-            </div>
-          </article>
-        );
-      })}
-    </div>
-  </section>
-          </div>
-        </article>
-      ))}
-    </div>
   </section>
 
 </BaseLayout>

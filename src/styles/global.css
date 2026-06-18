@@ -4271,3 +4271,912 @@ body::after {
     filter: saturate(0.8) contrast(1.08) brightness(0.72);
   }
 }
+
+/* Homepage rebuild: Figma-inspired scientific atlas dashboard. */
+.figma-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(430px, 0.78fr);
+  gap: clamp(34px, 5vw, 74px);
+  align-items: center;
+  min-height: min(840px, calc(100vh - 72px));
+  padding-top: clamp(72px, 8vw, 124px);
+  padding-bottom: clamp(74px, 8vw, 120px);
+}
+
+.figma-hero::before {
+  inset: 12px -46px 0;
+  border-color: rgba(205, 225, 245, 0.08);
+  background:
+    linear-gradient(rgba(78, 205, 196, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.11) 1px, transparent 1px),
+    linear-gradient(rgba(201, 168, 76, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 168, 76, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 78% 34%, rgba(78, 205, 196, 0.18), transparent 30rem),
+    radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.07), transparent 25rem),
+    rgba(2, 4, 10, 0.74);
+  background-size: 80px 80px, 80px 80px, 320px 320px, 320px 320px, auto, auto, auto;
+  mask-image: linear-gradient(180deg, #000 0 88%, transparent 100%);
+}
+
+.figma-hero .atlas-hero-copy {
+  justify-content: center;
+  min-height: 560px;
+}
+
+.hero-kicker {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 14px;
+  color: #82f2ed;
+}
+
+.hero-kicker::before {
+  width: 52px;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, rgba(78, 205, 196, 0.72), transparent);
+}
+
+.figma-hero .cosmosfera-logotype {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 100%;
+  margin: 26px 0 0;
+  font-size: clamp(4.3rem, 10.6vw, 9.2rem);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 0.82;
+  text-transform: none;
+}
+
+.cosmosfera-logotype span:first-child {
+  color: #f8fbff;
+}
+
+.cosmosfera-logotype span:last-child {
+  color: var(--cyan);
+  text-shadow: 0 0 44px rgba(78, 205, 196, 0.22);
+}
+
+.hero-subtitle {
+  margin: 24px 0 0;
+  color: #b8c9df;
+  font-size: clamp(1.28rem, 2.7vw, 2.25rem);
+  font-weight: 360;
+  letter-spacing: 0;
+}
+
+.figma-hero .lead {
+  max-width: 720px;
+  margin-top: 26px;
+  color: #aebdd0;
+  font-size: clamp(1rem, 1.35vw, 1.18rem);
+  line-height: 1.82;
+}
+
+.figma-hero .atlas-actions {
+  margin-top: 38px;
+}
+
+.figma-hero .signal-strip {
+  margin-top: 34px;
+}
+
+.figma-hero .signal-strip span {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-color: rgba(205, 225, 245, 0.1);
+  color: #cbd7e7;
+  background: rgba(2, 4, 10, 0.5);
+}
+
+.hero-command-panel {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  min-height: 560px;
+  padding: clamp(18px, 2vw, 24px);
+  border: 1px solid rgba(205, 225, 245, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(78, 205, 196, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 70% 32%, rgba(78, 205, 196, 0.13), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.012)),
+    rgba(2, 4, 10, 0.82);
+  background-size: 56px 56px, 56px 56px, auto, auto, auto;
+  box-shadow:
+    0 34px 120px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.hero-command-panel::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, rgba(78, 205, 196, 0.72), rgba(201, 168, 76, 0.48), transparent);
+}
+
+.command-panel-head,
+.passport-topline,
+.passport-meta-line,
+.dashboard-scale,
+.confidence-line {
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.command-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: #d6e1ef;
+  font-size: 0.76rem;
+}
+
+.command-panel-head span,
+.passport-topline span,
+.dashboard-scale span {
+  color: #82f2ed;
+}
+
+.hero-orbit-map {
+  position: relative;
+  min-height: 238px;
+  border: 1px solid rgba(205, 225, 245, 0.08);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(201, 168, 76, 0.16) 0 5px, transparent 6px),
+    radial-gradient(circle at 50% 52%, rgba(78, 205, 196, 0.09), transparent 34%),
+    rgba(2, 4, 10, 0.52);
+}
+
+.hero-orbit-map .orbit,
+.hero-orbit-map .world-dot {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero-orbit-map .orbit {
+  inset: 50%;
+  border: 1px solid rgba(205, 225, 245, 0.12);
+  border-radius: 999px;
+  transform: translate(-50%, -50%) rotate(-12deg);
+}
+
+.hero-orbit-map .orbit-one {
+  width: 40%;
+  height: 22%;
+}
+
+.hero-orbit-map .orbit-two {
+  width: 68%;
+  height: 38%;
+}
+
+.hero-orbit-map .orbit-three {
+  width: 92%;
+  height: 54%;
+  border-color: rgba(201, 168, 76, 0.16);
+}
+
+.world-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 22px rgba(78, 205, 196, 0.42);
+}
+
+.dot-europa {
+  top: 42%;
+  left: 22%;
+}
+
+.dot-titan {
+  top: 58%;
+  right: 20%;
+  background: var(--gold);
+  box-shadow: 0 0 22px rgba(201, 168, 76, 0.34);
+}
+
+.dot-trappist {
+  top: 28%;
+  right: 36%;
+}
+
+.command-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 225, 245, 0.08);
+  border-radius: 8px;
+  background: rgba(205, 225, 245, 0.08);
+}
+
+.command-grid div {
+  min-height: 112px;
+  padding: 14px;
+  background: rgba(2, 4, 10, 0.82);
+}
+
+.command-grid strong {
+  display: block;
+  color: #f8fbff;
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  line-height: 1;
+}
+
+.command-grid span,
+.command-grid small {
+  display: block;
+  margin-top: 7px;
+}
+
+.command-grid span {
+  color: #82f2ed;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.command-grid small,
+.hero-signal-stack dd {
+  color: #aebdd0;
+  line-height: 1.45;
+}
+
+.hero-signal-stack {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(205, 225, 245, 0.08);
+  border-radius: 8px;
+  background: rgba(205, 225, 245, 0.08);
+}
+
+.hero-signal-stack div {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
+  padding: 13px 14px;
+  background: rgba(2, 4, 10, 0.82);
+}
+
+.hero-signal-stack dt,
+.passport-readout dt {
+  color: #82f2ed;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-signal-stack dd {
+  margin: 0;
+}
+
+.atlas-dashboard {
+  padding-top: clamp(44px, 5vw, 76px);
+  padding-bottom: clamp(80px, 9vw, 132px);
+}
+
+.atlas-dashboard-shell {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(18px, 2.6vw, 30px);
+  border: 1px solid rgba(205, 225, 245, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(78, 205, 196, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 8% 0%, rgba(78, 205, 196, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.008)),
+    rgba(2, 4, 10, 0.86);
+  background-size: 80px 80px, 80px 80px, auto, auto, auto;
+  box-shadow:
+    0 34px 130px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.atlas-dashboard-shell::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  border-top: 2px solid rgba(78, 205, 196, 0.58);
+  background: linear-gradient(90deg, rgba(78, 205, 196, 0.08), transparent 46%);
+}
+
+.atlas-dashboard-head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+  gap: clamp(18px, 4vw, 42px);
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.atlas-dashboard-head h2 {
+  max-width: 760px;
+  margin: 8px 0 0;
+  font-size: clamp(2.25rem, 5vw, 4.8rem);
+  font-weight: 650;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.atlas-dashboard-head p:not(.eyebrow) {
+  max-width: 700px;
+  margin: 18px 0 0;
+  color: #aebdd0;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.dashboard-scale {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 225, 245, 0.09);
+  border-radius: 8px;
+  background: rgba(205, 225, 245, 0.08);
+}
+
+.dashboard-scale span {
+  min-height: 44px;
+  padding: 13px 14px;
+  color: #d7e2f0;
+  background: rgba(2, 4, 10, 0.82);
+}
+
+.dashboard-evidence {
+  position: relative;
+  z-index: 1;
+  gap: 1px;
+  overflow: hidden;
+  margin-bottom: 1px;
+  border: 1px solid rgba(205, 225, 245, 0.08);
+  border-radius: 8px 8px 0 0;
+  background: rgba(205, 225, 245, 0.08);
+}
+
+.dashboard-evidence::before {
+  display: none;
+}
+
+.dashboard-evidence article {
+  min-height: 174px;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.036), rgba(255, 255, 255, 0.008)),
+    rgba(2, 4, 10, 0.82);
+  box-shadow: none;
+}
+
+.atlas-passport-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 225, 245, 0.08);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  background: rgba(205, 225, 245, 0.1);
+}
+
+.world-passport {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  min-height: 520px;
+  align-content: start;
+  gap: 16px;
+  padding: clamp(16px, 2vw, 22px);
+  background:
+    linear-gradient(rgba(78, 205, 196, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 86% 10%, rgba(78, 205, 196, 0.11), transparent 26%),
+    rgba(2, 4, 10, 0.91);
+  background-size: 48px 48px, 48px 48px, auto, auto;
+}
+
+.world-passport::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, rgba(78, 205, 196, 0.72), rgba(201, 168, 76, 0.38), transparent);
+}
+
+.world-passport::after {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 86px;
+  height: 86px;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(78, 205, 196, 0.1);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgba(201, 168, 76, 0.08), transparent 44%),
+    repeating-radial-gradient(circle, transparent 0 15px, rgba(78, 205, 196, 0.1) 16px 17px, transparent 18px 28px);
+  opacity: 0.46;
+}
+
+.world-passport--gold::before {
+  background: linear-gradient(90deg, rgba(201, 168, 76, 0.78), rgba(78, 205, 196, 0.34), transparent);
+}
+
+.world-passport--green::before {
+  background: linear-gradient(90deg, rgba(129, 214, 163, 0.76), rgba(78, 205, 196, 0.38), transparent);
+}
+
+.world-passport--red::before {
+  background: linear-gradient(90deg, rgba(217, 154, 108, 0.8), rgba(201, 168, 76, 0.42), transparent);
+}
+
+.passport-topline,
+.passport-meta-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #aebdd0;
+  font-size: 0.68rem;
+}
+
+.passport-topline span:first-child,
+.passport-distance {
+  color: #82f2ed;
+}
+
+.passport-topline span:last-child,
+.passport-meta-line span:last-child {
+  color: var(--gold);
+}
+
+.passport-heading {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.passport-label {
+  margin: 0;
+  color: #9fb0c6;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.passport-heading h3 {
+  margin: 4px 0 0;
+  color: #f8fbff;
+  font-size: clamp(1.55rem, 2.25vw, 2.25rem);
+  line-height: 1;
+}
+
+.passport-distance {
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 780;
+}
+
+.passport-summary {
+  display: -webkit-box;
+  min-height: 4.6em;
+  margin: 0;
+  overflow: hidden;
+  color: #b7c5d8;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.passport-meta-line {
+  min-height: 36px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(205, 225, 245, 0.08);
+}
+
+.passport-readout {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(205, 225, 245, 0.08);
+  border-radius: 8px;
+  background: rgba(205, 225, 245, 0.08);
+}
+
+.readout-cell {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+  background: rgba(2, 4, 10, 0.78);
+}
+
+.readout-cell dd {
+  margin: 0;
+  color: #c3cede;
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+
+.readout-limit dt {
+  color: var(--gold);
+}
+
+.confidence-line {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.confidence-dot {
+  position: relative;
+  min-height: 28px;
+  padding: 8px 7px 7px 18px;
+  color: #77869b;
+  font-size: 0.64rem;
+  line-height: 1;
+}
+
+.confidence-dot::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(205, 225, 245, 0.18);
+  border-radius: 999px;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.confidence-dot::after {
+  position: absolute;
+  top: 50%;
+  right: calc(100% - 1px);
+  left: 8px;
+  height: 1px;
+  content: "";
+  background: rgba(205, 225, 245, 0.12);
+}
+
+.confidence-dot.is-active {
+  color: #dce8f5;
+}
+
+.confidence-dot.is-active::before {
+  border-color: rgba(78, 205, 196, 0.56);
+  background: var(--cyan);
+  box-shadow: 0 0 18px rgba(78, 205, 196, 0.34);
+}
+
+.world-passport .world-facts,
+.world-passport .world-links {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+.world-passport .chip {
+  min-height: 30px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.world-passport .world-links .chip {
+  color: #f4f8fb;
+}
+
+.science-spine {
+  padding-top: clamp(72px, 8vw, 118px);
+}
+
+@media (max-width: 1120px) {
+  .figma-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .figma-hero .atlas-hero-copy,
+  .hero-command-panel {
+    min-height: 0;
+  }
+
+  .atlas-passport-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .passport-heading {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .passport-distance {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 860px) {
+  .figma-hero {
+    min-height: 0;
+    padding-top: 42px;
+    padding-bottom: 52px;
+  }
+
+  .figma-hero::before {
+    inset-inline: 0;
+    background-size: 64px 64px, 64px 64px, 256px 256px, 256px 256px, auto, auto, auto;
+  }
+
+  .figma-hero .cosmosfera-logotype {
+    font-size: clamp(3.25rem, 15vw, 5.6rem);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.08rem, 5.6vw, 1.55rem);
+  }
+
+  .hero-command-panel {
+    min-height: 0;
+  }
+
+  .atlas-dashboard-head {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-scale {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dashboard-scale span {
+    min-height: 38px;
+    padding: 11px 9px;
+    text-align: center;
+  }
+
+  .dashboard-evidence {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas-passport-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .world-passport {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .figma-hero .cosmosfera-logotype {
+    display: block;
+    font-size: clamp(3rem, 17vw, 4.3rem);
+    line-height: 0.86;
+  }
+
+  .figma-hero .cosmosfera-logotype span {
+    display: inline;
+  }
+
+  .hero-command-panel,
+  .atlas-dashboard-shell {
+    padding: 12px;
+  }
+
+  .hero-orbit-map {
+    min-height: 180px;
+  }
+
+  .command-grid,
+  .hero-signal-stack div,
+  .readout-cell,
+  .confidence-line {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-signal-stack div,
+  .readout-cell {
+    gap: 6px;
+  }
+
+  .atlas-dashboard-head h2 {
+    font-size: clamp(2rem, 12vw, 3.2rem);
+  }
+
+  .dashboard-scale {
+    grid-template-columns: 1fr;
+  }
+
+  .passport-heading {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .passport-distance {
+    grid-column: 1 / -1;
+  }
+
+  .passport-summary {
+    min-height: 0;
+  }
+
+  .confidence-dot::after {
+    display: none;
+  }
+}
+
+/* Dashboard density pass: closer to the compact Figma atlas cards. */
+.figma-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.62fr);
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.figma-hero .cosmosfera-logotype {
+  font-size: clamp(4.1rem, 7.8vw, 7.45rem);
+  white-space: nowrap;
+}
+
+.hero-command-panel {
+  min-height: 520px;
+}
+
+.hero-orbit-map {
+  min-height: 210px;
+}
+
+.command-grid div {
+  min-height: 94px;
+  padding: 12px;
+}
+
+.hero-signal-stack div {
+  grid-template-columns: 104px minmax(0, 1fr);
+  padding: 11px 12px;
+}
+
+.world-passport {
+  min-height: 0;
+  gap: 12px;
+  padding: 18px;
+}
+
+.passport-heading {
+  gap: 10px;
+}
+
+.passport-heading h3 {
+  font-size: clamp(1.42rem, 2vw, 2rem);
+}
+
+.passport-summary {
+  min-height: 3.1em;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+}
+
+.passport-meta-line {
+  min-height: 30px;
+  padding-top: 8px;
+  font-size: 0.64rem;
+}
+
+.readout-cell {
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 11px;
+}
+
+.readout-cell dd {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.84rem;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.confidence-line {
+  gap: 5px;
+}
+
+.confidence-dot {
+  min-height: 24px;
+  padding: 7px 5px 6px 15px;
+  font-size: 0.58rem;
+}
+
+.world-passport .world-facts,
+.world-passport .world-links {
+  gap: 6px;
+}
+
+.world-passport .chip {
+  max-width: 100%;
+  min-height: 28px;
+  padding: 5px 8px;
+  overflow: hidden;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.world-passport .world-links {
+  max-height: 64px;
+  overflow: hidden;
+}
+
+@media (max-width: 1120px) {
+  .figma-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .figma-hero .cosmosfera-logotype {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 860px) {
+  .figma-hero .cosmosfera-logotype {
+    white-space: normal;
+  }
+
+  .hero-command-panel {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .readout-cell,
+  .hero-signal-stack div {
+    grid-template-columns: 1fr;
+  }
+
+  .command-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .command-grid div {
+    min-height: 82px;
+  }
+
+  .hero-orbit-map {
+    min-height: 160px;
+  }
+
+  .passport-summary {
+    -webkit-line-clamp: 3;
+  }
+
+  .readout-cell dd {
+    -webkit-line-clamp: 4;
+  }
+
+  .world-passport .world-links {
+    max-height: none;
+  }
+}
