@@ -5180,3 +5180,211 @@ body::after {
     max-height: none;
   }
 }
+
+/* Final Figma transfer: hero and atlas act as one dashboard surface. */
+.figma-hero {
+  align-items: center;
+  min-height: auto;
+  padding-top: clamp(62px, 7vw, 96px);
+  padding-bottom: clamp(36px, 4vw, 58px);
+}
+
+.figma-hero::before {
+  inset: 6px -46px -140px;
+  mask-image: linear-gradient(180deg, #000 0 94%, transparent 100%);
+}
+
+.figma-hero .atlas-hero-copy {
+  min-height: 0;
+  padding-block: clamp(36px, 6vw, 78px);
+}
+
+.figma-hero .cosmosfera-logotype {
+  margin-top: 20px;
+  font-size: clamp(4.6rem, 8.4vw, 8rem);
+  line-height: 0.84;
+}
+
+.hero-subtitle {
+  margin-top: 20px;
+}
+
+.figma-hero .lead {
+  max-width: 650px;
+  margin-top: 22px;
+  line-height: 1.72;
+}
+
+.figma-hero .atlas-actions {
+  margin-top: 30px;
+}
+
+.figma-hero .signal-strip {
+  margin-top: 24px;
+}
+
+.hero-command-panel {
+  min-height: 0;
+  align-self: center;
+  gap: 14px;
+  padding: 18px;
+}
+
+.hero-orbit-map {
+  min-height: 245px;
+}
+
+.hero-scale-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 225, 245, 0.09);
+  border-radius: 8px;
+  background: rgba(205, 225, 245, 0.08);
+}
+
+.hero-scale-track span {
+  display: grid;
+  gap: 7px;
+  min-height: 56px;
+  padding: 11px;
+  color: #d9e4f2;
+  background: rgba(2, 4, 10, 0.82);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-scale-track b {
+  color: #82f2ed;
+  font-size: 0.72rem;
+}
+
+.atlas-dashboard {
+  margin-top: clamp(-22px, -2vw, -8px);
+  padding-top: 0;
+}
+
+.atlas-dashboard-shell {
+  padding: clamp(16px, 2.2vw, 24px);
+  box-shadow:
+    0 48px 160px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.065);
+}
+
+.atlas-dashboard-head {
+  grid-template-columns: minmax(0, 1.1fr) minmax(220px, 0.34fr);
+  margin-bottom: 16px;
+}
+
+.atlas-dashboard-head h2 {
+  font-size: clamp(2.5rem, 4.7vw, 4.25rem);
+}
+
+.atlas-dashboard-head p:not(.eyebrow) {
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.dashboard-scale span {
+  min-height: 38px;
+  padding: 11px 12px;
+}
+
+.dashboard-evidence article {
+  min-height: 132px;
+  padding: 15px 16px;
+}
+
+.dashboard-evidence h3 {
+  margin: 8px 0 7px;
+  font-size: 1.08rem;
+}
+
+.dashboard-evidence p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.world-passport {
+  padding: 16px;
+}
+
+.passport-readout {
+  border-radius: 6px;
+}
+
+.readout-cell {
+  padding: 9px 10px;
+}
+
+@media (min-width: 1180px) {
+  .atlas-dashboard {
+    margin-top: -36px;
+  }
+
+  .world-passport {
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 1120px) {
+  .figma-hero {
+    padding-bottom: 34px;
+  }
+
+  .hero-command-panel {
+    width: 100%;
+  }
+
+  .atlas-dashboard {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .figma-hero {
+    padding-top: 38px;
+    padding-bottom: 30px;
+  }
+
+  .figma-hero .atlas-hero-copy {
+    padding-block: 28px 18px;
+  }
+
+  .hero-orbit-map {
+    min-height: 180px;
+  }
+
+  .atlas-dashboard-head {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .figma-hero .cosmosfera-logotype {
+    font-size: clamp(3.25rem, 16.5vw, 4.55rem);
+  }
+
+  .figma-hero .lead {
+    line-height: 1.68;
+  }
+
+  .hero-scale-track {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-scale-track span {
+    min-height: 40px;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .atlas-dashboard-shell {
+    padding: 10px;
+  }
+}

@@ -256,29 +256,14 @@ const worldPassportMeta = new Map([
         <span class="world-dot dot-titan"></span>
         <span class="world-dot dot-trappist"></span>
       </div>
-      <div class="command-grid">
-        {scienceStats.map((item) => (
-          <div>
-            <strong>{item.value}</strong>
-            <span>{item.label}</span>
-            <small>{item.detail}</small>
-          </div>
+      <div class="hero-scale-track" aria-label="Шкала доказательности">
+        {evidenceSteps.map((step, index) => (
+          <span>
+            <b>{String(index + 1).padStart(2, "0")}</b>
+            {step}
+          </span>
         ))}
       </div>
-      <dl class="hero-signal-stack">
-        <div>
-          <dt>Сигнал</dt>
-          <dd>измеряемый след в свете, веществе, рельефе или движении</dd>
-        </div>
-        <div>
-          <dt>Данные</dt>
-          <dd>миссии, спектры, пролеты, транзиты и независимые каталоги</dd>
-        </div>
-        <div>
-          <dt>Ограничение</dt>
-          <dd>альтернативные объяснения, шум инструмента и неполная модель</dd>
-        </div>
-      </dl>
     </aside>
   </section>
 
