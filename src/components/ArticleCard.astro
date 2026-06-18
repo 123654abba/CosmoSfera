@@ -19,9 +19,10 @@ interface Props {
       relatedTopics: string[];
     };
   };
+  variant?: "media" | "catalog";
 }
 
-const { article } = Astro.props;
+const { article, variant = "media" } = Astro.props;
 const section = getSection(article.data.section);
 const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
   article.data.updatedAt
@@ -29,14 +30,14 @@ const date = new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(
 ---
 
 <article
-  class="card article-card"
+  class={`card article-card article-card--${variant}`}
   style={`--accent: ${section?.accent ?? "#70d6ff"}`}
   data-section={article.data.section}
   data-tags={article.data.tags.join(" ").toLowerCase()}
   data-title={article.data.title.toLowerCase()}
 >
   <a class="card-link" href={withBase(`/articles/${article.id}/`)} aria-label={`Открыть статью ${article.data.title}`}></a>
-  <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} loading="lazy" />
+  {variant === "media" && <img src={assetPath(article.data.heroImage)} alt={article.data.heroAlt} loading="lazy" />}
   <div class="card-body">
     <div class="article-meta article-card-meta">
       <span>{section?.title}</span>

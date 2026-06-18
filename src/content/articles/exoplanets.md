@@ -10,8 +10,8 @@ sources:
   - label: "NASA Exoplanet Archive"
     url: "https://exoplanetarchive.ipac.caltech.edu/"
 updatedAt: 2026-05-29
-heroImage: "images/exoplanet-art.jpg"
-heroAlt: "Художественное изображение разных типов экзопланет"
+heroImage: "images/exoplanets-trappist1-lineup-nasa.jpg"
+heroAlt: "Сравнение семи планет системы TRAPPIST-1 на основе данных об их размерах, массах и орбитах"
 relatedTopics: ["транзитный метод", "лучевые скорости", "зона обитаемости"]
 ---
 

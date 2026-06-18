@@ -2347,9 +2347,11 @@ section {
 
 .section-atlas {
   gap: 14px;
+  counter-reset: atlas-station;
 }
 
-.atlas-section .section-card {
+.section-card--textual {
+  counter-increment: atlas-station;
   min-height: 370px;
   overflow: hidden;
   background:
@@ -2359,48 +2361,65 @@ section {
     rgba(11, 17, 27, 0.78);
 }
 
-.atlas-section .section-card img {
+.section-card--textual img {
   display: none;
 }
 
-.atlas-section .section-card::before {
+.section-card--textual::before {
   opacity: 0.58;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--accent) 46%, transparent), transparent 46%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 58px);
 }
 
-.atlas-section .section-card::after {
+.section-card--textual::after {
   background:
     radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 22%),
     linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.035));
 }
 
-.atlas-section .section-card .card-body {
+.section-card--textual .card-body {
   min-height: 0;
   padding: 20px;
   align-content: start;
 }
 
-.atlas-section .section-card .card-kicker {
+.section-card--textual .card-body::before {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 28px;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: #aebdcc;
+  background: rgba(8, 11, 18, 0.48);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  content: "0" counter(atlas-station) " · станция атласа";
+}
+
+.section-card--textual .card-kicker {
   min-height: 40px;
   align-items: center;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-.atlas-section .section-card h3 {
+.section-card--textual h3 {
   margin-top: 8px;
   font-size: clamp(1.28rem, 2vw, 1.58rem);
 }
 
-.atlas-section .section-card p {
+.section-card--textual p {
   color: #c2ccda;
   font-size: 0.95rem;
   line-height: 1.58;
 }
 
-.atlas-section .section-card .topic-list {
+.section-card--textual .topic-list {
   margin-top: 8px;
 }
 
@@ -2434,9 +2453,11 @@ section {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   margin-top: 14px;
+  counter-reset: catalog-item;
 }
 
-.article-lab .article-card {
+.article-card--catalog {
+  counter-increment: catalog-item;
   display: grid;
   grid-template-columns: 1fr;
   min-height: 0;
@@ -2447,18 +2468,18 @@ section {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.article-lab .article-card img {
+.article-card--catalog img {
   display: none;
 }
 
-.article-lab .article-card::before {
+.article-card--catalog::before {
   opacity: 0.46;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--accent, var(--cyan)) 54%, transparent), transparent 42%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 42px);
 }
 
-.article-lab .article-card::after {
+.article-card--catalog::after {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -2478,24 +2499,34 @@ section {
   transform: none;
 }
 
-.article-lab .article-card[data-section="astrophysics"]::after {
+.article-card--catalog[data-section="astrophysics"]::after {
   content: "метод";
 }
 
-.article-lab .article-card[data-section="astronomy"]::after {
+.article-card--catalog[data-section="astronomy"]::after {
   content: "среда";
 }
 
-.article-lab .article-card .card-body {
+.article-card--catalog .card-body {
   padding: 38px 12px 12px;
 }
 
-.article-lab .article-card h3 {
+.article-card--catalog .card-body::before {
+  display: block;
+  margin-bottom: 9px;
+  color: #7f92a5;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  content: "материал " counter(catalog-item, decimal-leading-zero);
+}
+
+.article-card--catalog h3 {
   font-size: 1rem;
   line-height: 1.16;
 }
 
-.article-lab .article-card p {
+.article-card--catalog p {
   display: -webkit-box;
   flex: initial;
   margin-top: 7px;
@@ -2507,7 +2538,7 @@ section {
   -webkit-line-clamp: 2;
 }
 
-.article-lab .article-protocol {
+.article-card--catalog .article-protocol {
   grid-template-columns: auto minmax(0, 1fr);
   align-items: baseline;
   gap: 7px;
@@ -2516,17 +2547,17 @@ section {
   font-size: 0.84rem;
 }
 
-.article-lab .article-card-meta {
+.article-card--catalog .article-card-meta {
   margin-bottom: 8px;
   gap: 6px;
   font-size: 0.76rem;
 }
 
-.article-lab .article-card-meta:last-child {
+.article-card--catalog .article-card-meta:last-child {
   margin-top: 10px;
 }
 
-.article-lab .article-card-meta:last-child span:nth-child(2) {
+.article-card--catalog .article-card-meta:last-child span:nth-child(2) {
   display: none;
 }
 
@@ -2862,7 +2893,7 @@ section {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .article-lab .article-card {
+  .article-card--catalog {
     grid-template-columns: 1fr;
   }
 
@@ -3085,7 +3116,7 @@ section {
     aspect-ratio: 16 / 9;
   }
 
-  .article-lab .article-card img {
+  .article-card--catalog img {
     aspect-ratio: 16 / 8;
   }
 

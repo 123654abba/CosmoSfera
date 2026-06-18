@@ -12,8 +12,8 @@ sources:
   - label: "NASA Science: Europa"
     url: "https://science.nasa.gov/jupiter/jupiter-moons/europa/"
 updatedAt: 2026-06-17
-heroImage: "images/europa-galileo.jpg"
-heroAlt: "Реальный reprocessed-снимок Европы, ледяного спутника Юпитера, полученный аппаратом Galileo"
+heroImage: "images/habitable-zone-trappist1-esa.jpg"
+heroAlt: "Схема системы TRAPPIST-1 с отмеченной зоной обитаемости вокруг холодной звезды"
 relatedTopics: ["зона обитаемости", "подповерхностный океан", "биосигнатура"]
 ---
 

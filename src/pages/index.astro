@@ -269,7 +269,7 @@ const featuredObjects = [...objects]
       <p>Разделы показывают, как свойства планет, наблюдательные методы и условия у звезды вместе определяют оценку обитаемости.</p>
     </div>
     <div class="grid three section-atlas">
-      {sections.map((section) => <SectionCard section={section} />)}
+      {sections.map((section) => <SectionCard section={section} variant="textual" />)}
     </div>
   </section>
 
@@ -283,7 +283,7 @@ const featuredObjects = [...objects]
     </div>
     <FilterControls />
     <div class="article-catalog">
-      {articles.map((article) => <ArticleCard article={article} />)}
+      {articles.map((article) => <ArticleCard article={article} variant="catalog" />)}
     </div>
     <p class="empty-state" data-empty-state>По этому запросу материалов пока нет.</p>
   </section>

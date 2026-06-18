@@ -10,8 +10,8 @@ sources:
   - label: "ESA: What is spectroscopy?"
     url: "https://www.esa.int/Science_Exploration/Space_Science/What_is_spectroscopy"
 updatedAt: 2026-05-29
-heroImage: "images/spectrum-space.jpg"
-heroAlt: "Иллюстрация наблюдений света и спектральных данных космического объекта"
+heroImage: "images/spectra-hubble-spectroscopy-nasa.png"
+heroAlt: "Схема спектроскопии Hubble, показывающая разложение света на длины волн и линии элементов"
 relatedTopics: ["красное смещение", "линии поглощения", "экзопланеты"]
 ---
 

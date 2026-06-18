@@ -10,8 +10,8 @@ sources:
   - label: "ESA: Observing the Universe"
     url: "https://www.esa.int/Science_Exploration/Space_Science"
 updatedAt: 2026-05-29
-heroImage: "images/hubble-galaxy.jpg"
-heroAlt: "Звездные облака, снятые космическим телескопом Hubble"
+heroImage: "images/telescopes-hubble-deployment-nasa.jpg"
+heroAlt: "Космический телескоп Hubble на орбите Земли как пример инструмента для наблюдений в разных диапазонах света"
 relatedTopics: ["электромагнитный спектр", "Hubble", "JWST"]
 ---
 

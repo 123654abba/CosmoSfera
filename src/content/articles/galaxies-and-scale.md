@@ -10,8 +10,8 @@ sources:
   - label: "ESA/Hubble: Galaxies"
     url: "https://esahubble.org/science/galaxies/"
 updatedAt: 2026-06-10
-heroImage: "images/hubble-galaxy.jpg"
-heroAlt: "Галактика на снимке космического телескопа"
+heroImage: "images/galaxies-hubble-ultra-deep-field-esa.jpg"
+heroAlt: "Hubble Ultra Deep Field с тысячами галактик разных возрастов, форм и расстояний"
 relatedTopics: ["галактики", "световой год", "красное смещение"]
 ---
 

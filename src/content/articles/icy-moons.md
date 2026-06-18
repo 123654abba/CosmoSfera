@@ -12,8 +12,8 @@ sources:
   - label: "NASA: Europa, a World of Ice With Potential for Life"
     url: "https://science.nasa.gov/missions/europa-clipper/europa-a-world-of-ice-with-potential-for-life/"
 updatedAt: 2026-06-10
-heroImage: "images/europa-galileo.jpg"
-heroAlt: "Реальный reprocessed-снимок Европы, ледяного спутника Юпитера, полученный аппаратом Galileo"
+heroImage: "images/icy-moons-enceladus-plume-nasa.jpg"
+heroAlt: "Шлейф водяного пара у Энцелада по данным Webb и Cassini"
 relatedTopics: ["приливный нагрев", "подповерхностный океан", "обитаемость"]
 ---
 

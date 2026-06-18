@@ -12,8 +12,8 @@ sources:
   - label: "ESA: Ariel"
     url: "https://www.esa.int/Science_Exploration/Space_Science/Ariel"
 updatedAt: 2026-06-17
-heroImage: "images/spectrum-space.jpg"
-heroAlt: "Полосы света и спектральные линии как способ изучать состав атмосферы"
+heroImage: "images/biosignatures-wasp39b-transmission-spectra-nasa.png"
+heroAlt: "Спектры атмосферы экзопланеты WASP-39 b, полученные инструментами Webb"
 relatedTopics: ["спектроскопия", "атмосфера", "ложноположительный сигнал"]
 ---
 

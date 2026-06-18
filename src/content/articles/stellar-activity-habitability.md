@@ -12,8 +12,8 @@ sources:
   - label: "NASA Science: The Search for Life in the Universe"
     url: "https://science.nasa.gov/universe/search-for-life/"
 updatedAt: 2026-06-17
-heroImage: "images/cosmic-cliffs.jpg"
-heroAlt: "Область звездообразования NGC 3324, где молодые массивные звезды меняют окружающий газ и пыль"
+heroImage: "images/stellar-activity-sdo-eruption-nasa.jpg"
+heroAlt: "Вспышка и выброс плазмы на лимбе Солнца в экстремальном ультрафиолете по данным SDO"
 relatedTopics: ["звездная активность", "ультрафиолет", "атмосфера"]
 ---
 

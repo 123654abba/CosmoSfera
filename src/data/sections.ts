@@ -36,9 +36,9 @@ export const sections = [
     description:
       "Спектры, транзиты, гравитация, излучение и модели, которые позволяют оценивать состав, массу, атмосферу и пределы наблюдений.",
     href: "/sections/astrophysics/",
-    image: "images/spectrum-space.jpg",
+    image: "images/method-transit-light-curve-nasa.jpg",
     imageAlt:
-      "Полосы света и спектральные линии как способ изучать состав и движение космических объектов",
+      "Схема транзитного метода: планета проходит перед звездой и вызывает падение яркости на кривой блеска",
     accent: "#70d6ff",
     icon: Orbit,
     topics: ["спектры", "транзиты", "модели", "ограничения"],
@@ -64,9 +64,9 @@ export const sections = [
     description:
       "Звезды, туманности, галактики, расстояния и телескопы как контекст, в котором формируются и наблюдаются потенциально обитаемые миры.",
     href: "/sections/astronomy/",
-    image: "images/cosmic-cliffs.jpg",
+    image: "images/cosmic-environment-webb-deep-field-nasa.jpg",
     imageAlt:
-      "Область звездообразования NGC 3324 в туманности Киля, снятая телескопом James Webb",
+      "Глубокое поле Webb с множеством галактик и эффектом гравитационного линзирования",
     accent: "#f6b35f",
     icon: Telescope,
     topics: ["звезды", "излучение", "масштаб", "телескопы"],
