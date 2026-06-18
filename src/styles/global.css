@@ -85,6 +85,8 @@ body::after {
   inset: 0;
   z-index: -1;
   overflow: hidden;
+  overflow: clip;
+  contain: paint;
   pointer-events: none;
 }
 
@@ -278,6 +280,80 @@ input {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     0 14px 44px rgba(0, 0, 0, 0.16);
+}
+
+.mobile-nav-menu {
+  position: relative;
+  display: none;
+  margin-left: auto;
+}
+
+.mobile-nav-menu summary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.018)),
+    rgba(8, 11, 18, 0.58);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.mobile-nav-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-nav-menu[open] summary {
+  border-color: rgba(112, 214, 255, 0.34);
+  background:
+    linear-gradient(135deg, rgba(112, 214, 255, 0.13), transparent 52%),
+    rgba(8, 11, 18, 0.72);
+}
+
+.mobile-nav-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 40;
+  display: grid;
+  width: min(320px, calc(100vw - 24px));
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.016)),
+    rgba(10, 15, 23, 0.96);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(1.18);
+}
+
+.mobile-nav-panel a {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 11px;
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a:focus-visible {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .nav-links a {
@@ -2561,6 +2637,99 @@ section {
   display: none;
 }
 
+.atlas-hero::before,
+.article-lab::before,
+.timeline-shell::before,
+.concepts-atlas::before {
+  opacity: 0.28;
+}
+
+.atlas-hero::before {
+  border-color: rgba(255, 255, 255, 0.04);
+  background:
+    linear-gradient(135deg, rgba(112, 214, 255, 0.08), transparent 38%),
+    radial-gradient(circle at 78% 18%, rgba(246, 179, 95, 0.1), transparent 30%);
+}
+
+.observatory-panel,
+.timeline-shell,
+.concepts-atlas,
+.article-lab .search-panel {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.observatory-panel::before {
+  opacity: 0.22;
+}
+
+.observatory-image img {
+  filter: saturate(0.96) contrast(1.02);
+}
+
+.spine-steps,
+.portal-stats,
+.timeline-detail,
+.timeline-buttons,
+.section-card--textual,
+.article-card--catalog,
+.concept-card,
+.object-row {
+  border-color: rgba(255, 255, 255, 0.09);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+    rgba(12, 18, 28, 0.66);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.13);
+}
+
+.section-card--textual::before,
+.article-card--catalog::before {
+  opacity: 0.3;
+}
+
+.section-card--textual::after,
+.article-card--catalog::after {
+  opacity: 0.88;
+}
+
+.section-card--textual:hover,
+.section-card--textual:focus-within,
+.article-card--catalog:hover,
+.article-card--catalog:focus-within,
+.concept-card:hover,
+.concept-card:focus-within,
+.object-row:hover,
+.object-row:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(112, 214, 255, 0.22);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.2);
+}
+
+.route-row {
+  border-bottom-color: rgba(255, 255, 255, 0.075);
+}
+
+.timeline-shell {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(112, 214, 255, 0.12), transparent 26%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(9, 14, 24, 0.78);
+}
+
+.timeline-button {
+  background: rgba(17, 24, 39, 0.32);
+}
+
+.timeline-button:hover,
+.timeline-button:focus-visible,
+.timeline-button[aria-pressed="true"] {
+  background:
+    linear-gradient(135deg, rgba(112, 214, 255, 0.08), transparent 48%),
+    rgba(21, 31, 44, 0.68);
+}
+
 .object-observatory {
   padding-top: clamp(70px, 8vw, 112px);
 }
@@ -2778,28 +2947,23 @@ section {
 
 @media (max-width: 860px) {
   [id] {
-    scroll-margin-top: 132px;
+    scroll-margin-top: 86px;
   }
 
   .nav {
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 14px 0;
+    min-height: 64px;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px 0;
+    gap: 12px;
   }
 
   .nav-links {
-    display: flex;
-    width: 100%;
-    padding: 6px;
-    overflow-x: auto;
-    scrollbar-width: thin;
+    display: none;
   }
 
-  .nav-links a {
-    flex: 0 0 auto;
-    justify-content: center;
-    text-align: center;
-    white-space: nowrap;
+  .mobile-nav-menu {
+    display: block;
   }
 
   .hero,
@@ -2912,7 +3076,7 @@ section {
   }
 
   .orbit-line {
-    opacity: 0.45;
+    display: none;
   }
 
   .timeline-visual {
@@ -2951,12 +3115,12 @@ section {
   }
 
   .brand span:last-child {
-    max-width: 210px;
+    max-width: 160px;
   }
 
-  .nav-links {
-    margin-inline: -4px;
-    padding-inline: 4px;
+  .mobile-nav-panel {
+    right: -2px;
+    width: min(330px, calc(100vw - 22px));
   }
 
   .hero {
@@ -2991,11 +3155,11 @@ section {
   }
 
   .signal-strip span {
-    flex: 0 0 auto;
+    flex: 1 1 calc(50% - 8px);
     width: auto;
     min-height: 34px;
     padding: 7px 10px;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .atlas-actions,
@@ -3020,11 +3184,9 @@ section {
   }
 
   .signal-strip {
-    flex-wrap: nowrap;
-    margin-right: -11px;
+    flex-wrap: wrap;
+    margin-right: 0;
     padding-bottom: 4px;
-    overflow-x: auto;
-    scrollbar-width: thin;
   }
 
   .atlas-hero-copy .lead {
