@@ -3139,6 +3139,125 @@ body::after {
   color: #b9c5d3;
 }
 
+/* Figma transfer refinement: readable catalog cards and calmer atlas rhythm. */
+.article-lab {
+  padding-top: clamp(76px, 8vw, 116px);
+}
+
+.article-lab .section-heading {
+  margin-bottom: 24px;
+}
+
+.article-lab .search-panel {
+  padding: 14px;
+  border-color: rgba(210, 226, 244, 0.11);
+  background:
+    linear-gradient(90deg, rgba(112, 214, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(7, 12, 21, 0.7);
+  background-size: 52px 52px, 52px 52px, auto, auto;
+}
+
+.article-lab .article-catalog {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.article-card--catalog {
+  min-height: 318px;
+}
+
+.article-card--catalog::after {
+  top: 14px;
+  right: 14px;
+  padding: 5px 9px;
+  color: #c7d3e2;
+  background: rgba(4, 8, 14, 0.62);
+}
+
+.article-card--catalog .card-body {
+  display: grid;
+  min-height: 100%;
+  align-content: start;
+  padding: 46px 16px 16px;
+}
+
+.article-card--catalog .card-body::before {
+  color: #93a7bb;
+}
+
+.article-card--catalog h3 {
+  max-width: 92%;
+  font-size: clamp(1.08rem, 1.25vw, 1.24rem);
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
+.article-card--catalog p {
+  margin-top: 10px;
+  color: #c0cad8;
+  font-size: 0.94rem;
+  line-height: 1.58;
+  -webkit-line-clamp: 3;
+}
+
+.article-card--catalog .article-protocol {
+  margin-top: 14px;
+  border-color: rgba(255, 255, 255, 0.085);
+  background:
+    linear-gradient(90deg, rgba(112, 214, 255, 0.05), transparent 46%),
+    rgba(4, 8, 14, 0.38);
+}
+
+.article-card--catalog .article-card-meta:first-child span {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.article-card--catalog .article-card-meta:last-child {
+  align-self: end;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.research-routes,
+.atlas-section,
+.article-lab,
+.world-observatory {
+  position: relative;
+}
+
+.research-routes::before,
+.atlas-section::before,
+.world-observatory::before {
+  position: absolute;
+  inset: 34px max(16px, calc((100vw - var(--max)) / 2)) 24px;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(255, 255, 255, 0.035);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(112, 214, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 36%);
+  background-size: 84px 84px, 84px 84px, auto;
+}
+
+.world-observatory .section-heading {
+  margin-bottom: 24px;
+}
+
+.world-observatory .object-ledger {
+  gap: 14px;
+}
+
+.world-card {
+  min-height: 440px;
+}
+
 .concepts-atlas {
   position: relative;
   isolation: isolate;
