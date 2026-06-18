@@ -106,7 +106,25 @@ const keyConcepts = [
   }
 ];
 
-const featuredObjectOrder = ["Европа", "TRAPPIST-1", "Jezero", "Солнце", "NGC 3324", "Млечный Путь"];
+const evidenceScale = [
+  {
+    label: "наблюдение",
+    title: "Что измерено",
+    text: "Снимок, спектр, транзит, движение звезды, состав частиц или геологическая форма дают исходный сигнал."
+  },
+  {
+    label: "модель",
+    title: "Как это объясняется",
+    text: "Физическая модель связывает сигнал с океаном, атмосферой, орбитой, химией или историей поверхности."
+  },
+  {
+    label: "ограничение",
+    title: "Где осторожность",
+    text: "Даже сильный сигнал может иметь несколько объяснений, поэтому вывод держится на повторных данных и независимых методах."
+  }
+];
+
+const featuredObjectOrder = ["Европа", "Энцелад", "Титан", "TRAPPIST-1e", "Proxima Centauri b", "Jezero"];
 const featuredObjects = [...objects]
   .sort((a, b) => {
     const left = featuredObjectOrder.indexOf(a.name);
@@ -288,31 +306,73 @@ const featuredObjects = [...objects]
     <p class="empty-state" data-empty-state>По этому запросу материалов пока нет.</p>
   </section>
 
-  <section class="container object-observatory">
+  <section class="container object-observatory world-observatory">
     <div class="section-heading">
       <div>
         <p class="eyebrow">Атлас объектов</p>
-        <h2>Объекты для сравнения</h2>
+        <h2>Атлас миров и ограничений</h2>
       </div>
-      <p>Планеты, спутники, звезды и области звездообразования помогают сравнивать условия среды с реальными наблюдениями и миссиями.</p>
+      <p>Короткие паспорта связывают объект, наблюдаемый сигнал и границу вывода: где есть данные, где работает модель, а где нужна осторожность.</p>
     </div>
-    <div class="object-ledger">
-      {featuredObjects.map((object) => (
-        <article class="object-row">
-          <div>
-            <span>{object.category}</span>
-            <h3>{object.name}</h3>
-            <p>{object.summary}</p>
-          </div>
-          <div class="topic-list">
-            {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
-          </div>
-          <div class="topic-list" aria-label={`Статьи по теме ${object.name}`}>
-            {object.relatedArticles.map((slug) => (
-              <a class="chip" href={withBase(`/articles/${slug}/`)}>
-                {articles.find((article) => article.id === slug)?.data.title ?? slug}
-              </a>
-            ))}
+
+    <div class="evidence-scale" aria-label="Шкала научной осторожности">
+      {evidenceScale.map((item, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="object-ledger world-ledger">
+      {featuredObjects.map((object, index) => {
+        const signal = "signal" in object ? object.signal : object.keyFacts.join(" · ");
+        const evidence = "evidence" in object ? object.evidence : "сводка по связанным материалам и наблюдениям";
+        const limitation = "limitation" in object ? object.limitation : "детали зависят от метода наблюдения и полноты данных";
+
+        return (
+          <article class="object-row world-card">
+            <div class="world-card-head">
+              <span class="world-index">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <span>{object.category}</span>
+                <h3>{object.name}</h3>
+                <p>{object.summary}</p>
+              </div>
+            </div>
+
+            <dl class="world-readout">
+              <div>
+                <dt>Сигнал</dt>
+                <dd>{signal}</dd>
+              </div>
+              <div>
+                <dt>Данные</dt>
+                <dd>{evidence}</dd>
+              </div>
+              <div>
+                <dt>Ограничение</dt>
+                <dd>{limitation}</dd>
+              </div>
+            </dl>
+
+            <div class="topic-list world-facts">
+              {object.keyFacts.map((fact) => <span class="chip">{fact}</span>)}
+            </div>
+
+            <div class="topic-list world-links" aria-label={`Статьи по теме ${object.name}`}>
+              {object.relatedArticles.map((slug) => (
+                <a class="chip" href={withBase(`/articles/${slug}/`)}>
+                  {articles.find((article) => article.id === slug)?.data.title ?? slug}
+                </a>
+              ))}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
           </div>
         </article>
       ))}

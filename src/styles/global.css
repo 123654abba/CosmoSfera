@@ -399,6 +399,25 @@ input {
   opacity: 1;
 }
 
+.nav-links a.language-switch,
+.mobile-nav-panel a.language-switch {
+  border-color: rgba(246, 179, 95, 0.28);
+  color: var(--gold);
+  font-weight: 820;
+}
+
+.nav-links a.language-switch {
+  min-width: 44px;
+  padding-inline: 12px;
+}
+
+.mobile-nav-panel a.language-switch {
+  justify-content: center;
+  margin-top: 4px;
+  border: 1px solid rgba(246, 179, 95, 0.28);
+  background: rgba(246, 179, 95, 0.06);
+}
+
 .hero {
   position: relative;
   display: grid;
@@ -2770,6 +2789,110 @@ section {
   font-size: 0.84rem;
 }
 
+.evidence-scale {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.evidence-scale article {
+  position: relative;
+  min-height: 150px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(246, 179, 95, 0.075), transparent 44%),
+    rgba(12, 18, 28, 0.62);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+}
+
+.evidence-scale article::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  content: "";
+  background: linear-gradient(180deg, rgba(112, 214, 255, 0.72), rgba(246, 179, 95, 0.5));
+}
+
+.evidence-scale span,
+.world-card-head > div > span,
+.world-readout dt {
+  color: var(--cyan);
+  font-size: 0.76rem;
+  font-weight: 780;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evidence-scale h3 {
+  margin: 10px 0 8px;
+}
+
+.evidence-scale p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.world-card {
+  min-height: 360px;
+}
+
+.world-card-head {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.world-index {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(112, 214, 255, 0.22);
+  border-radius: 8px;
+  color: var(--cyan);
+  background: rgba(8, 11, 18, 0.48);
+  font-weight: 800;
+}
+
+.world-card-head h3 {
+  margin: 6px 0 0;
+}
+
+.world-readout {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 8px;
+  background: rgba(8, 11, 18, 0.32);
+}
+
+.world-readout div {
+  display: grid;
+  gap: 3px;
+}
+
+.world-readout dd {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.world-facts,
+.world-links {
+  align-content: start;
+}
+
+.world-links .chip {
+  color: var(--text);
+}
+
 .concepts-atlas {
   position: relative;
   isolation: isolate;
@@ -3062,6 +3185,10 @@ section {
   }
 
   .object-observatory .object-ledger {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-scale {
     grid-template-columns: 1fr;
   }
 

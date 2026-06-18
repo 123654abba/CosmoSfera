@@ -7,17 +7,54 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  lang?: "ru" | "en";
 }
 
 const {
   title,
-  description = "Космосфера: научный атлас обитаемых миров. Статьи, глоссарий, реальные миссии и источники о том, как наука ищет условия для жизни за пределами Земли."
+  lang = "ru",
+  description = lang === "en"
+    ? "CosmoSfera: a scientific atlas of habitable worlds, observation methods, missions, data sources, and careful interpretation."
+    : "Космосфера: научный атлас обитаемых миров. Статьи, глоссарий, реальные миссии и источники о том, как наука ищет условия для жизни за пределами Земли."
 } = Astro.props;
-const pageTitle = title === "Космосфера" ? title : `${title} | Космосфера`;
+const isEnglish = lang === "en";
+const pageTitle = title === "Космосфера" || title === "CosmoSfera" ? title : `${title} | ${isEnglish ? "CosmoSfera" : "Космосфера"}`;
+const nav = isEnglish
+  ? {
+      aria: "Primary navigation",
+      brandAria: "CosmoSfera, go to home page",
+      home: "Home",
+      worlds: "Habitable worlds",
+      methods: "Methods",
+      environment: "Cosmic environment",
+      knowledge: "Knowledge map",
+      glossary: "Glossary",
+      materials: "Sources",
+      menu: "Sections",
+      switchLabel: "RU",
+      switchHref: "/",
+      switchAria: "Switch to Russian"
+    }
+  : {
+      aria: "Основная навигация",
+      brandAria: "Космосфера, на главную",
+      home: "Главная",
+      worlds: "Обитаемые миры",
+      methods: "Методы и модели",
+      environment: "Космическая среда",
+      knowledge: "Карта знаний",
+      glossary: "Глоссарий",
+      materials: "Материалы",
+      menu: "Разделы",
+      switchLabel: "EN",
+      switchHref: "/en/",
+      switchAria: "Switch to English"
+    };
+const homeHref = isEnglish ? "/en/" : "/";
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -35,30 +72,32 @@ const pageTitle = title === "Космосфера" ? title : `${title} | Кос�
       <span class="orbit-line orbit-two"></span>
     </div>
     <header class="site-header">
-      <nav class="nav container" aria-label="Основная навигация">
-        <a class="brand" href={withBase("/")} aria-label="Космосфера, на главную">
+      <nav class="nav container" aria-label={nav.aria}>
+        <a class="brand" href={withBase(homeHref)} aria-label={nav.brandAria}>
           <span class="brand-mark"><Sparkles size={20} aria-hidden="true" /></span>
-          <span>Космосфера</span>
+          <span>{isEnglish ? "CosmoSfera" : "Космосфера"}</span>
         </a>
         <div class="nav-links">
-          <a href={withBase("/")}><Home size={17} aria-hidden="true" /> Главная</a>
-          <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> Обитаемые миры</a>
-          <a href={withBase("/sections/astrophysics/")}><Search size={17} aria-hidden="true" /> Методы и модели</a>
-          <a href={withBase("/sections/astronomy/")}><BookOpen size={17} aria-hidden="true" /> Космическая среда</a>
-          <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> Карта знаний</a>
-          <a href={withBase("/glossary/")}>Глоссарий</a>
-          <a href={withBase("/materials/")}>Материалы</a>
+          <a href={withBase(homeHref)}><Home size={17} aria-hidden="true" /> {nav.home}</a>
+          <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> {nav.worlds}</a>
+          <a href={withBase("/sections/astrophysics/")}><Search size={17} aria-hidden="true" /> {nav.methods}</a>
+          <a href={withBase("/sections/astronomy/")}><BookOpen size={17} aria-hidden="true" /> {nav.environment}</a>
+          <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> {nav.knowledge}</a>
+          <a href={withBase("/glossary/")}>{nav.glossary}</a>
+          <a href={withBase("/materials/")}>{nav.materials}</a>
+          <a class="language-switch" href={withBase(nav.switchHref)} aria-label={nav.switchAria}>{nav.switchLabel}</a>
         </div>
         <details class="mobile-nav-menu">
-          <summary><Menu size={18} aria-hidden="true" /> Разделы</summary>
+          <summary><Menu size={18} aria-hidden="true" /> {nav.menu}</summary>
           <div class="mobile-nav-panel">
-            <a href={withBase("/")}><Home size={17} aria-hidden="true" /> Главная</a>
-            <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> Обитаемые миры</a>
-            <a href={withBase("/sections/astrophysics/")}><Search size={17} aria-hidden="true" /> Методы и модели</a>
-            <a href={withBase("/sections/astronomy/")}><BookOpen size={17} aria-hidden="true" /> Космическая среда</a>
-            <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> Карта знаний</a>
-            <a href={withBase("/glossary/")}>Глоссарий</a>
-            <a href={withBase("/materials/")}>Материалы</a>
+            <a href={withBase(homeHref)}><Home size={17} aria-hidden="true" /> {nav.home}</a>
+            <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> {nav.worlds}</a>
+            <a href={withBase("/sections/astrophysics/")}><Search size={17} aria-hidden="true" /> {nav.methods}</a>
+            <a href={withBase("/sections/astronomy/")}><BookOpen size={17} aria-hidden="true" /> {nav.environment}</a>
+            <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> {nav.knowledge}</a>
+            <a href={withBase("/glossary/")}>{nav.glossary}</a>
+            <a href={withBase("/materials/")}>{nav.materials}</a>
+            <a class="language-switch" href={withBase(nav.switchHref)} aria-label={nav.switchAria}>{nav.switchLabel}</a>
           </div>
         </details>
       </nav>
@@ -68,8 +107,12 @@ const pageTitle = title === "Космосфера" ? title : `${title} | Кос�
     </main>
     <footer class="site-footer">
       <div class="footer-inner container">
-        <p>Космосфера: научный атлас обитаемых миров.</p>
-        <p>Материалы опираются на открытые научные источники, миссии, каталоги данных и осторожную интерпретацию наблюдений.</p>
+        <p>{isEnglish ? "CosmoSfera: a scientific atlas of habitable worlds." : "Космосфера: научный атлас обитаемых миров."}</p>
+        <p>
+          {isEnglish
+            ? "Materials rely on open scientific sources, missions, data catalogs, and careful interpretation of observations."
+            : "Материалы опираются на открытые научные источники, миссии, каталоги данных и осторожную интерпретацию наблюдений."}
+        </p>
       </div>
     </footer>
     <script is:inline>
