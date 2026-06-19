@@ -5684,3 +5684,46 @@ body::after {
     justify-self: end;
   }
 }
+
+html[lang="en"] .page-hero,
+html[lang="en"] .hero,
+html[lang="en"] .article-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+html[lang="en"] .page-hero::before,
+html[lang="en"] .hero::after,
+html[lang="en"] .article-shell::before {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+  border-radius: 8px;
+}
+
+html[lang="en"] .page-hero::before,
+html[lang="en"] .hero::after {
+  inset: 12px -28px;
+  z-index: -1;
+  opacity: 0.42;
+  background:
+    linear-gradient(rgba(78, 205, 196, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at 72% 20%, rgba(201, 168, 76, 0.12), transparent 34rem),
+    linear-gradient(110deg, transparent 10%, rgba(78, 205, 196, 0.08) 42%, transparent 64%);
+  background-size: 72px 72px, 72px 72px, auto, auto;
+  animation: atlas-grid-breathe 34s linear infinite alternate;
+  mask-image: linear-gradient(180deg, #000 0 72%, transparent 100%);
+}
+
+html[lang="en"] .article-shell::before {
+  inset: 0 -20px auto;
+  z-index: -1;
+  height: min(520px, 42vh);
+  opacity: 0.34;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.14), transparent 28rem),
+    linear-gradient(105deg, transparent, rgba(201, 168, 76, 0.07), transparent),
+    repeating-linear-gradient(90deg, rgba(205, 225, 245, 0.045) 0 1px, transparent 1px 84px);
+  animation: atlas-veil-breathe 28s ease-in-out infinite alternate;
+}

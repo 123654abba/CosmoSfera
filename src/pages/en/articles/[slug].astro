@@ -1,0 +1,136 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection } from "@data/sections";
+import {
+  englishLevelLabels,
+  englishReadingMap,
+  getEnglishArticle,
+  getEnglishSection
+} from "@data/en";
+import { assetPath, withBase } from "../../../utils/paths";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article }
+  }));
+}
+
+const { article } = Astro.props;
+const copy = getEnglishArticle(article.id);
+const section = getSection(article.data.section);
+const sectionCopy = getEnglishSection(article.data.section);
+const title = copy?.title ?? article.data.title;
+const description = copy?.description ?? article.data.description;
+const topics = copy?.relatedTopics ?? article.data.relatedTopics;
+const tags = copy?.tags ?? article.data.tags;
+const date = new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(article.data.updatedAt);
+const allArticles = await getCollection("articles");
+const relatedArticles = allArticles
+  .filter((entry) => entry.id !== article.id)
+  .map((entry) => {
+    const entryCopy = getEnglishArticle(entry.id);
+    const sharedTags = entry.data.tags.filter((tag) => article.data.tags.includes(tag)).length;
+    const sameSection = entry.data.section === article.data.section ? 2 : 0;
+    return { entry, copy: entryCopy, score: sameSection + sharedTags };
+  })
+  .filter((item) => item.score > 0)
+  .sort((a, b) => b.score - a.score || b.entry.data.updatedAt.valueOf() - a.entry.data.updatedAt.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title={title} lang="en" description={description}>
+  <div class="article-shell container">
+    <article class="prose">
+      <p class="eyebrow">{sectionCopy?.title ?? section?.title} - {englishLevelLabels[article.data.level] ?? article.data.level}</p>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      <figure class="article-hero">
+        <img src={assetPath(article.data.heroImage)} alt={copy?.heroAlt ?? article.data.heroAlt} />
+        <figcaption class="caption">{copy?.heroAlt ?? article.data.heroAlt}</figcaption>
+      </figure>
+      <div class="article-meta article-meta-panel">
+        <span>Updated: {date}</span>
+        <span>English overview</span>
+        <span>{article.data.sources.length} sources</span>
+      </div>
+      {topics.length > 0 && (
+        <div class="topic-list article-topics" aria-label="Related topics">
+          {topics.map((topic) => <span class="chip">{topic}</span>)}
+        </div>
+      )}
+      <section class="article-reading-map" aria-label="How to read this article">
+        {englishReadingMap.map((item) => (
+          <div>
+            <strong>{item.label}</strong>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </section>
+
+      <h2 id="scientific-route">Scientific route</h2>
+      <p>{copy?.overview ?? description}</p>
+
+      {copy && (
+        <>
+          <h2 id="key-points">Key points</h2>
+          <ul>
+            {copy.takeaways.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h2 id="signal-data-and-limitation">Signal, data, and limitation</h2>
+          <dl>
+            <dt>Signal</dt>
+            <dd>{copy.signal}</dd>
+            <dt>Data</dt>
+            <dd>{copy.data}</dd>
+            <dt>Limitation</dt>
+            <dd>{copy.limitation}</dd>
+          </dl>
+        </>
+      )}
+
+      {relatedArticles.length > 0 && (
+        <>
+          <h2>Read next</h2>
+          <div class="related-strip">
+            {relatedArticles.map(({ entry, copy: relatedCopy }) => (
+              <a class="related-link" href={withBase(`/en/articles/${entry.id}/`)}>
+                <span>{getEnglishSection(entry.data.section)?.title ?? getSection(entry.data.section)?.title}</span>
+                <strong>{relatedCopy?.title ?? entry.data.title}</strong>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      <h2 id="sources">Sources</h2>
+      <ul class="source-list">
+        {article.data.sources.map((source) => (
+          <li><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>
+        ))}
+      </ul>
+    </article>
+
+    <aside class="article-aside" aria-label="Article navigation">
+      <div class="article-aside-panel">
+        <p class="eyebrow">Navigation</p>
+        <strong>{sectionCopy?.title ?? section?.title}</strong>
+        <span>{englishLevelLabels[article.data.level] ?? article.data.level} - English overview</span>
+        <nav class="toc" aria-label="Article contents">
+          <a href="#scientific-route">Scientific route</a>
+          <a href="#key-points">Key points</a>
+          <a href="#signal-data-and-limitation">Signal, data, and limitation</a>
+          <a href="#sources">Sources</a>
+        </nav>
+      </div>
+      <div class="article-aside-panel">
+        <p class="eyebrow">Focus</p>
+        <div class="topic-list">
+          {tags.slice(0, 5).map((tag) => <span class="chip">{tag}</span>)}
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

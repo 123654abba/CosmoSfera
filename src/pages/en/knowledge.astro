@@ -1,0 +1,136 @@
+---
+import { ArrowRight, BookOpen, Database, Network } from "lucide-astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { objects } from "@data/objects";
+import { sections } from "@data/sections";
+import {
+  englishKnowledgeLenses,
+  getEnglishArticle,
+  getEnglishObject,
+  getEnglishSection
+} from "@data/en";
+import { withBase } from "../../utils/paths";
+
+const articles = (await getCollection("articles")).sort((a, b) => {
+  const left = getEnglishArticle(a.id)?.title ?? a.data.title;
+  const right = getEnglishArticle(b.id)?.title ?? b.data.title;
+  return left.localeCompare(right, "en");
+});
+const terms = await getCollection("glossary");
+const resources = await getCollection("resources");
+
+const sectionStats = sections.map((section) => ({
+  section,
+  copy: getEnglishSection(section.id),
+  articles: articles.filter((article) => article.data.section === section.id),
+  terms: terms.filter((term) => term.data.section === section.id),
+  resources: resources.filter((resource) => resource.data.section === section.id)
+}));
+
+const lensIcons = [BookOpen, Database, Network];
+---
+
+<BaseLayout
+  title="Knowledge map"
+  lang="en"
+  description="Connections between worlds, methods, cosmic environment, articles, terms, objects, and sources in CosmoSfera."
+>
+  <section class="container page-hero">
+    <div>
+      <p class="eyebrow">Navigation center</p>
+      <h1>CosmoSfera knowledge map</h1>
+    </div>
+    <p class="lead">
+      This page shows how articles, terms, objects, and sources form one line:
+      from a potentially habitable world to a signal in data and a careful conclusion.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="grid three">
+      {englishKnowledgeLenses.map((lens, index) => {
+        const Icon = lensIcons[index] ?? BookOpen;
+        return (
+          <article class="card lens-card">
+            <div class="card-body">
+              <div class="card-kicker">
+                <Icon size={18} aria-hidden="true" />
+                <span>{lens.title}</span>
+              </div>
+              <p>{lens.text}</p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Section links</p>
+        <h2>What the atlas contains</h2>
+      </div>
+      <p>Each station shows which articles, terms, and sources are already connected.</p>
+    </div>
+    <div class="knowledge-matrix">
+      {sectionStats.map(({ section, copy, articles: sectionArticles, terms: sectionTerms, resources: sectionResources }) => (
+        <article class="card knowledge-card" style={`--accent: ${section.accent}`}>
+          <div class="card-body">
+            <div class="card-kicker" style="color: var(--accent)">
+              <span>{copy?.short ?? section.short}</span>
+            </div>
+            <h3>{copy?.title ?? section.title}</h3>
+            <p>{copy?.description ?? section.description}</p>
+            <div class="metric-row">
+              <span><strong>{sectionArticles.length}</strong> articles</span>
+              <span><strong>{sectionTerms.length}</strong> terms</span>
+              <span><strong>{sectionResources.length}</strong> sources</span>
+            </div>
+            <div class="topic-list">
+              {sectionArticles.slice(0, 4).map((article) => (
+                <a class="chip" href={withBase(`/en/articles/${article.id}/`)}>{getEnglishArticle(article.id)?.title ?? article.data.title}</a>
+              ))}
+            </div>
+            <a class="button" href={withBase(copy?.href ?? `/en/sections/${section.id}/`)}>
+              Open section <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Reference objects</p>
+        <h2>Real worlds and context</h2>
+      </div>
+      <p>Objects help connect the idea of habitability to concrete observations, missions, and data.</p>
+    </div>
+    <div class="object-link-grid">
+      {objects.map((object) => {
+        const copy = getEnglishObject(object.name);
+
+        return (
+          <article class="card object-card">
+            <div class="card-body">
+              <div class="article-meta"><span>{copy?.category ?? object.category}</span></div>
+              <h3>{copy?.name ?? object.name}</h3>
+              <p>{copy?.summary ?? object.summary}</p>
+              <div class="topic-list">
+                {object.relatedArticles.map((slug) => (
+                  <a class="chip" href={withBase(`/en/articles/${slug}/`)}>
+                    {getEnglishArticle(slug)?.title ?? slug}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

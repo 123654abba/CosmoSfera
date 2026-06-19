@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection, sections } from "@data/sections";
+import {
+  englishLevelLabels,
+  getEnglishArticle,
+  getEnglishSection
+} from "@data/en";
+import { assetPath, withBase } from "../../../utils/paths";
+
+export function getStaticPaths() {
+  return sections.map((section) => ({
+    params: { section: section.id }
+  }));
+}
+
+const sectionId = Astro.params.section ?? "";
+const section = getSection(sectionId);
+const sectionCopy = getEnglishSection(sectionId);
+const articles = (await getCollection("articles", ({ data }) => data.section === sectionId)).sort(
+  (a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf()
+);
+---
+
+<BaseLayout
+  title={sectionCopy?.title ?? section?.title ?? "Section"}
+  lang="en"
+  description={sectionCopy?.description ?? section?.description}
+>
+  <div class="container hero">
+    <div class="hero-copy">
+      <p class="eyebrow">{sectionCopy?.short ?? section?.short}</p>
+      <h1>{sectionCopy?.title ?? section?.title}</h1>
+      <p class="lead">{sectionCopy?.description ?? section?.description}</p>
+      <div class="topic-list" style="margin-top: 24px">
+        {(sectionCopy?.topics ?? section?.topics ?? []).map((topic) => <span class="chip">{topic}</span>)}
+      </div>
+    </div>
+    {section && (
+      <figure class="hero-visual">
+        <img src={assetPath(section.image)} alt={section.imageAlt} />
+        <figcaption class="caption">{sectionCopy?.title ?? section.title}</figcaption>
+      </figure>
+    )}
+  </div>
+
+  {section && (
+    <section class="container section-brief">
+      <article class="card guide-card" style={`--accent: ${section.accent}`}>
+        <div class="card-body">
+          <p class="eyebrow">Navigation</p>
+          <h2>How to use this section</h2>
+          <p>{sectionCopy?.fieldGuide.signal ?? section.fieldGuide.signal}</p>
+          <div class="guide-block">
+            <strong>{articles.length} materials in this section</strong>
+            <span>Methods: {(sectionCopy?.fieldGuide.methods ?? section.fieldGuide.methods).join(", ")}</span>
+          </div>
+        </div>
+      </article>
+      <article class="card guide-card" style={`--accent: ${section.accent}`}>
+        <div class="card-body">
+          <p class="eyebrow">Questions</p>
+          <h2>Main questions</h2>
+          <ul class="compact-list">
+            {(sectionCopy?.fieldGuide.questions ?? section.fieldGuide.questions).map((question) => <li>{question}</li>)}
+          </ul>
+        </div>
+      </article>
+      <article class="card guide-card" style={`--accent: ${section.accent}`}>
+        <div class="card-body">
+          <p class="eyebrow">Practice</p>
+          <h2>What to train</h2>
+          <ul class="compact-list">
+            {(sectionCopy?.fieldGuide.practice ?? section.fieldGuide.practice).map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </article>
+    </section>
+  )}
+
+  <section class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Section materials</p>
+        <h2>Articles</h2>
+      </div>
+      <p>English overview pages are sorted by update date and linked to sources, terms, and related topics.</p>
+    </div>
+    <div class="article-catalog">
+      {articles.map((article) => {
+        const copy = getEnglishArticle(article.id);
+        const title = copy?.title ?? article.data.title;
+        const description = copy?.description ?? article.data.description;
+        const level = englishLevelLabels[article.data.level] ?? article.data.level;
+        const focus = copy?.relatedTopics[0] ?? article.data.relatedTopics[0] ?? copy?.tags[0] ?? article.data.tags[0];
+
+        return (
+          <article
+            class="card article-card article-card--catalog"
+            style={`--accent: ${section?.accent ?? "#70d6ff"}`}
+            data-section={article.data.section}
+            data-tags={(copy?.tags ?? article.data.tags).join(" ").toLowerCase()}
+            data-title={title.toLowerCase()}
+          >
+            <a class="card-link" href={withBase(`/en/articles/${article.id}/`)} aria-label={`Open ${title}`}></a>
+            <div class="card-body">
+              <div class="article-meta article-card-meta">
+                <span>{sectionCopy?.title ?? section?.title}</span>
+                <span>{level}</span>
+              </div>
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <div class="article-protocol">
+                <span>Focus</span>
+                <strong>{focus}</strong>
+              </div>
+              <div class="article-meta article-card-meta">
+                <span>{article.data.sources.length} sources</span>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

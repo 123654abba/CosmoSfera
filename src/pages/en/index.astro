@@ -81,19 +81,19 @@ const domains = [
   {
     title: "Habitable worlds",
     description: "Planets and moons are treated as physical systems: water, energy, chemistry, geology, and atmospheric stability.",
-    href: "/sections/planetology/",
+    href: "/en/sections/planetology/",
     tags: ["water", "energy", "chemistry"]
   },
   {
     title: "Methods and models",
     description: "Transits, spectra, radial velocities, and mission data turn distant objects into measurable evidence.",
-    href: "/sections/astrophysics/",
+    href: "/en/sections/astrophysics/",
     tags: ["spectra", "transits", "models"]
   },
   {
     title: "Cosmic environment",
     description: "A world cannot be read without its star, radiation field, galactic context, and observational limits.",
-    href: "/sections/astronomy/",
+    href: "/en/sections/astronomy/",
     tags: ["stars", "radiation", "scale"]
   }
 ];
@@ -102,42 +102,42 @@ const materials = [
   {
     title: "Habitable worlds: what can be claimed carefully",
     description: "A framework for reading water, energy, chemistry, and uncertainty without jumping from conditions to life.",
-    href: "/articles/habitable-worlds-framework/",
+    href: "/en/articles/habitable-worlds-framework/",
     section: "worlds",
     focus: "water and energy"
   },
   {
     title: "Biosignatures: why one gas is not proof",
     description: "A scientific signal becomes meaningful only after false positives and non-biological pathways are tested.",
-    href: "/articles/biosignatures/",
+    href: "/en/articles/biosignatures/",
     section: "atmospheres",
     focus: "cautious inference"
   },
   {
     title: "Spectra: reading atmospheres through light",
     description: "Spectroscopy links molecules, temperature, and stellar effects to the data we can actually measure.",
-    href: "/articles/spectra/",
+    href: "/en/articles/spectra/",
     section: "methods",
     focus: "wavelengths"
   },
   {
     title: "Icy moons and subsurface oceans",
     description: "Europa and Enceladus show why habitability can exist far from the classical habitable zone.",
-    href: "/articles/icy-moons/",
+    href: "/en/articles/icy-moons/",
     section: "worlds",
     focus: "subsurface oceans"
   },
   {
     title: "Stellar activity and habitability",
     description: "Flares, radiation, and atmospheric loss can decide whether a promising orbit remains physically plausible.",
-    href: "/articles/stellar-activity-habitability/",
+    href: "/en/articles/stellar-activity-habitability/",
     section: "environment",
     focus: "host stars"
   },
   {
     title: "Telescopes and light",
     description: "The instruments behind the atlas: what telescopes measure, and why wavelength range matters.",
-    href: "/articles/telescopes-and-light/",
+    href: "/en/articles/telescopes-and-light/",
     section: "missions",
     focus: "instruments"
   }
@@ -180,7 +180,7 @@ const worlds = [
     evidence: "a strong ocean-world hypothesis now tested by Europa Clipper",
     limitation: "ocean composition, energy exchange, and surface-ocean connection still require direct constraints",
     facts: ["Jupiter", "ice shell", "subsurface ocean"],
-    href: "/articles/icy-moons/",
+    href: "/en/articles/icy-moons/",
     code: "JOV-EUR",
     type: "ocean world",
     distance: "628.3m km",
@@ -197,7 +197,7 @@ const worlds = [
     evidence: "Cassini flew through the plumes and measured particles directly",
     limitation: "water and organic chemistry are not the same as detected biology",
     facts: ["Saturn", "plumes", "salty ocean"],
-    href: "/articles/icy-moons/",
+    href: "/en/articles/icy-moons/",
     code: "SAT-ENC",
     type: "active plumes",
     distance: "1.27b km",
@@ -214,7 +214,7 @@ const worlds = [
     evidence: "Cassini-Huygens measured the atmosphere and mapped lakes, dunes, and haze",
     limitation: "its cold surface chemistry differs sharply from Earth-like water-based environments",
     facts: ["Saturn", "methane", "organic chemistry"],
-    href: "/articles/planetary-surfaces/",
+    href: "/en/articles/planetary-surfaces/",
     code: "SAT-TIT",
     type: "exotic chemistry",
     distance: "1.43b km",
@@ -231,7 +231,7 @@ const worlds = [
     evidence: "the system geometry is favorable for transmission spectroscopy",
     limitation: "a dense atmosphere and surface liquid water are not confirmed",
     facts: ["red dwarf", "transits", "habitable zone"],
-    href: "/articles/exoplanets/",
+    href: "/en/articles/exoplanets/",
     code: "TRP-1E",
     type: "rocky exoplanet",
     distance: "40.7 ly",
@@ -248,7 +248,7 @@ const worlds = [
     evidence: "detected by radial velocity, not by a direct surface image",
     limitation: "its atmosphere is unknown and may be affected by flares",
     facts: ["4.2 light-years", "radial velocity", "M dwarf"],
-    href: "/articles/stellar-activity-habitability/",
+    href: "/en/articles/stellar-activity-habitability/",
     code: "PROX-B",
     type: "nearest exoworld",
     distance: "4.2 ly",
@@ -265,7 +265,7 @@ const worlds = [
     evidence: "Perseverance studies rocks in place and stores samples for future analysis",
     limitation: "ancient habitability is not the same as evidence of past life",
     facts: ["Mars", "delta", "sample cache"],
-    href: "/articles/planetary-surfaces/",
+    href: "/en/articles/planetary-surfaces/",
     code: "MRS-JEZ",
     type: "ancient delta",
     distance: "Mars",
@@ -297,7 +297,7 @@ const worlds = [
         <a class="button primary" href="#world-atlas">
           <Compass size={18} aria-hidden="true" /> Open the atlas
         </a>
-        <a class="button" href={withBase("/knowledge/")}>
+        <a class="button" href={withBase("/en/knowledge/")}>
           <BookOpenCheck size={18} aria-hidden="true" /> Knowledge map
         </a>
         <a class="button" href={withBase("/")}>
@@ -521,7 +521,7 @@ const worlds = [
         <p class="eyebrow">Methods and explanations</p>
         <h2>Core reading route</h2>
       </div>
-      <p>Selected materials are translated here as an English guide to the current Russian article base.</p>
+      <p>Selected materials act as English guideposts through observations, methods, limits, and source evidence.</p>
     </div>
     <div class="article-catalog">
       {materials.map((item) => (

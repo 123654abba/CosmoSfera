@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection } from "@data/sections";
+import {
+  getEnglishArticle,
+  getEnglishGlossaryTerm,
+  getEnglishSection
+} from "@data/en";
+import { withBase } from "../../utils/paths";
+
+const terms = (await getCollection("glossary"))
+  .map((term) => ({
+    term,
+    copy: getEnglishGlossaryTerm(term.id)
+  }))
+  .sort((a, b) => (a.copy?.title ?? a.term.data.title).localeCompare(b.copy?.title ?? b.term.data.title, "en"));
+---
+
+<BaseLayout
+  title="Glossary"
+  lang="en"
+  description="Short English explanations of terms used in the CosmoSfera scientific atlas."
+>
+  <section class="container page-hero">
+    <div>
+      <p class="eyebrow">Compact vocabulary</p>
+      <h1>Glossary</h1>
+    </div>
+    <p class="lead">
+      Short explanations for reading the atlas: worlds, signals, methods, and limits of interpretation.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="grid three">
+      {terms.map(({ term, copy }) => {
+        const section = getSection(term.data.section);
+        const sectionCopy = getEnglishSection(term.data.section);
+        const title = copy?.title ?? term.data.title;
+        const description = copy?.description ?? term.data.description;
+
+        return (
+          <article class="card term-card" data-section={term.data.section}>
+            <div class="card-body">
+              <div class="article-meta"><span>{sectionCopy?.title ?? section?.title}</span></div>
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <div class="topic-list">
+                {term.data.relatedArticles.map((slug) => (
+                  <a class="chip" href={withBase(`/en/articles/${slug}/`)}>
+                    {getEnglishArticle(slug)?.title ?? slug}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

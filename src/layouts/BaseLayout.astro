@@ -30,6 +30,12 @@ const nav = isEnglish
       knowledge: "Knowledge map",
       glossary: "Glossary",
       materials: "Sources",
+      worldsHref: "/en/sections/planetology/",
+      methodsHref: "/en/sections/astrophysics/",
+      environmentHref: "/en/sections/astronomy/",
+      knowledgeHref: "/en/knowledge/",
+      glossaryHref: "/en/glossary/",
+      materialsHref: "/en/materials/",
       menu: "Sections",
       switchLabel: "RU",
       switchHref: "/",
@@ -45,6 +51,12 @@ const nav = isEnglish
       knowledge: "Карта знаний",
       glossary: "Глоссарий",
       materials: "Материалы",
+      worldsHref: "/sections/planetology/",
+      methodsHref: "/sections/astrophysics/",
+      environmentHref: "/sections/astronomy/",
+      knowledgeHref: "/knowledge/",
+      glossaryHref: "/glossary/",
+      materialsHref: "/materials/",
       menu: "Разделы",
       switchLabel: "EN",
       switchHref: "/en/",
@@ -79,24 +91,24 @@ const homeHref = isEnglish ? "/en/" : "/";
         </a>
         <div class="nav-links">
           <a href={withBase(homeHref)}><Home size={17} aria-hidden="true" /> {nav.home}</a>
-          <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> {nav.worlds}</a>
-          <a href={withBase("/sections/astrophysics/")}><Search size={17} aria-hidden="true" /> {nav.methods}</a>
-          <a href={withBase("/sections/astronomy/")}><BookOpen size={17} aria-hidden="true" /> {nav.environment}</a>
-          <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> {nav.knowledge}</a>
-          <a href={withBase("/glossary/")}>{nav.glossary}</a>
-          <a href={withBase("/materials/")}>{nav.materials}</a>
+          <a href={withBase(nav.worldsHref)}><Library size={17} aria-hidden="true" /> {nav.worlds}</a>
+          <a href={withBase(nav.methodsHref)}><Search size={17} aria-hidden="true" /> {nav.methods}</a>
+          <a href={withBase(nav.environmentHref)}><BookOpen size={17} aria-hidden="true" /> {nav.environment}</a>
+          <a href={withBase(nav.knowledgeHref)}><Compass size={17} aria-hidden="true" /> {nav.knowledge}</a>
+          <a href={withBase(nav.glossaryHref)}>{nav.glossary}</a>
+          <a href={withBase(nav.materialsHref)}>{nav.materials}</a>
           <a class="language-switch" href={withBase(nav.switchHref)} aria-label={nav.switchAria}>{nav.switchLabel}</a>
         </div>
         <details class="mobile-nav-menu">
           <summary><Menu size={18} aria-hidden="true" /> {nav.menu}</summary>
           <div class="mobile-nav-panel">
             <a href={withBase(homeHref)}><Home size={17} aria-hidden="true" /> {nav.home}</a>
-            <a href={withBase("/sections/planetology/")}><Library size={17} aria-hidden="true" /> {nav.worlds}</a>
-            <a href={withBase("/sections/astrophysics/")}><Search size={17} aria-hidden="true" /> {nav.methods}</a>
-            <a href={withBase("/sections/astronomy/")}><BookOpen size={17} aria-hidden="true" /> {nav.environment}</a>
-            <a href={withBase("/knowledge/")}><Compass size={17} aria-hidden="true" /> {nav.knowledge}</a>
-            <a href={withBase("/glossary/")}>{nav.glossary}</a>
-            <a href={withBase("/materials/")}>{nav.materials}</a>
+            <a href={withBase(nav.worldsHref)}><Library size={17} aria-hidden="true" /> {nav.worlds}</a>
+            <a href={withBase(nav.methodsHref)}><Search size={17} aria-hidden="true" /> {nav.methods}</a>
+            <a href={withBase(nav.environmentHref)}><BookOpen size={17} aria-hidden="true" /> {nav.environment}</a>
+            <a href={withBase(nav.knowledgeHref)}><Compass size={17} aria-hidden="true" /> {nav.knowledge}</a>
+            <a href={withBase(nav.glossaryHref)}>{nav.glossary}</a>
+            <a href={withBase(nav.materialsHref)}>{nav.materials}</a>
             <a class="language-switch" href={withBase(nav.switchHref)} aria-label={nav.switchAria}>{nav.switchLabel}</a>
           </div>
         </details>

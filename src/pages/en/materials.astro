@@ -1,0 +1,63 @@
+---
+import { ExternalLink } from "lucide-astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getSection } from "@data/sections";
+import {
+  englishResourceCategoryLabels,
+  getEnglishResource,
+  getEnglishSection
+} from "@data/en";
+
+const resources = (await getCollection("resources"))
+  .map((resource) => ({
+    resource,
+    copy: getEnglishResource(resource.id)
+  }))
+  .sort((a, b) => (a.copy?.title ?? a.resource.data.title).localeCompare(b.copy?.title ?? b.resource.data.title, "en"));
+---
+
+<BaseLayout
+  title="Sources"
+  lang="en"
+  description="Official sources, missions, catalogs, archives, and simulators used by CosmoSfera."
+>
+  <section class="container page-hero">
+    <div>
+      <p class="eyebrow">Reliable sources</p>
+      <h1>Sources</h1>
+    </div>
+    <p class="lead">
+      Official agencies, catalogs, missions, archives, and simulators for studying habitable worlds and the methods used to test them.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="grid two">
+      {resources.map(({ resource, copy }) => {
+        const section = resource.data.section ? getSection(resource.data.section) : undefined;
+        const sectionCopy = resource.data.section ? getEnglishSection(resource.data.section) : undefined;
+        const title = copy?.title ?? resource.data.title;
+        const description = copy?.description ?? resource.data.description;
+
+        return (
+          <article class="card resource-card">
+            <div class="card-body">
+              <div class="article-meta">
+                <span>{englishResourceCategoryLabels[resource.data.category] ?? resource.data.category}</span>
+                {section && <span>{sectionCopy?.title ?? section.title}</span>}
+              </div>
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <div class="hero-actions">
+                <a class="button" href={resource.data.url} target="_blank" rel="noreferrer">
+                  Open source <ExternalLink size={18} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
