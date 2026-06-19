@@ -207,6 +207,14 @@ const worldPassportMeta = new Map([
     }
   ]
 ]);
+
+const sectionJumpLinks = [
+  { href: "#world-atlas", label: "Атлас", detail: "миры" },
+  { href: "#science-method", label: "Метод", detail: "сигнал" },
+  { href: "#cosmic-timeline", label: "Шкала", detail: "время" },
+  { href: "#key-concepts", label: "Понятия", detail: "словарь" },
+  { href: "#catalog", label: "Каталог", detail: "материалы" }
+];
 ---
 
 <BaseLayout
@@ -241,6 +249,16 @@ const worldPassportMeta = new Map([
         <span><Microscope size={16} aria-hidden="true" /> данные</span>
         <span><LibraryBig size={16} aria-hidden="true" /> ограничение</span>
       </div>
+
+      <nav class="hero-jump-nav" aria-label="Быстрые переходы по главной">
+        {sectionJumpLinks.map((item, index) => (
+          <a href={item.href}>
+            <b>{String(index + 1).padStart(2, "0")}</b>
+            <span>{item.label}</span>
+            <small>{item.detail}</small>
+          </a>
+        ))}
+      </nav>
     </div>
 
     <aside class="hero-command-panel" aria-label="Сводка научного атласа">
@@ -374,7 +392,7 @@ const worldPassportMeta = new Map([
     </div>
   </section>
 
-  <section class="container science-spine" aria-label="Научная схема исследования">
+  <section id="science-method" class="container science-spine" aria-label="Научная схема исследования">
     <div class="spine-intro">
       <p class="eyebrow">Метод исследования</p>
       <h2>От мира к проверяемому сигналу</h2>
@@ -437,7 +455,7 @@ const worldPassportMeta = new Map([
     </div>
   </section>
 
-  <section class="container concepts-atlas">
+  <section id="key-concepts" class="container concepts-atlas">
     <div class="section-heading">
       <div>
         <p class="eyebrow">Термины и ограничения</p>
@@ -472,7 +490,7 @@ const worldPassportMeta = new Map([
     </div>
   </section>
 
-  <section class="container article-lab">
+  <section id="catalog" class="container article-lab">
     <div class="section-heading">
       <div>
         <p class="eyebrow">Методы и ограничения</p>

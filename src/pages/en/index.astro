@@ -13,18 +13,17 @@ import {
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { sections } from "@data/sections";
-import { assetPath, withBase } from "../../utils/paths";
+import { withBase } from "../../utils/paths";
 
 const articles = await getCollection("articles");
 const terms = await getCollection("glossary");
 const resources = await getCollection("resources");
-const heroSection = sections[0];
 
 const scienceStats = [
   { value: articles.length, label: "articles", detail: "worlds, methods, atmospheres, missions, and cosmic context" },
   { value: terms.length, label: "terms", detail: "a compact vocabulary for reading the atlas" },
   { value: resources.length, label: "sources", detail: "missions, archives, catalogs, and scientific references" },
-  { value: sections.length, label: "research tracks", detail: "world, signal, model, and careful conclusion" }
+  { value: sections.length, label: "stations", detail: "world, signal, model, and careful conclusion" }
 ];
 
 const atlasProtocol = [
@@ -162,6 +161,16 @@ const evidenceScale = [
   }
 ];
 
+const evidenceSteps = ["observation", "model", "limit"];
+
+const sectionJumpLinks = [
+  { href: "#world-atlas", label: "Atlas", detail: "worlds" },
+  { href: "#science-method", label: "Method", detail: "signal" },
+  { href: "#key-concepts", label: "Concepts", detail: "terms" },
+  { href: "#sections", label: "Domains", detail: "routes" },
+  { href: "#catalog", label: "Catalog", detail: "reading" }
+];
+
 const worlds = [
   {
     name: "Europa",
@@ -171,7 +180,14 @@ const worlds = [
     evidence: "a strong ocean-world hypothesis now tested by Europa Clipper",
     limitation: "ocean composition, energy exchange, and surface-ocean connection still require direct constraints",
     facts: ["Jupiter", "ice shell", "subsurface ocean"],
-    href: "/articles/icy-moons/"
+    href: "/articles/icy-moons/",
+    code: "JOV-EUR",
+    type: "ocean world",
+    distance: "628.3m km",
+    coordinate: "Jupiter system",
+    marker: "ice · ocean · tides",
+    confidence: 2,
+    tone: "cyan"
   },
   {
     name: "Enceladus",
@@ -181,7 +197,31 @@ const worlds = [
     evidence: "Cassini flew through the plumes and measured particles directly",
     limitation: "water and organic chemistry are not the same as detected biology",
     facts: ["Saturn", "plumes", "salty ocean"],
-    href: "/articles/icy-moons/"
+    href: "/articles/icy-moons/",
+    code: "SAT-ENC",
+    type: "active plumes",
+    distance: "1.27b km",
+    coordinate: "Saturn system",
+    marker: "plumes · salts · organics",
+    confidence: 2,
+    tone: "cyan"
+  },
+  {
+    name: "Titan",
+    category: "Icy moon",
+    summary: "Titan has a dense nitrogen atmosphere, methane weather, and organic chemistry on a frozen surface.",
+    signal: "surface liquids, atmospheric chemistry, and aerosols show an active carbon-rich environment",
+    evidence: "Cassini-Huygens measured the atmosphere and mapped lakes, dunes, and haze",
+    limitation: "its cold surface chemistry differs sharply from Earth-like water-based environments",
+    facts: ["Saturn", "methane", "organic chemistry"],
+    href: "/articles/planetary-surfaces/",
+    code: "SAT-TIT",
+    type: "exotic chemistry",
+    distance: "1.43b km",
+    coordinate: "Saturn system",
+    marker: "nitrogen · methane · organics",
+    confidence: 1,
+    tone: "gold"
   },
   {
     name: "TRAPPIST-1e",
@@ -191,7 +231,14 @@ const worlds = [
     evidence: "the system geometry is favorable for transmission spectroscopy",
     limitation: "a dense atmosphere and surface liquid water are not confirmed",
     facts: ["red dwarf", "transits", "habitable zone"],
-    href: "/articles/exoplanets/"
+    href: "/articles/exoplanets/",
+    code: "TRP-1E",
+    type: "rocky exoplanet",
+    distance: "40.7 ly",
+    coordinate: "TRAPPIST-1 star",
+    marker: "transit · radius · atmosphere",
+    confidence: 1,
+    tone: "green"
   },
   {
     name: "Proxima Centauri b",
@@ -201,7 +248,31 @@ const worlds = [
     evidence: "detected by radial velocity, not by a direct surface image",
     limitation: "its atmosphere is unknown and may be affected by flares",
     facts: ["4.2 light-years", "radial velocity", "M dwarf"],
-    href: "/articles/stellar-activity-habitability/"
+    href: "/articles/stellar-activity-habitability/",
+    code: "PROX-B",
+    type: "nearest exoworld",
+    distance: "4.2 ly",
+    coordinate: "red dwarf",
+    marker: "radial velocity · flares",
+    confidence: 1,
+    tone: "gold"
+  },
+  {
+    name: "Jezero",
+    category: "Mars crater",
+    summary: "An ancient Martian lake basin and delta, used to compare minerals, water history, and biosignature preservation.",
+    signal: "delta sediments and hydrated minerals preserve a record of past water activity",
+    evidence: "Perseverance studies rocks in place and stores samples for future analysis",
+    limitation: "ancient habitability is not the same as evidence of past life",
+    facts: ["Mars", "delta", "sample cache"],
+    href: "/articles/planetary-surfaces/",
+    code: "MRS-JEZ",
+    type: "ancient delta",
+    distance: "Mars",
+    coordinate: "18.4° N · 77.6° E",
+    marker: "delta · sediments · cores",
+    confidence: 2,
+    tone: "red"
   }
 ];
 ---
@@ -211,66 +282,163 @@ const worlds = [
   lang="en"
   description="CosmoSfera: a scientific atlas of habitable worlds, observation methods, atmospheres, missions, and careful interpretation."
 >
-  <section class="container atlas-hero" aria-labelledby="atlas-title">
+  <section class="container atlas-hero figma-hero" aria-labelledby="atlas-title">
     <div class="atlas-hero-copy">
-      <p class="eyebrow">CosmoSfera · Scientific atlas of habitable worlds</p>
-      <h1 id="atlas-title">How science searches for worlds where life could be possible</h1>
+      <p class="eyebrow hero-kicker">scientific atlas · habitable worlds</p>
+      <h1 id="atlas-title" class="cosmosfera-logotype">
+        <span>Cosmo</span><span>Sfera</span>
+      </h1>
+      <p class="hero-subtitle">Scientific atlas of habitable worlds</p>
       <p class="lead">
-        No loud claims, no shortcuts: water, energy, chemistry, atmospheres, stars, missions, and measurable signals are organized into one route from data to careful conclusion.
+        CosmoSfera connects a world, a signal, and the limit of inference: from icy oceans and exoplanet atmospheres
+        to missions, spectra, and models that show where the data ends.
       </p>
       <div class="hero-actions atlas-actions">
-        <a class="button primary" href="#english-worlds">
+        <a class="button primary" href="#world-atlas">
           <Compass size={18} aria-hidden="true" /> Open the atlas
         </a>
-        <a class="button" href="#english-concepts">
-          <BookOpenCheck size={18} aria-hidden="true" /> Key concepts
+        <a class="button" href={withBase("/knowledge/")}>
+          <BookOpenCheck size={18} aria-hidden="true" /> Knowledge map
         </a>
         <a class="button" href={withBase("/")}>
-          <ArrowRight size={18} aria-hidden="true" /> Русская версия
+          <ArrowRight size={18} aria-hidden="true" /> Russian version
         </a>
       </div>
 
       <div class="signal-strip" aria-label="Core research lines">
-        <span><Radio size={16} aria-hidden="true" /> water and energy</span>
-        <span><Microscope size={16} aria-hidden="true" /> atmospheres and spectra</span>
-        <span><LibraryBig size={16} aria-hidden="true" /> missions and data</span>
+        <span><Radio size={16} aria-hidden="true" /> signal</span>
+        <span><Microscope size={16} aria-hidden="true" /> data</span>
+        <span><LibraryBig size={16} aria-hidden="true" /> limitation</span>
       </div>
+
+      <nav class="hero-jump-nav" aria-label="Homepage quick navigation">
+        {sectionJumpLinks.map((item, index) => (
+          <a href={item.href}>
+            <b>{String(index + 1).padStart(2, "0")}</b>
+            <span>{item.label}</span>
+            <small>{item.detail}</small>
+          </a>
+        ))}
+      </nav>
     </div>
 
-    <aside class="observatory-panel" aria-label="Observation panel">
-      <figure class="observatory-image">
-        <img src={assetPath(heroSection.image)} alt="Europa, an icy moon of Jupiter with a cracked surface" />
-        <figcaption>
-          <strong>Europa</strong>
-          <span>icy crust · probable ocean · NASA and ESA missions</span>
-        </figcaption>
-      </figure>
-      <div class="observation-readout">
-        <p class="eyebrow">Observation passport</p>
-        <dl>
-          <div>
-            <dt>Object</dt>
-            <dd>icy moon of Jupiter</dd>
-          </div>
-          <div>
-            <dt>Method</dt>
-            <dd>images, spectra, magnetic data, gravity data, and mission flybys</dd>
-          </div>
-          <div>
-            <dt>Question</dt>
-            <dd>could an ocean under the ice support a chemically active environment?</dd>
-          </div>
-        </dl>
+    <aside class="hero-command-panel" aria-label="Scientific atlas summary">
+      <div class="command-panel-head">
+        <span>scale</span>
+        <strong>Observation → model → limit</strong>
+      </div>
+      <div class="hero-orbit-map" aria-hidden="true">
+        <span class="orbit orbit-one"></span>
+        <span class="orbit orbit-two"></span>
+        <span class="orbit orbit-three"></span>
+        <span class="world-dot dot-europa"></span>
+        <span class="world-dot dot-titan"></span>
+        <span class="world-dot dot-trappist"></span>
+      </div>
+      <div class="hero-scale-track" aria-label="Evidence scale">
+        {evidenceSteps.map((step, index) => (
+          <span>
+            <b>{String(index + 1).padStart(2, "0")}</b>
+            {step}
+          </span>
+        ))}
       </div>
     </aside>
   </section>
 
-  <section class="container science-spine" aria-label="Research method">
+  <section id="world-atlas" class="container atlas-dashboard world-observatory" aria-labelledby="world-atlas-title">
+    <div class="atlas-dashboard-shell">
+      <div class="atlas-dashboard-head">
+        <div>
+          <p class="eyebrow">atlas of worlds and limitations · 6 entries</p>
+          <h2 id="world-atlas-title">Worlds and limits of evidence</h2>
+          <p>
+            Passport cards connect each object, the observed signal, and the boundary of interpretation:
+            where evidence is strong, where a model helps, and where caution must remain.
+          </p>
+        </div>
+        <div class="dashboard-scale" aria-label="Evidence scale">
+          {evidenceSteps.map((step) => (
+            <span>{step}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="evidence-scale dashboard-evidence" aria-label="Scientific caution scale">
+        {evidenceScale.map((item, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="atlas-passport-grid">
+        {worlds.map((world, index) => (
+          <article class={`world-passport world-passport--${world.tone}`}>
+            <div class="passport-topline">
+              <span>{world.code}</span>
+              <span>{world.type}</span>
+            </div>
+
+            <div class="passport-heading">
+              <span class="world-index">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <p class="passport-label">{world.category}</p>
+                <h3>{world.name}</h3>
+              </div>
+              <span class="passport-distance">{world.distance}</span>
+            </div>
+
+            <p class="passport-summary">{world.summary}</p>
+
+            <div class="passport-meta-line">
+              <span>{world.coordinate}</span>
+              <span>{world.marker}</span>
+            </div>
+
+            <dl class="passport-readout">
+              <div class="readout-cell readout-signal">
+                <dt>Signal</dt>
+                <dd>{world.signal}</dd>
+              </div>
+              <div class="readout-cell readout-data">
+                <dt>Data</dt>
+                <dd>{world.evidence}</dd>
+              </div>
+              <div class="readout-cell readout-limit">
+                <dt>Limit</dt>
+                <dd>{world.limitation}</dd>
+              </div>
+            </dl>
+
+            <div class="confidence-line" aria-label={`Evidence scale: ${world.name}`}>
+              {evidenceSteps.map((step, stepIndex) => (
+                <span class={`confidence-dot ${stepIndex <= world.confidence ? "is-active" : ""}`}>{step}</span>
+              ))}
+            </div>
+
+            <div class="topic-list world-facts">
+              {world.facts.map((fact) => <span class="chip">{fact}</span>)}
+            </div>
+
+            <div class="topic-list world-links" aria-label={`Related material: ${world.name}`}>
+              <a class="chip" href={withBase(world.href)}>Related material</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="science-method" class="container science-spine" aria-label="Research method">
     <div class="spine-intro">
       <p class="eyebrow">Research method</p>
       <h2>From world to testable signal</h2>
       <p>
-        Habitability is not a claim about life. It starts with the physical environment and the data that can be measured: images, spectra, stars, surfaces, and missions.
+        Habitability is not a claim about life. It starts with the physical environment and the data that can be measured:
+        images, spectra, stars, surfaces, and missions.
       </p>
     </div>
     <div class="spine-steps">
@@ -298,7 +466,7 @@ const worlds = [
     ))}
   </section>
 
-  <section id="english-concepts" class="container concepts-atlas">
+  <section id="key-concepts" class="container concepts-atlas">
     <div class="section-heading">
       <div>
         <p class="eyebrow">Terms and limits</p>
@@ -320,7 +488,7 @@ const worlds = [
     </div>
   </section>
 
-  <section id="english-atlas" class="container atlas-section">
+  <section id="sections" class="container atlas-section">
     <div class="section-heading">
       <div>
         <p class="eyebrow">Research domains</p>
@@ -347,7 +515,7 @@ const worlds = [
     </div>
   </section>
 
-  <section class="container article-lab">
+  <section id="catalog" class="container article-lab">
     <div class="section-heading">
       <div>
         <p class="eyebrow">Methods and explanations</p>
@@ -370,64 +538,6 @@ const worlds = [
               <span>Focus</span>
               <strong>{item.focus}</strong>
             </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section id="english-worlds" class="container object-observatory world-observatory">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Atlas of worlds</p>
-        <h2>Worlds and limits of evidence</h2>
-      </div>
-      <p>Short passports connect the object, the observed signal, the available data, and the point where interpretation must stay cautious.</p>
-    </div>
-
-    <div class="evidence-scale" aria-label="Evidence scale">
-      {evidenceScale.map((item, index) => (
-        <article>
-          <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
-          <h3>{item.title}</h3>
-          <p>{item.text}</p>
-        </article>
-      ))}
-    </div>
-
-    <div class="object-ledger world-ledger">
-      {worlds.map((world, index) => (
-        <article class="object-row world-card">
-          <div class="world-card-head">
-            <span class="world-index">{String(index + 1).padStart(2, "0")}</span>
-            <div>
-              <span>{world.category}</span>
-              <h3>{world.name}</h3>
-              <p>{world.summary}</p>
-            </div>
-          </div>
-
-          <dl class="world-readout">
-            <div>
-              <dt>Signal</dt>
-              <dd>{world.signal}</dd>
-            </div>
-            <div>
-              <dt>Data</dt>
-              <dd>{world.evidence}</dd>
-            </div>
-            <div>
-              <dt>Limit</dt>
-              <dd>{world.limitation}</dd>
-            </div>
-          </dl>
-
-          <div class="topic-list world-facts">
-            {world.facts.map((fact) => <span class="chip">{fact}</span>)}
-          </div>
-
-          <div class="topic-list world-links">
-            <a class="chip" href={withBase(world.href)}>Related material</a>
           </div>
         </article>
       ))}
